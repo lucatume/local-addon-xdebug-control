@@ -1,0 +1,35 @@
+{
+  "name": "local-addon-xdebug-control",
+  "productName": "XDebug control",
+  "version": "1.0.0",
+  "author": "Luca Tumedei",
+  "contributors": [
+    {
+      "name": "Luca Tumedei",
+      "email": "luca@theaveragedev.com"
+    }
+  ],
+  "keywords": [
+    "local-addon"
+  ],
+  "description": "Simple XDebug control for your sites",
+  "renderer": "lib/renderer.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "babel src -d lib",
+    "watch": "run-when-changed --watch 'src/*.js' --watch='src/**/*.js' --exec 'npm run-script build'"
+  },
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "enzyme": "^2.9.1",
+    "react-addons-test-utils": "^15.6.0",
+    "run-when-changed": "^1.3.0"
+  },
+  "engines": {
+    "local": "^1.1.0"
+  }
+}
