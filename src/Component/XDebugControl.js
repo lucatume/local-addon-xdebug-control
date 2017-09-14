@@ -5,6 +5,8 @@ module.exports = function ( context ) {
 	const $ = context.jQuery
 	const Container = require( './../System/Container' )( context )
 	const Docker = require( './../System/Docker' )( context )
+	const ActivateButton = require( './ActivateButton' )( context )
+	const DeactivateButton = require( './DeactivateButton' )( context )
 
 	return class XDebugControl extends Component {
 		constructor( props ) {
@@ -34,47 +36,55 @@ module.exports = function ( context ) {
 		}
 
 		showControls() {
-			this.setState( {content: <p>Loading...</p>} )
-
 			let xdebugStatus = ''
 
 			try {
 				xdebugStatus = this.container.getXdebugStatus()
+				this.setState( {
+					status: xdebugStatus,
+				} )
 			}
 			catch ( e ) {
 				this.setState( {
-					status: (
-						<strong>error - {e.message}</strong>
-					),
+					status: e.message,
 				} )
-
-				return
 			}
-
-			this.setState( {
-				status: (
-					<strong>{xdebugStatus}</strong>
-				),
-			} )
 		}
 
 		activateXdebug() {
+			this.state.loading = true
 			this.container.activateXdebug()
 			this.setState( {status: this.container.getXdebugStatus()} )
+			this.state.loading = false
 		}
 
 		deactivateXdebug() {
+			this.state.loading = true
 			this.container.deactivateXdebug()
 			this.setState( {status: this.container.getXdebugStatus()} )
+			this.state.loading = false
 		}
 
 		render() {
+			let controlOptions = {}
+
+			if ( this.state.loading === true ) {
+				controlOptions['disabled'] = 'disabled'
+			}
+
+			let button = null
+
+			if ( this.state.status === 'inactive' ) {
+				button = <ActivateButton {...controlOptions} onClick={this.activateXdebug.bind( this )}/>
+			} else if ( this.state.status === 'active' ) {
+				button = <DeactivateButton {...controlOptions} onClick={this.activateXdebug.bind( this )}/>
+			}
+
 			return (
 				<div style={{display: 'flex', flexDirection: 'column', flex: 1, padding: '0 5%'}}>
 					<h3>XDebug Controls</h3>
 					<h4>Current XDebug status: <strong>{this.state.status}</strong></h4>
-					<button onClick={this.activateXdebug.bind( this )}>Activate XDebug</button>
-					<button onClick={this.deactivateXdebug.bind( this )}>Deactivate XDebug</button>
+					{button}
 				</div>
 			)
 		}
