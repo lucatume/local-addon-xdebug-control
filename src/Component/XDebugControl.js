@@ -19,7 +19,7 @@ module.exports = function ( context ) {
 		}
 
 		componentDidMount() {
-			if ( 'running' === this.props.siteStatus ) {
+			if ( this.props.siteStatus === 'running' ) {
 				this.showControls()
 			} else {
 				this.setState( {
@@ -92,12 +92,17 @@ module.exports = function ( context ) {
 				'margin-top': '1em',
 			}
 
+			let fieldList = null
+			if ( this.props.siteStatus === 'running' ) {
+				fieldList = <FieldList style={fieldListStyle} container={this.container} disabled={this.state.loading === false}/>
+			}
+
 			return (
 				<div style={{display: 'flex', flexDirection: 'column', flex: 1, padding: '0 5%'}}>
 					<h3>XDebug Controls</h3>
 					<h4>Current XDebug status: {statusString}</h4>
 					{button}
-					<FieldList style={fieldListStyle} container={this.container} disabled={this.state.loading === false}/>
+					{fieldList}
 				</div>
 			)
 		}
