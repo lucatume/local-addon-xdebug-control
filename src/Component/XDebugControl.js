@@ -82,12 +82,15 @@ module.exports = function ( context ) {
 				/>
 			}
 
+			let fieldListStyle = {
+				'margin-top': '1em',
+			}
 			return (
 				<div style={{display: 'flex', flexDirection: 'column', flex: 1, padding: '0 5%'}}>
 					<h3>XDebug Controls</h3>
 					<h4>Current XDebug status: <strong>{this.state.status}</strong></h4>
 					{button}
-					<FieldList container={this.container} disabled={this.state.loading === false}/>
+					<FieldList style={fieldListStyle} container={this.container} disabled={this.state.loading === false}/>
 				</div>
 			)
 		}

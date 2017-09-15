@@ -78,7 +78,7 @@ module.exports = function ( context ) {
 			]
 
 			return (
-				<ul className="TableList Form" id={this.props.id}>
+				<ul className="TableList Form" id={this.props.id} style={this.props.style}>
 					<OptionField title="remote_enable" name="remote_enable" value={this.state.remote_enable} options={toggleOptions}/>
 					<OptionField title="remote_host" name="remote_host" value={this.state.remote_host} options={remoteHostOptions}/>
 					<OptionField title="remote_port" name="remote_port" value={this.state.remote_port} options={remotePortOptions}/>
