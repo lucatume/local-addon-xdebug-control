@@ -62,7 +62,7 @@ module.exports = function ( context ) {
 
 		render() {
 			let remoteHostOptions = [
-				{value: '192.168.94.1', label: '192.168.94.1 (recommended)'},
+				{value: '192.168.94.1', label: '192.168.94.1 (Mac)'},
 				{value: '10.0.2.2', label: '10.0.2.2'},
 				{value: 'localhost', label: 'localhost'},
 
