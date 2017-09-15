@@ -6,6 +6,8 @@ module.exports = function ( context ) {
 		constructor( docker, site ) {
 			this.docker = docker
 			this.site = site
+			this.sitePhpBin = undefined
+			this.sitePhpIniFile = undefined
 			this.restartCommandMap = {
 				'apache': {
 					'5.2.4': `service apache2 restart`,
@@ -40,41 +42,48 @@ module.exports = function ( context ) {
 		}
 
 		getSitePhpIniFilePath() {
-			let phpBin = this.getSitePhpBin()
+			if ( this.sitePhpIniFile === undefined ) {
+				let phpBin = this.getSitePhpBin()
 
-			let iniFilePath = this.exec( `${phpBin} -r "echo php_ini_loaded_file();"` )
+				let iniFilePath = this.exec( `${phpBin} -r "echo php_ini_loaded_file();"` )
 
-			if ( ! iniFilePath ) {
-				throw new Error( 'cannot determine the path to PHP ini file' )
+				if ( ! iniFilePath ) {
+					throw new Error( 'cannot determine the path to PHP ini file' )
+				}
+				this.sitePhpIniFile = iniFilePath
 			}
 
-			return iniFilePath
+			return this.sitePhpIniFile
 		}
 
 		getSitePhpBin() {
-			let sitePhpVersion = this.site.phpVersion
+			if ( this.sitePhpBin === undefined ) {
+				let sitePhpVersion = this.site.phpVersion
 
-			if ( ! sitePhpVersion ) {
-				throw new Error( 'could not find the site PHP version' )
+				if ( ! sitePhpVersion ) {
+					throw new Error( 'could not find the site PHP version' )
+				}
+
+				let installedPhpVersions = this.exec( 'find / -name php | grep bin' )
+
+				if ( ! installedPhpVersions ) {
+					throw new Error( `could not get the PHP versions installed on the site` )
+				}
+
+				installedPhpVersions = installedPhpVersions.split( /\r\n|\r|\n/g )
+
+				let sitePhpBins = installedPhpVersions.filter( function ( phpVersion ) {
+					return phpVersion.match( `/.*${sitePhpVersion}.*/` )
+				} )
+
+				if ( ! sitePhpBins || ! sitePhpBins[0] ) {
+					throw new Error( 'non PHP executable matching the site PHP version was found' )
+				}
+
+				this.sitePhpBin = sitePhpBins[0]
 			}
 
-			let installedPhpVersions = this.exec( 'find / -name php | grep bin' )
-
-			if ( ! installedPhpVersions ) {
-				throw new Error( `could not get the PHP versions installed on the site` )
-			}
-
-			installedPhpVersions = installedPhpVersions.split( /\r\n|\r|\n/g )
-
-			let sitePhpBins = installedPhpVersions.filter( function ( phpVersion ) {
-				return phpVersion.match( `/.*${sitePhpVersion}.*/` )
-			} )
-
-			if ( ! sitePhpBins || ! sitePhpBins[0] ) {
-				throw new Error( 'non PHP executable matching the site PHP version was found' )
-			}
-
-			return sitePhpBins[0]
+			return this.sitePhpBin
 		}
 
 		restartPhpService() {
@@ -102,6 +111,42 @@ module.exports = function ( context ) {
 			let phpIniFile = this.getSitePhpIniFilePath()
 			this.exec( `sed -i '/^zend_extension.*xdebug.so/ s/zend_ex/;zend_ex/' ${phpIniFile}` )
 			this.restartPhpService()
+		}
+
+		readXdebugSetting( setting, def ) {
+			let phpIniFile = this.getSitePhpIniFilePath()
+			try {
+				let command = `cat ${phpIniFile} | grep ^xdebug.${setting} | cut -d '=' -f 2`
+				let value = this.exec( command ).trim()
+				return value !== '' ? value : def
+			}
+			catch ( e ) {
+				return def
+
+			}
+		}
+
+		setXdebugSetting( setting, value ) {
+			let phpIniFile = this.sitePhpIniFile
+			let settingExists = true
+			try {
+				this.exec( `cat ${phpIniFile} | grep ^xdebug.${setting}` )
+			}
+			catch ( e ) {
+				settingExists = false
+			}
+
+			try {
+				if ( settingExists ) {
+					this.exec( `sed -i '/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/' ${phpIniFile}` )
+				}
+				else {
+					this.exec( `sed -i '/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/' ${phpIniFile}` )
+				}
+			}
+			catch ( e ) {
+				// let's move on
+			}
 		}
 	}
 }

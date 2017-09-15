@@ -5,8 +5,8 @@ module.exports = function ( context ) {
 	const $ = context.jQuery
 	const Container = require( './../System/Container' )( context )
 	const Docker = require( './../System/Docker' )( context )
-	const ActivateButton = require( './ActivateButton' )( context )
-	const DeactivateButton = require( './DeactivateButton' )( context )
+	const Button = require( './Button' )( context )
+	const FieldList = require( './FieldsList' )( context )
 
 	return class XDebugControl extends Component {
 		constructor( props ) {
@@ -66,18 +66,20 @@ module.exports = function ( context ) {
 		}
 
 		render() {
-			let controlOptions = {}
-
-			if ( this.state.loading === true ) {
-				controlOptions['disabled'] = 'disabled'
-			}
-
 			let button = null
 
 			if ( this.state.status === 'inactive' ) {
-				button = <ActivateButton {...controlOptions} onClick={this.activateXdebug.bind( this )}/>
+				button = <Button
+					text="Activate XDebug"
+					disabled={this.state.loading === false}
+					onClick={this.activateXdebug.bind( this )}
+				/>
 			} else if ( this.state.status === 'active' ) {
-				button = <DeactivateButton {...controlOptions} onClick={this.activateXdebug.bind( this )}/>
+				button = <Button
+					text="Deactivate XDebug"
+					disabled={this.state.loading === false}
+					onClick={this.deactivateXdebug.bind( this )}
+				/>
 			}
 
 			return (
@@ -85,6 +87,7 @@ module.exports = function ( context ) {
 					<h3>XDebug Controls</h3>
 					<h4>Current XDebug status: <strong>{this.state.status}</strong></h4>
 					{button}
+					<FieldList container={this.container} disabled={this.state.loading === false}/>
 				</div>
 			)
 		}
