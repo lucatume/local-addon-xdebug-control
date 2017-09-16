@@ -59,28 +59,20 @@ module.exports = function ( context ) {
 		getSitePhpBin() {
 			if ( this.sitePhpBin === undefined ) {
 				let sitePhpVersion = this.site.phpVersion
+				let phpBin = null
 
 				if ( ! sitePhpVersion ) {
 					throw new Error( 'could not find the site PHP version' )
 				}
 
-				let installedPhpVersions = this.exec( 'find / -name php | grep bin' )
-
-				if ( ! installedPhpVersions ) {
-					throw new Error( `could not get the PHP versions installed on the site` )
+				try {
+					phpBin = this.exec( `find / -name php | grep bin | grep ${sitePhpVersion}` ).trim()
+				}
+				catch ( e ) {
+					throw new Error( 'could not get the site PHP bin path' )
 				}
 
-				installedPhpVersions = installedPhpVersions.split( /\r\n|\r|\n/g )
-
-				let sitePhpBins = installedPhpVersions.filter( function ( phpVersion ) {
-					return phpVersion.match( `/.*${sitePhpVersion}.*/` )
-				} )
-
-				if ( ! sitePhpBins || ! sitePhpBins[0] ) {
-					throw new Error( 'non PHP executable matching the site PHP version was found' )
-				}
-
-				this.sitePhpBin = sitePhpBins[0]
+				this.sitePhpBin = phpBin
 			}
 
 			return this.sitePhpBin
@@ -95,10 +87,12 @@ module.exports = function ( context ) {
 		}
 
 		getXdebugStatus() {
-			let phpVersionEntry = this.exec( `wget -qO- localhost/local-phpinfo.php` )
-			return phpVersionEntry.match( /Xdebug/ )
-				? 'active'
-				: 'inactive'
+			try {
+				this.exec( `wget -qO- localhost/local-phpinfo.php | grep Xdebug` )
+				return 'active'
+			} catch (e){
+				return 'inactive'
+			}
 		}
 
 		activateXdebug() {
