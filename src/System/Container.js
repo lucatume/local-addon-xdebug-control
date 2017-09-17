@@ -59,17 +59,24 @@ module.exports = function ( context ) {
 		getSitePhpBin() {
 			if ( this.sitePhpBin === undefined ) {
 				let sitePhpVersion = this.site.phpVersion
+				let siteEnvironment = this.site.environment
 				let phpBin = null
 
-				if ( ! sitePhpVersion ) {
-					throw new Error( 'could not find the site PHP version' )
-				}
+				if ( siteEnvironment === 'flywheel' ) {
+					// default Flywheel installation, the site.phpVersion variable is not accurate
+					phpBin = this.exec( `find / -name php | grep bin | grep /opt/php` ).trim()
+				} else {
+					// custom installation
+					if ( ! sitePhpVersion ) {
+						throw new Error( 'could not find the site PHP version' )
+					}
 
-				try {
-					phpBin = this.exec( `find / -name php | grep bin | grep ${sitePhpVersion}` ).trim()
-				}
-				catch ( e ) {
-					throw new Error( 'could not get the site PHP bin path' )
+					try {
+						phpBin = this.exec( `find / -name php | grep bin | grep ${sitePhpVersion}` ).trim()
+					}
+					catch ( e ) {
+						throw new Error( 'could not get the site PHP bin path' )
+					}
 				}
 
 				this.sitePhpBin = phpBin
