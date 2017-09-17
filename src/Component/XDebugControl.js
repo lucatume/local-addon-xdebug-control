@@ -19,7 +19,7 @@ module.exports = function ( context ) {
 		}
 
 		componentDidMount() {
-			if ( this.props.siteStatus === 'running' ) {
+			if ( this.props.siteStatus === 'running' && this.props.site.environment === 'custom' ) {
 				this.showControls()
 			} else {
 				this.setState( {
@@ -67,40 +67,47 @@ module.exports = function ( context ) {
 		render() {
 			let button = null
 			let statusStyle = {}
-
-			if ( this.state.status === 'inactive' ) {
-				button = <Button
-					text="Activate XDebug"
-					disabled={this.state.loading === false}
-					onClick={this.activateXdebug.bind( this )}
-				/>
-				statusStyle['color'] = '#FF0000'
-			} else if ( this.state.status === 'active' ) {
-				button = <Button
-					text="Deactivate XDebug"
-					disabled={this.state.loading === false}
-					onClick={this.deactivateXdebug.bind( this )}
-				/>
-				statusStyle['color'] = '#1FC37D'
-			}
-
 			let statusString = (
-				<strong><span style={statusStyle}>{this.state.status}</span></strong>
+				<h4>Only available for custom installations.</h4>
 			)
-
-			let fieldListStyle = {
-				'margin-top': '1em',
-			}
-
 			let fieldList = null
-			if ( this.props.siteStatus === 'running' ) {
-				fieldList = <FieldList style={fieldListStyle} container={this.container} disabled={this.state.loading === false}/>
+
+			if ( this.site.environment === 'custom' ) {
+				statusString = (
+					<h4>
+						Current XDebug status:
+						<strong><span style={statusStyle}>{this.state.status}</span></strong>
+					</h4>
+				)
+				if ( this.state.status === 'inactive' ) {
+					button = <Button
+						text="Activate XDebug"
+						disabled={this.state.loading === false}
+						onClick={this.activateXdebug.bind( this )}
+					/>
+					statusStyle['color'] = '#FF0000'
+				} else if ( this.state.status === 'active' ) {
+					button = <Button
+						text="Deactivate XDebug"
+						disabled={this.state.loading === false}
+						onClick={this.deactivateXdebug.bind( this )}
+					/>
+					statusStyle['color'] = '#1FC37D'
+				}
+
+				let fieldListStyle = {
+					'margin-top': '1em',
+				}
+
+				if ( this.props.siteStatus === 'running' && this.props.site.environment === 'custom' ) {
+					fieldList = <FieldList style={fieldListStyle} container={this.container} disabled={this.state.loading === false}/>
+				}
 			}
 
 			return (
 				<div style={{display: 'flex', flexDirection: 'column', flex: 1, padding: '0 5%'}}>
 					<h3>XDebug Controls</h3>
-					<h4>Current XDebug status: {statusString}</h4>
+					{statusString}
 					{button}
 					{fieldList}
 				</div>
