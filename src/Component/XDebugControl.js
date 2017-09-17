@@ -75,8 +75,7 @@ module.exports = function ( context ) {
 			if ( this.site.environment === 'custom' ) {
 				statusString = (
 					<h4>
-						Current XDebug status:
-						<strong><span style={statusStyle}>{this.state.status}</span></strong>
+						Current XDebug status: <strong><span style={statusStyle}>{this.state.status}</span></strong>
 					</h4>
 				)
 				if ( this.state.status === 'inactive' ) {
@@ -114,5 +113,4 @@ module.exports = function ( context ) {
 			)
 		}
 	}
-
 }
