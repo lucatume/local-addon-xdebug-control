@@ -8,6 +8,7 @@ module.exports = function ( context ) {
 			this.site = site
 			this.sitePhpBin = undefined
 			this.sitePhpIniFile = undefined
+			this.sitePhpVersion = undefined
 			this.restartCommandMap = {
 				'apache': {
 					'5.2.4': `service apache2 restart`,
@@ -30,6 +31,18 @@ module.exports = function ( context ) {
 					'7.1.4': `service php-7.1.4-fpm restart`,
 				},
 			}
+		}
+
+		getSitePhpVersion() {
+			if ( this.sitePhpVersion === undefined ) {
+				if ( this.site.environment === 'flywheel' ) {
+					this.sitePhpVersion = this.exec( `find / -name php | grep bin | grep /opt/php | cut -d "/" -f 4` ).trim()
+				} else {
+					this.sitePhpVersion = this.site.phpVersion
+				}
+			}
+
+			return this.sitePhpVersion
 		}
 
 		exec( command ) {
@@ -58,7 +71,7 @@ module.exports = function ( context ) {
 
 		getSitePhpBin() {
 			if ( this.sitePhpBin === undefined ) {
-				let sitePhpVersion = this.site.phpVersion
+				let sitePhpVersion = this.getSitePhpVersion()
 				let siteEnvironment = this.site.environment
 				let phpBin = null
 
@@ -86,10 +99,11 @@ module.exports = function ( context ) {
 		}
 
 		restartPhpService() {
-			if ( ! this.restartCommandMap[this.site.webServer][this.site.phpVersion] ) {
-				throw new Error( `The ${this.site.webServer} and PHP ${this.site.phpVersion} configuration is not supported` )
+			let sitePhpVersion = this.getSitePhpVersion()
+			if ( ! this.restartCommandMap[this.site.webServer][sitePhpVersion] ) {
+				throw new Error( `The ${this.site.webServer} and PHP ${sitePhpVersion} configuration is not supported` )
 			}
-			let restartCommand = this.restartCommandMap[this.site.webServer][this.site.phpVersion]
+			let restartCommand = this.restartCommandMap[this.site.webServer][sitePhpVersion]
 			this.exec( restartCommand )
 		}
 
@@ -105,20 +119,20 @@ module.exports = function ( context ) {
 
 		activateXdebug() {
 			let phpIniFile = this.getSitePhpIniFilePath()
-			this.exec( `sed -i '/^;zend_extension.*xdebug.so/ s/;zend_ex/zend_ex/' ${phpIniFile}` )
+			this.exec( `sed -i "/^;zend_extension.*xdebug.so/ s/;zend_ex/zend_ex/" ${phpIniFile}` )
 			this.restartPhpService()
 		}
 
 		deactivateXdebug() {
 			let phpIniFile = this.getSitePhpIniFilePath()
-			this.exec( `sed -i '/^zend_extension.*xdebug.so/ s/zend_ex/;zend_ex/' ${phpIniFile}` )
+			this.exec( `sed -i "/^zend_extension.*xdebug.so/ s/zend_ex/;zend_ex/" ${phpIniFile}` )
 			this.restartPhpService()
 		}
 
 		readXdebugSetting( setting, def ) {
 			let phpIniFile = this.getSitePhpIniFilePath()
 			try {
-				let command = `cat ${phpIniFile} | grep ^xdebug.${setting} | cut -d '=' -f 2`
+				let command = `cat ${phpIniFile} | grep ^xdebug.${setting} | cut -d "=" -f 2`
 				let value = this.exec( command ).trim()
 				return value !== '' ? value : def
 			}
@@ -140,10 +154,10 @@ module.exports = function ( context ) {
 
 			try {
 				if ( settingExists ) {
-					this.exec( `sed -i '/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/' ${phpIniFile}` )
+					this.exec( `sed -i "/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/" ${phpIniFile}` )
 				}
 				else {
-					this.exec( `sed -i '/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/' ${phpIniFile}` )
+					this.exec( `sed -i "/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/" ${phpIniFile}` )
 				}
 			}
 			catch ( e ) {
