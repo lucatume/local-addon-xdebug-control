@@ -49,9 +49,7 @@ module.exports = function ( context ) {
 			let dockerPath = Docker.getDockerPath()
 			let fullCommand = `${dockerPath} exec -i ${this.site.container} sh -c '${command}'`
 
-			let output = childProcess.execSync( fullCommand, {env: context.environment.dockerEnv} ).toString()
-
-			return output
+			return childProcess.execSync( fullCommand, {env: context.environment.dockerEnv} ).toString()
 		}
 
 		getSitePhpIniFilePath() {
