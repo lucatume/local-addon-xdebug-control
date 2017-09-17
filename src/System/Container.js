@@ -36,7 +36,7 @@ module.exports = function ( context ) {
 		getSitePhpVersion() {
 			if ( this.sitePhpVersion === undefined ) {
 				if ( this.site.environment === 'flywheel' ) {
-					this.sitePhpVersion = this.exec( `find / -name php | grep bin | grep /opt/php | cut -d "/" -f 4` ).trim()
+					this.sitePhpVersion = this.exec( `find / -name php | grep bin | grep /opt/php | cut -d '/' -f 4` ).trim()
 				} else {
 					this.sitePhpVersion = this.site.phpVersion
 				}
@@ -47,7 +47,7 @@ module.exports = function ( context ) {
 
 		exec( command ) {
 			let dockerPath = Docker.getDockerPath()
-			let fullCommand = `${dockerPath} exec -i ${this.site.container} sh -c '${command}'`
+			let fullCommand = `${dockerPath} exec -i ${this.site.container} sh -c "${command}"`
 
 			return childProcess.execSync( fullCommand, {env: context.environment.dockerEnv} ).toString()
 		}
@@ -56,7 +56,7 @@ module.exports = function ( context ) {
 			if ( this.sitePhpIniFile === undefined ) {
 				let phpBin = this.getSitePhpBin()
 
-				let iniFilePath = this.exec( `${phpBin} -r "echo php_ini_loaded_file();"` )
+				let iniFilePath = this.exec( `${phpBin} -r 'echo php_ini_loaded_file();'` )
 
 				if ( ! iniFilePath ) {
 					throw new Error( 'cannot determine the path to PHP ini file' )
@@ -107,8 +107,11 @@ module.exports = function ( context ) {
 
 		getXdebugStatus() {
 			try {
-				this.exec( `wget -qO- localhost/local-phpinfo.php | grep Xdebug` )
-				return 'active'
+				let status = this.exec( `wget -qO- localhost/local-phpinfo.php | grep Xdebug` )
+				if(status.length !== 0){
+                    return 'active'
+				}
+				return 'inactive'
 			}
 			catch ( e ) {
 				return 'inactive'
@@ -117,20 +120,20 @@ module.exports = function ( context ) {
 
 		activateXdebug() {
 			let phpIniFile = this.getSitePhpIniFilePath()
-			this.exec( `sed -i "/^;zend_extension.*xdebug.so/ s/;zend_ex/zend_ex/" ${phpIniFile}` )
+			let activated = this.exec( `sed -i '/^;zend_extension.*xdebug.so/ s/;zend_ex/zend_ex/' ${phpIniFile}` )
 			this.restartPhpService()
 		}
 
 		deactivateXdebug() {
 			let phpIniFile = this.getSitePhpIniFilePath()
-			this.exec( `sed -i "/^zend_extension.*xdebug.so/ s/zend_ex/;zend_ex/" ${phpIniFile}` )
+			let deactivated = this.exec( `sed -i '/^zend_extension.*xdebug.so/ s/zend_ex/;zend_ex/' ${phpIniFile}` )
 			this.restartPhpService()
 		}
 
 		readXdebugSetting( setting, def ) {
 			let phpIniFile = this.getSitePhpIniFilePath()
 			try {
-				let command = `cat ${phpIniFile} | grep ^xdebug.${setting} | cut -d "=" -f 2`
+				let command = `cat ${phpIniFile} | grep ^xdebug.${setting} | cut -d '=' -f 2`
 				let value = this.exec( command ).trim()
 				return value !== '' ? value : def
 			}
@@ -141,7 +144,7 @@ module.exports = function ( context ) {
 		}
 
 		setXdebugSetting( setting, value ) {
-			let phpIniFile = this.sitePhpIniFile
+			let phpIniFile = this.getSitePhpIniFilePath()
 			let settingExists = true
 			try {
 				this.exec( `cat ${phpIniFile} | grep ^xdebug.${setting}` )
@@ -152,10 +155,10 @@ module.exports = function ( context ) {
 
 			try {
 				if ( settingExists ) {
-					this.exec( `sed -i "/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/" ${phpIniFile}` )
+					this.exec( `sed -i '/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/' ${phpIniFile}` )
 				}
 				else {
-					this.exec( `sed -i "/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/" ${phpIniFile}` )
+					this.exec( `sed -i '/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/' ${phpIniFile}` )
 				}
 			}
 			catch ( e ) {

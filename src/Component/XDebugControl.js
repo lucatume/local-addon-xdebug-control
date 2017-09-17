@@ -65,6 +65,7 @@ module.exports = function ( context ) {
 		}
 
 		render() {
+			let xdebugStatus = this.state.status || this.container.getXdebugStatus()
 			let button = null
 			let statusStyle = {}
 			let statusString = (
@@ -78,14 +79,14 @@ module.exports = function ( context ) {
 						Current XDebug status: <strong><span style={statusStyle}>{this.state.status}</span></strong>
 					</h4>
 				)
-				if ( this.state.status === 'inactive' ) {
+				if ( xdebugStatus === 'inactive' ) {
 					button = <Button
 						text="Activate XDebug"
 						disabled={this.state.loading === false}
 						onClick={this.activateXdebug.bind( this )}
 					/>
 					statusStyle['color'] = '#FF0000'
-				} else if ( this.state.status === 'active' ) {
+				} else if ( xdebugStatus === 'active' ) {
 					button = <Button
 						text="Deactivate XDebug"
 						disabled={this.state.loading === false}
