@@ -27,6 +27,10 @@ module.exports = function ( context ) {
 
 	// Add Route
 	hooks.addContent( 'routesSiteInfo', () => {
-		return <Router.Route key="site-info-my-component" path="/site-info/:siteID/xdebug-control" component={ XDebugControl }/>
+		return <Router.Route
+			key="site-info-my-component"
+			path="/site-info/:siteID/xdebug-control"
+			component={ XDebugControl }
+		/>
 	} )
 }

@@ -11,23 +11,48 @@ module.exports = function ( context ) {
 		constructor( props ) {
 			super( props )
 			this.state = {
-				content: null,
+				siteStatus: 'off',
+				xdebugStatus: 'n/a',
 			}
 			this.site = this.props.sites[this.props.params.siteID]
-			this.docker = new Docker()
-			this.container = new Container( this.docker, this.site )
+			//			this.state = {
+			//				content: null,
+			//			}
+			//			this.docker = new Docker()
+			//			this.container = new Container( this.docker, this.site )
+		}
+
+		componentWillMount() {
 		}
 
 		componentDidMount() {
-			if ( this.props.siteStatus === 'running' && this.props.site.environment === 'custom' ) {
-				this.showControls()
+			//			if ( this.props.siteStatus === 'running' && this.props.site.environment === 'custom' ) {
+			//				this.showControls()
+			//			} else {
+			//				this.setState( {
+			//					status: (
+			//						<strong>Machine not running!</strong>
+			//					),
+			//				} )
+			//			}
+		}
+
+		componentWillReceiveProps( nextProps ) {
+			let newState = null
+
+			if ( nextProps.siteStatus === 'running' ) {
+				newState = {
+					siteStatus: 'running',
+					xdebugStatus: 'active',
+				}
 			} else {
-				this.setState( {
-					status: (
-						<strong>Machine not running!</strong>
-					),
-				} )
+				newState = {
+					siteStatus: 'stopped',
+					xdebugStatus: 'n/a',
+				}
 			}
+
+			this.setState( newState )
 		}
 
 		componentWillUnmount() {
@@ -65,51 +90,62 @@ module.exports = function ( context ) {
 		}
 
 		render() {
-			let xdebugStatus = this.state.status || this.container.getXdebugStatus()
-			let button = null
-			let statusStyle = {}
-			let statusString = (
-				<h4>Only available for custom installations.</h4>
-			)
-			let fieldList = null
+			//			let xdebugStatus = this.state.status || this.container.getXdebugStatus()
+			//			let button = null
+			//			let statusStyle = {}
+			//			let statusString = (
+			//				<h4>Only available for custom installations.</h4>
+			//			)
+			//			let fieldList = null
+			//
+			//			if ( this.site.environment === 'custom' ) {
+			//				statusString = (
+			//					<h4>
+			//						Current XDebug status: <strong><span style={statusStyle}>{this.state.status}</span></strong>
+			//					</h4>
+			//				)
+			//				if ( xdebugStatus === 'inactive' ) {
+			//					button = <Button
+			//						text="Activate XDebug"
+			//						disabled={this.state.loading === false}
+			//						onClick={this.activateXdebug.bind( this )}
+			//					/>
+			//					statusStyle['color'] = '#FF0000'
+			//				} else if ( xdebugStatus === 'active' ) {
+			//					button = <Button
+			//						text="Deactivate XDebug"
+			//						disabled={this.state.loading === false}
+			//						onClick={this.deactivateXdebug.bind( this )}
+			//					/>
+			//					statusStyle['color'] = '#1FC37D'
+			//				}
+			//
+			//				let fieldListStyle = {
+			//					'margin-top': '1em',
+			//				}
+			//
+			//				if ( this.props.siteStatus === 'running' && this.props.site.environment === 'custom' ) {
+			//					fieldList = <FieldList style={fieldListStyle} container={this.container} disabled={this.state.loading === false}/>
+			//				}
+			//			}
+			//
+			//			return (
+			//				<div style={{display: 'flex', flexDirection: 'column', flex: 1, padding: '0 5%'}}>
+			//					<h3>XDebug Controls</h3>
+			//					{statusString}
+			//					{button}
+			//					{fieldList}
+			//				</div>
+			//			)
 
-			if ( this.site.environment === 'custom' ) {
-				statusString = (
-					<h4>
-						Current XDebug status: <strong><span style={statusStyle}>{this.state.status}</span></strong>
-					</h4>
-				)
-				if ( xdebugStatus === 'inactive' ) {
-					button = <Button
-						text="Activate XDebug"
-						disabled={this.state.loading === false}
-						onClick={this.activateXdebug.bind( this )}
-					/>
-					statusStyle['color'] = '#FF0000'
-				} else if ( xdebugStatus === 'active' ) {
-					button = <Button
-						text="Deactivate XDebug"
-						disabled={this.state.loading === false}
-						onClick={this.deactivateXdebug.bind( this )}
-					/>
-					statusStyle['color'] = '#1FC37D'
-				}
-
-				let fieldListStyle = {
-					'margin-top': '1em',
-				}
-
-				if ( this.props.siteStatus === 'running' && this.props.site.environment === 'custom' ) {
-					fieldList = <FieldList style={fieldListStyle} container={this.container} disabled={this.state.loading === false}/>
-				}
-			}
+			const statusString = this.state.siteStatus === 'running'
+				? `Xdebug status: ${this.state.xdebugStatus}`
+				: 'Machine non running!'
 
 			return (
 				<div style={{display: 'flex', flexDirection: 'column', flex: 1, padding: '0 5%'}}>
 					<h3>XDebug Controls</h3>
-					{statusString}
-					{button}
-					{fieldList}
+					<h4><strong>{statusString}</strong></h4>
 				</div>
 			)
 		}
