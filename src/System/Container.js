@@ -113,24 +113,19 @@ module.exports = function ( context ) {
 				return 'inactive'
 			}
 			catch ( e ) {
-				let stdout = err.stdout;
-				let stderr = err.stderr;
-				let pid = err.pid;
-				let signal = err.signal;
-				let status = err.status;
 				return 'inactive'
 			}
 		}
 
 		activateXdebug() {
 			let phpIniFile = this.getSitePhpIniFilePath()
-			let activated = this.exec( `sed -i '/^;zend_extension.*xdebug.so/ s/;zend_ex/zend_ex/' ${phpIniFile}` )
+			this.exec( `sed -i '/^;zend_extension.*xdebug.so/ s/;zend_ex/zend_ex/' ${phpIniFile}` )
 			this.restartPhpService()
 		}
 
 		deactivateXdebug() {
 			let phpIniFile = this.getSitePhpIniFilePath()
-			let deactivated = this.exec( `sed -i '/^zend_extension.*xdebug.so/ s/zend_ex/;zend_ex/' ${phpIniFile}` )
+			this.exec( `sed -i '/^zend_extension.*xdebug.so/ s/zend_ex/;zend_ex/' ${phpIniFile}` )
 			this.restartPhpService()
 		}
 

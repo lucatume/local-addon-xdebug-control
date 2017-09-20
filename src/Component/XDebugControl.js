@@ -4,7 +4,7 @@ module.exports = function ( context ) {
 	const React = context.React
 	const Container = require( './../System/Container' )( context )
 	const Docker = require( './../System/Docker' )( context )
-	//	const Button = require( './Button' )( context )
+	const Button = require( './Button' )( context )
 	//	const FieldList = require( './FieldsList' )( context )
 
 	return class XDebugControl extends Component {
@@ -56,34 +56,14 @@ module.exports = function ( context ) {
 			// tear down
 		}
 
-		showControls() {
-			let xdebugStatus = ''
-
-			try {
-				xdebugStatus = this.container.getXdebugStatus()
-				this.setState( {
-					status: xdebugStatus,
-				} )
-			}
-			catch ( e ) {
-				this.setState( {
-					status: e.message,
-				} )
-			}
-		}
-
 		activateXdebug() {
-			this.state.loading = true
 			this.container.activateXdebug()
-			this.setState( {status: this.container.getXdebugStatus()} )
-			this.state.loading = false
+			this.setState( {xdebugStatus: this.container.getXdebugStatus()} )
 		}
 
 		deactivateXdebug() {
-			this.state.loading = true
 			this.container.deactivateXdebug()
-			this.setState( {status: this.container.getXdebugStatus()} )
-			this.state.loading = false
+			this.setState( {xdebugStatus: this.container.getXdebugStatus()} )
 		}
 
 		render() {
@@ -136,15 +116,38 @@ module.exports = function ( context ) {
 			//			)
 
 			let statusString = null
+			let button = null
+			let isCustom = this.site.environment === 'custom'
+			let xdebugStatus = null
+			let statusStyle = {'text-transform': 'uppercase'}
 
-			if ( this.site.environment !== 'custom' ) {
+			if ( ! isCustom ) {
 				statusString = 'Only available on custom installations!'
 			} else {
+				xdebugStatus = this.state.xdebugStatus
+
+				if ( xdebugStatus === 'active' ) {
+					statusStyle['color'] = '#1FC37D'
+				} else {
+					statusStyle['color'] = '#FF0000'
+				}
+
 				if ( this.props.siteStatus === 'running' ) {
-					statusString = `Xdebug status: ${this.state.xdebugStatus}`
+					statusString = (
+						<p>XDebug status: <span style={statusStyle}>{xdebugStatus}</span></p>
+					)
 				} else {
 
 					statusString = 'Machine non running!'
+				}
+			}
+
+			if ( isCustom ) {
+
+				if ( xdebugStatus === 'inactive' ) {
+					button = <Button text="Activate XDebug" onClick={this.activateXdebug.bind( this )}/>
+				} else if ( xdebugStatus === 'active' ) {
+					button = <Button text="Deactivate XDebug" onClick={this.deactivateXdebug.bind( this )}/>
 				}
 			}
 
@@ -152,6 +155,7 @@ module.exports = function ( context ) {
 				<div style={{display: 'flex', flexDirection: 'column', flex: 1, padding: '0 5%'}}>
 					<h3>XDebug Controls</h3>
 					<h4><strong>{statusString}</strong></h4>
+					{button}
 				</div>
 			)
 		}
