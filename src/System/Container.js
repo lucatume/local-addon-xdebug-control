@@ -46,10 +46,9 @@ module.exports = function ( context ) {
 		}
 
 		exec( command ) {
-			let dockerPath = Docker.getDockerPath()
-			let fullCommand = `${dockerPath} exec -i ${this.site.container} sh -c "${command}"`
+			let fullCommand = `exec -i ${this.site.container} sh -c "${command}"`
 
-			return childProcess.execSync( fullCommand, {env: context.environment.dockerEnv} ).toString()
+			return Docker.runCommand( fullCommand )
 		}
 
 		getSitePhpIniFilePath() {
@@ -108,12 +107,17 @@ module.exports = function ( context ) {
 		getXdebugStatus() {
 			try {
 				let status = this.exec( `wget -qO- localhost/local-phpinfo.php | grep Xdebug` )
-				if(status.length !== 0){
-                    return 'active'
+				if ( status.length !== 0 ) {
+					return 'active'
 				}
 				return 'inactive'
 			}
 			catch ( e ) {
+				let stdout = err.stdout;
+				let stderr = err.stderr;
+				let pid = err.pid;
+				let signal = err.signal;
+				let status = err.status;
 				return 'inactive'
 			}
 		}

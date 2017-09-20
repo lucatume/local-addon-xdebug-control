@@ -10,7 +10,7 @@ module.exports = function ( context ) {
 			let dockerPath = Docker.getDockerPath()
 			let fullCommand = `${dockerPath} ${command}`
 
-			return childProcess.execSync( fullCommand, {env: context.environment.dockerEnv} ).toString()
+			return childProcess.execSync( fullCommand, {env: context.environment.dockerEnv} ).toString().trim()
 		}
 	}
 }

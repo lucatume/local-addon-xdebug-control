@@ -4,8 +4,8 @@ module.exports = function ( context ) {
 	const React = context.React
 	const Container = require( './../System/Container' )( context )
 	const Docker = require( './../System/Docker' )( context )
-	const Button = require( './Button' )( context )
-	const FieldList = require( './FieldsList' )( context )
+	//	const Button = require( './Button' )( context )
+	//	const FieldList = require( './FieldsList' )( context )
 
 	return class XDebugControl extends Component {
 		constructor( props ) {
@@ -15,11 +15,8 @@ module.exports = function ( context ) {
 				xdebugStatus: 'n/a',
 			}
 			this.site = this.props.sites[this.props.params.siteID]
-			//			this.state = {
-			//				content: null,
-			//			}
-			//			this.docker = new Docker()
-			//			this.container = new Container( this.docker, this.site )
+			this.docker = new Docker()
+			this.container = new Container( this.docker, this.site )
 		}
 
 		componentWillMount() {
@@ -43,7 +40,7 @@ module.exports = function ( context ) {
 			if ( nextProps.siteStatus === 'running' ) {
 				newState = {
 					siteStatus: 'running',
-					xdebugStatus: 'active',
+					xdebugStatus: this.container.getXdebugStatus(),
 				}
 			} else {
 				newState = {
@@ -138,9 +135,18 @@ module.exports = function ( context ) {
 			//				</div>
 			//			)
 
-			const statusString = this.state.siteStatus === 'running'
-				? `Xdebug status: ${this.state.xdebugStatus}`
-				: 'Machine non running!'
+			let statusString = null
+
+			if ( this.site.environment !== 'custom' ) {
+				statusString = 'Only available on custom installations!'
+			} else {
+				if ( this.props.siteStatus === 'running' ) {
+					statusString = `Xdebug status: ${this.state.xdebugStatus}`
+				} else {
+
+					statusString = 'Machine non running!'
+				}
+			}
 
 			return (
 				<div style={{display: 'flex', flexDirection: 'column', flex: 1, padding: '0 5%'}}>
