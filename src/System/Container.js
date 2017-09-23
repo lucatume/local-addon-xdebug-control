@@ -1,7 +1,4 @@
-module.exports = function ( context ) {
-	const childProcess = require( 'child_process' )
-	const Docker = require( './Docker' )( context )
-
+module.exports = function () {
 	return class Container {
 		constructor( docker, site ) {
 			this.docker = docker
@@ -48,7 +45,7 @@ module.exports = function ( context ) {
 		exec( command ) {
 			let fullCommand = `exec -i ${this.site.container} sh -c "${command}"`
 
-			return Docker.runCommand( fullCommand )
+			return this.docker.runCommand( fullCommand )
 		}
 
 		getSitePhpIniFilePath() {

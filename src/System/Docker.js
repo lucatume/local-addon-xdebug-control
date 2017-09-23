@@ -1,16 +1,20 @@
-module.exports = function ( context ) {
-	const childProcess = require( 'child_process' )
-
+module.exports = function () {
 	return class Docker {
-		static getDockerPath() {
-			return context.environment.dockerPath.replace( / /g, '\\ ' )
+		constructor( context, childProcess ) {
+			this.dockerPath = context.environment.dockerPath
+			this.dockerEnv = context.environment.dockerEnv
+			this.childProcess = childProcess
 		}
 
-		static runCommand( command ) {
+		getDockerPath() {
+			return this.dockerPath.replace( / /g, '\\ ' )
+		}
+
+		runCommand( command ) {
 			let dockerPath = Docker.getDockerPath()
 			let fullCommand = `${dockerPath} ${command}`
 
-			return childProcess.execSync( fullCommand, {env: context.environment.dockerEnv} ).toString().trim()
+			return this.childProcess.execSync( fullCommand, {env: this.dockerEnv} ).toString().trim()
 		}
 	}
 }

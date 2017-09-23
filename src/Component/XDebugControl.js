@@ -2,9 +2,11 @@ module.exports = function ( context ) {
 
 	const Component = context.React.Component
 	const React = context.React
-	const Container = require( './../System/Container' )( context )
-	const Docker = require( './../System/Docker' )( context )
+	const Container = require( './../System/Container' )()
+	const Docker = require( './../System/Docker' )()
 	const Button = require( './Button' )( context )
+	const childProcess = require( 'child_process' )
+
 	//	const FieldList = require( './FieldsList' )( context )
 
 	return class XDebugControl extends Component {
@@ -15,7 +17,7 @@ module.exports = function ( context ) {
 				xdebugStatus: 'n/a',
 			}
 			this.site = this.props.sites[this.props.params.siteID]
-			this.docker = new Docker()
+			this.docker = new Docker( context, childProcess )
 			this.container = new Container( this.docker, this.site )
 		}
 

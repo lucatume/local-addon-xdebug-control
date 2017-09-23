@@ -17,7 +17,7 @@
   "license": "MIT",
   "scripts": {
     "build": "babel src -d lib",
-    "watch": "run-when-changed --watch 'src/*.js' --watch='src/**/*.js' --exec 'npm run-script build'"
+    "watch": "run-when-changed --watch 'src/*.js' --watch='src/**/*.js' --watch='tests/**/*.js' --exec 'npm run-script build'"
   },
   "devDependencies": {
     "babel": "^6.5.2",
@@ -32,5 +32,8 @@
     "local": "^1.1.0"
   },
   "dependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^3.5.3",
+    "sinon": "^3.3.0"
   }
 }
