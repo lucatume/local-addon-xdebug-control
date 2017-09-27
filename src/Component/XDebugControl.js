@@ -40,9 +40,21 @@ module.exports = function ( context ) {
 			let newState = null
 
 			if ( nextProps.siteStatus === 'running' ) {
-				newState = {
-					siteStatus: 'running',
-					xdebugStatus: this.container.getXdebugStatus(),
+				try {
+					newState = {
+						siteStatus: 'running',
+						xdebugStatus: this.container.getXdebugStatus(),
+					}
+				}
+				catch ( e ) {
+					if ( e.name === 'DockerError' || e.name === 'ContainerError' ) {
+						newState = {
+							siteStatus: 'running',
+							xdebugStatus: e.message,
+						}
+					} else {
+						throw e
+					}
 				}
 			} else {
 				newState = {

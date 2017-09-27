@@ -1,7 +1,14 @@
 module.exports = function () {
+	const ContainerError = require( './../Errors/ContainerError' )()
+
 	return class Container {
 		constructor( docker, site ) {
 			this.docker = docker
+
+			if ( site.container === undefined ) {
+				throw new ContainerError( 'site.container information must be defined' )
+			}
+
 			this.site = site
 			this.sitePhpBin = undefined
 			this.sitePhpIniFile = undefined
@@ -43,6 +50,10 @@ module.exports = function () {
 		}
 
 		exec( command ) {
+			if ( command.length === 0 ) {
+				throw new ContainerError( 'exec method should not be invoked with empty command' )
+			}
+
 			let fullCommand = `exec -i ${this.site.container} sh -c "${command}"`
 
 			return this.docker.runCommand( fullCommand )
@@ -102,16 +113,9 @@ module.exports = function () {
 		}
 
 		getXdebugStatus() {
-			try {
-				let status = this.exec( `wget -qO- localhost/local-phpinfo.php | grep Xdebug` )
-				if ( status.length !== 0 ) {
-					return 'active'
-				}
-				return 'inactive'
-			}
-			catch ( e ) {
-				return 'inactive'
-			}
+			let status = this.exec( `wget -qO- localhost/local-phpinfo.php | grep Xdebug` )
+
+			return status.length !== 0 ? 'active' : 'inactive'
 		}
 
 		activateXdebug() {
