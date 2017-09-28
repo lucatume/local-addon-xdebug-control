@@ -5,6 +5,7 @@ module.exports = function ( context ) {
 	const Container = require( './../System/Container' )()
 	const Docker = require( './../System/Docker' )()
 	const Button = require( './Button' )( context )
+	const FieldList = require( './FieldsList' )( context )
 	const childProcess = require( 'child_process' )
 
 	//	const FieldList = require( './FieldsList' )( context )
@@ -25,15 +26,6 @@ module.exports = function ( context ) {
 		}
 
 		componentDidMount() {
-			//			if ( this.props.siteStatus === 'running' && this.props.site.environment === 'custom' ) {
-			//				this.showControls()
-			//			} else {
-			//				this.setState( {
-			//					status: (
-			//						<strong>Machine not running!</strong>
-			//					),
-			//				} )
-			//			}
 		}
 
 		componentWillReceiveProps( nextProps ) {
@@ -131,9 +123,11 @@ module.exports = function ( context ) {
 
 			let statusString = null
 			let button = null
+			let fieldList = null
 			let isCustom = this.site.environment === 'custom'
 			let xdebugStatus = null
 			let statusStyle = {'text-transform': 'uppercase'}
+			let isRunning = this.props.siteStatus === 'running'
 
 			if ( ! isCustom ) {
 				statusString = 'Only available on custom installations!'
@@ -146,30 +140,36 @@ module.exports = function ( context ) {
 					statusStyle['color'] = '#FF0000'
 				}
 
-				if ( this.props.siteStatus === 'running' ) {
+
+				if ( isRunning ) {
 					statusString = (
 						<p>XDebug status: <span style={statusStyle}>{xdebugStatus}</span></p>
 					)
-				} else {
 
+					if ( xdebugStatus === 'inactive' ) {
+						button = <Button text="Activate XDebug" onClick={this.activateXdebug.bind( this )}/>
+					} else if ( xdebugStatus === 'active' ) {
+						button = <Button text="Deactivate XDebug" onClick={this.deactivateXdebug.bind( this )}/>
+					}
+
+					let fieldListStyle = {
+						'margin-top': '1em',
+					}
+
+					fieldList = <FieldList style={fieldListStyle} container={this.container} disabled={this.state.loading === false}/>
+
+				} else {
 					statusString = 'Machine non running!'
 				}
 			}
 
-			if ( isCustom ) {
-
-				if ( xdebugStatus === 'inactive' ) {
-					button = <Button text="Activate XDebug" onClick={this.activateXdebug.bind( this )}/>
-				} else if ( xdebugStatus === 'active' ) {
-					button = <Button text="Deactivate XDebug" onClick={this.deactivateXdebug.bind( this )}/>
-				}
-			}
 
 			return (
 				<div style={{display: 'flex', flexDirection: 'column', flex: 1, padding: '0 5%'}}>
 					<h3>XDebug Controls</h3>
 					<h4><strong>{statusString}</strong></h4>
 					{button}
+					{fieldList}
 				</div>
 			)
 		}
