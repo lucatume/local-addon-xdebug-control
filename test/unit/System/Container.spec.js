@@ -76,18 +76,18 @@ describe( 'Container::getXdebugStatus', function () {
 		}
 	} )
 
-	it( 'should mark XDebug status as active if docker returns output', function () {
+	it( 'should mark XDebug status as active if docker returns active', function () {
 		const docker = sinon.createStubInstance( Docker )
-		docker.runCommand.returns( 'something' )
+		docker.runCommand.returns( 'active' )
 
 		const container = new Container( docker, this.site )
 
 		expect( container.getXdebugStatus() ).to.be.equal( 'active' )
 	} )
 
-	it( 'should mark XDebug status as inactive if docker returns no output', function () {
+	it( 'should mark XDebug status as inactive if docker returns inactive', function () {
 		const docker = sinon.createStubInstance( Docker )
-		docker.runCommand.returns( '' )
+		docker.runCommand.returns( 'inactive' )
 
 		const container = new Container( docker, this.site )
 
