@@ -133,38 +133,30 @@ module.exports = function () {
 
 		readXdebugSetting( setting, def ) {
 			let phpIniFile = this.getSitePhpIniFilePath()
-			try {
+			if ( this.xdebugSettingExists( setting ) ) {
 				let command = `cat ${phpIniFile} | grep ^xdebug.${setting} | cut -d '=' -f 2`
 				let value = this.exec( command ).trim()
 				return value !== '' ? value : def
 			}
-			catch ( e ) {
-				return def
 
-			}
+			return def
 		}
 
 		setXdebugSetting( setting, value ) {
 			let phpIniFile = this.getSitePhpIniFilePath()
-			let settingExists = true
-			try {
-				this.exec( `cat ${phpIniFile} | grep ^xdebug.${setting}` )
-			}
-			catch ( e ) {
-				settingExists = false
-			}
+			let settingExists = this.xdebugSettingExists( setting )
 
-			try {
-				if ( settingExists ) {
-					this.exec( `sed -i '/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/' ${phpIniFile}` )
-				}
-				else {
-					this.exec( `sed -i '/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/' ${phpIniFile}` )
-				}
+			if ( settingExists ) {
+				this.exec( `sed -i '/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/' ${phpIniFile}` )
 			}
-			catch ( e ) {
-				// let's move on
+			else {
+				this.exec( `sed -i '/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/' ${phpIniFile}` )
 			}
+		}
+
+		xdebugSettingExists( setting ) {
+			let phpIniFile = this.getSitePhpIniFilePath()
+			return Boolean( this.exec( `if cat ${phpIniFile} | grep -q ^xdebug.${setting}; then echo 'true'; else echo 'false'; fi` ) )
 		}
 	}
 }
