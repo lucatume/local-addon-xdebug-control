@@ -2,13 +2,13 @@ module.exports = function () {
 	const DockerError = require( './../Errors/DockerError' )()
 
 	return class Docker {
-		constructor( context, childProcess ) {
-			if ( ! context.environment || ! context.environment.dockerPath || ! context.environment.dockerEnv ) {
+		constructor( environment, childProcess ) {
+			if ( undefined === environment.dockerPath || undefined === environment.dockerEnv ) {
 				throw new DockerError( 'Docker path and/or env are not set!' )
 			}
 
-			this.dockerPath = context.environment.dockerPath
-			this.dockerEnv = context.environment.dockerEnv
+			this.dockerPath = environment.dockerPath
+			this.dockerEnv = environment.dockerEnv
 			this.childProcess = childProcess
 		}
 

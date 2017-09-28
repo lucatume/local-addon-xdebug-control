@@ -26,7 +26,14 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.26.0",
+    "enzyme": "^3.0.0",
+    "enzyme-adapter-react-15": "^1.0.0",
+    "jsdom": "11.2.0",
+    "jsdom-global": "3.0.2",
+    "react": "^15.6.2",
     "react-addons-test-utils": "^15.6.0",
+    "react-dom": "^15.0.0",
+    "react-test-renderer": "^15.0.0",
     "run-when-changed": "^1.3.0"
   },
   "engines": {

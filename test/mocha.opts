@@ -1,2 +1,5 @@
-test/unit/**/*.spec.js
+test/**/*.spec.js
 --recursive
+--require babel-register
+--require jsdom-global/register
+--require test/bootstrap.js

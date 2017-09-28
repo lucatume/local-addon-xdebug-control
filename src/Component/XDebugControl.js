@@ -1,7 +1,7 @@
 module.exports = function ( context ) {
 
-	const Component = context.React.Component
 	const React = context.React
+	const Component = context.React.Component
 	const Container = require( './../System/Container' )()
 	const Docker = require( './../System/Docker' )()
 	const Button = require( './Button' )( context )
@@ -17,8 +17,9 @@ module.exports = function ( context ) {
 				siteStatus: 'off',
 				xdebugStatus: 'n/a',
 			}
-			this.site = this.props.sites[this.props.params.siteID]
-			this.docker = new Docker( context, childProcess )
+
+			this.site = this.props.sites[this.props.params.siteId]
+			this.docker = new Docker( props.environment, childProcess )
 			this.container = new Container( this.docker, this.site )
 		}
 

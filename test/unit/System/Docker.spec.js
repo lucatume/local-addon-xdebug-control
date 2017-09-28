@@ -7,12 +7,21 @@ const sinon = require( './../../../node_modules/sinon' )
 const childProcess = require( 'child_process' )
 
 describe( 'Docker::constructor', function () {
-	it( 'should throw if context.environment.dockerPath is not set', function () {
-		const context = {}
+	it( 'should throw if dockerPath is not set', function () {
 		const childProcess = {}
 
 		expect( function () {
-			new Docker( context, childProcess )
+			new Docker( {dockerEnv: {foo: 'bar'}}, childProcess )
+		} ).to.throw().satisfies( function ( e ) {
+			return e.name === 'DockerError'
+		} )
+	} )
+
+	it( 'should throw if dockerEnv is not set', function () {
+		const childProcess = {}
+
+		expect( function () {
+			new Docker( {dockerPath: '/foo'}, childProcess )
 		} ).to.throw().satisfies( function ( e ) {
 			return e.name === 'DockerError'
 		} )
@@ -21,18 +30,16 @@ describe( 'Docker::constructor', function () {
 
 describe( 'Docker::runCommand', function () {
 	before( function () {
-		this.context = {
-			environment: {
-				dockerEnv: {bar: 'baz'},
-				dockerPath: 'foo',
-			},
+		this.environment = {
+			dockerEnv: {bar: 'baz'},
+			dockerPath: 'foo',
 		}
 	} )
 
 	it( 'should throw if child_process.execSync throws', function () {
 		sinon.stub( childProcess, 'execSync' ).throws()
 
-		const docker = new Docker( this.context, childProcess )
+		const docker = new Docker( this.environment, childProcess )
 
 		expect( function () {
 			docker.runCommand( 'foo' )
@@ -41,15 +48,15 @@ describe( 'Docker::runCommand', function () {
 		} )
 	} )
 
-	it('should throw if trying to run empty command', function(){
-		const docker = new Docker( this.context, childProcess )
+	it( 'should throw if trying to run empty command', function () {
+		const docker = new Docker( this.environment, childProcess )
 
 		expect( function () {
 			docker.runCommand( '' )
 		} ).to.throw().satisfies( function ( e ) {
 			return e.name === 'DockerError'
 		} )
-	})
+	} )
 
 	after( function () {
 		childProcess.execSync.restore()
