@@ -114,11 +114,11 @@ module.exports = function () {
 
 		getXdebugStatus() {
 			// create the local-phpinfo.php file if it doesn't exist
-			this.exec(`if [ ! -f /app/public/local-phpinfo.php ]; then echo '<?php phpinfo();' > /app/public/local-phpinfo.php; fi`)
+			this.exec( `if [ ! -f /app/public/local-phpinfo.php ]; then echo '<?php phpinfo();' > /app/public/local-phpinfo.php; fi` )
 
-			let status = this.exec( `wget -qO- localhost/local-phpinfo.php | grep Xdebug` )
+			let status = this.exec( `if wget -qO- localhost/local-phpinfo.php | grep -q Xdebug; then echo 'active'; else echo 'inactive'; fi` )
 
-			return status.length !== 0 ? 'active' : 'inactive'
+			return status
 		}
 
 		activateXdebug() {
