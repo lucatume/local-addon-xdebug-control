@@ -2,6 +2,7 @@ const React = require( 'react' )
 const Component = require( 'react' ).Component
 const expect = require( 'chai' ).expect
 const mount = require( 'enzyme' ).mount
+const shallow = require( 'enzyme' ).shallow
 const sinon = require( 'sinon' )
 
 const context = {
@@ -10,14 +11,15 @@ const context = {
 
 const XDebugControl = require( './../../../lib/Component/XDebugControl' )( context )
 
-describe( '<XDebugControl/>', function () {
+describe( '<XDebugControl/> status', function () {
 	before( function () {
 		this.props = {
 			params: {
-				siteId: 'foo',
+				siteID: 'foo',
 			},
 			sites: {
 				foo: {
+					environment: 'custom',
 					container: '123344',
 				},
 			},
@@ -25,11 +27,26 @@ describe( '<XDebugControl/>', function () {
 				dockerPath: '/app/docker',
 				dockerEnv: {key: 'value'},
 			},
+			siteStatus: 'running',
 		}
 	} )
 
 	it( 'renders correctly when machine is not running', function () {
+		this.props.siteStatus = 'not running'
 		const wrapper = mount( <XDebugControl {...this.props}/> )
-		expect( wrapper.find( '#xdebug-status' ) ).to.equal( 'Machine not running!' )
+		expect( wrapper.find( '.xdebugStatus' ).text() ).to.equal( 'Machine not running!' )
+	} )
+
+	it( 'renders correctly when installation is not custom', function () {
+		this.props.sites.foo.environment = 'flywheel'
+		const wrapper = mount( <XDebugControl {...this.props}/> )
+		expect( wrapper.find( '.xdebugStatus' ).text() ).to.equal( 'Only available for custom installations!' )
+	} )
+
+	it( 'renders correctly when installation is custom and XDebug is active', function () {
+		this.props.siteStatus = 'running'
+		this.props.sites.foo.environment = 'custom'
+		const wrapper = shallow( <XDebugControl {...this.props}/> )
+		expect( wrapper.find( '.xdebugStatus' ).text() ).to.equal( 'XDebug is n/a yet...' )
 	} )
 } )

@@ -8,17 +8,20 @@ module.exports = function ( context ) {
 	const FieldList = require( './FieldsList' )( context )
 	const childProcess = require( 'child_process' )
 
-	//	const FieldList = require( './FieldsList' )( context )
-
 	return class XDebugControl extends Component {
 		constructor( props ) {
-			super( props )
-			this.state = {
-				siteStatus: 'off',
-				xdebugStatus: 'n/a',
+			if(undefined === props.environment){
+				props.environment = context.environment
 			}
 
-			this.site = this.props.sites[this.props.params.siteId]
+			super( props )
+
+			this.state = {
+				siteStatus: 'off',
+				xdebugStatus: 'n/a yet...',
+			}
+
+			this.site = props.sites[props.params.siteID]
 			this.docker = new Docker( props.environment, childProcess )
 			this.container = new Container( this.docker, this.site )
 		}
@@ -74,53 +77,6 @@ module.exports = function ( context ) {
 		}
 
 		render() {
-			//			let xdebugStatus = this.state.status || this.container.getXdebugStatus()
-			//			let button = null
-			//			let statusStyle = {}
-			//			let statusString = (
-			//				<h4>Only available for custom installations.</h4>
-			//			)
-			//			let fieldList = null
-			//
-			//			if ( this.site.environment === 'custom' ) {
-			//				statusString = (
-			//					<h4>
-			//						Current XDebug status: <strong><span style={statusStyle}>{this.state.status}</span></strong>
-			//					</h4>
-			//				)
-			//				if ( xdebugStatus === 'inactive' ) {
-			//					button = <Button
-			//						text="Activate XDebug"
-			//						disabled={this.state.loading === false}
-			//						onClick={this.activateXdebug.bind( this )}
-			//					/>
-			//					statusStyle['color'] = '#FF0000'
-			//				} else if ( xdebugStatus === 'active' ) {
-			//					button = <Button
-			//						text="Deactivate XDebug"
-			//						disabled={this.state.loading === false}
-			//						onClick={this.deactivateXdebug.bind( this )}
-			//					/>
-			//					statusStyle['color'] = '#1FC37D'
-			//				}
-			//
-			//				let fieldListStyle = {
-			//					'margin-top': '1em',
-			//				}
-			//
-			//				if ( this.props.siteStatus === 'running' && this.props.site.environment === 'custom' ) {
-			//					fieldList = <FieldList style={fieldListStyle} container={this.container} disabled={this.state.loading === false}/>
-			//				}
-			//			}
-			//
-			//			return (
-			//				<div style={{display: 'flex', flexDirection: 'column', flex: 1, padding: '0 5%'}}>
-			//					<h3>XDebug Controls</h3>
-			//					{statusString}
-			//					{button}
-			//					{fieldList}
-			//				</div>
-			//			)
 
 			let statusString = null
 			let button = null
@@ -131,7 +87,7 @@ module.exports = function ( context ) {
 			let isRunning = this.props.siteStatus === 'running'
 
 			if ( ! isCustom ) {
-				statusString = 'Only available on custom installations!'
+				statusString = 'Only available for custom installations!'
 			} else {
 				xdebugStatus = this.state.xdebugStatus
 
@@ -144,7 +100,7 @@ module.exports = function ( context ) {
 
 				if ( isRunning ) {
 					statusString = (
-						<p>XDebug status: <span style={statusStyle}>{xdebugStatus}</span></p>
+						<span style={statusStyle}>XDebug is {xdebugStatus}</span>
 					)
 
 					if ( xdebugStatus === 'inactive' ) {
@@ -160,7 +116,7 @@ module.exports = function ( context ) {
 					fieldList = <FieldList style={fieldListStyle} container={this.container} disabled={this.state.loading === false}/>
 
 				} else {
-					statusString = 'Machine non running!'
+					statusString = 'Machine not running!'
 				}
 			}
 
@@ -168,7 +124,7 @@ module.exports = function ( context ) {
 			return (
 				<div style={{display: 'flex', flexDirection: 'column', flex: 1, padding: '0 5%'}}>
 					<h3>XDebug Controls</h3>
-					<h4><strong>{statusString}</strong></h4>
+					<h4 className='xdebugStatus'>{statusString}</h4>
 					{button}
 					{fieldList}
 				</div>
