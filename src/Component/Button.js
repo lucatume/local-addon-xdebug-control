@@ -2,7 +2,7 @@ module.exports = function ( context ) {
 	const React = context.React
 
 	return function Button( props ) {
-		let buttonStyle = {}
+		let buttonStyle = props.style || {}
 
 		if ( props.centered ) {
 			buttonStyle['display'] = 'block'

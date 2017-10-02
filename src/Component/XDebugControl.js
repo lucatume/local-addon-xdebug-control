@@ -10,7 +10,7 @@ module.exports = function ( context ) {
 
 	return class XDebugControl extends Component {
 		constructor( props ) {
-			if(undefined === props.environment){
+			if ( undefined === props.environment ) {
 				props.environment = context.environment
 			}
 
@@ -84,6 +84,7 @@ module.exports = function ( context ) {
 			let isCustom = this.site.environment === 'custom'
 			let xdebugStatus = null
 			let statusStyle = {'text-transform': 'uppercase'}
+			let buttonStyle = {}
 			let isRunning = this.props.siteStatus === 'running'
 
 			if ( ! isCustom ) {
@@ -91,12 +92,18 @@ module.exports = function ( context ) {
 			} else {
 				xdebugStatus = this.state.xdebugStatus
 
-				if ( xdebugStatus === 'active' ) {
-					statusStyle['color'] = '#1FC37D'
-				} else {
-					statusStyle['color'] = '#FF0000'
-				}
+				const green = '#1FC37D'
+				const red = '#FF0000'
 
+				if ( xdebugStatus === 'active' ) {
+					statusStyle['color'] = green
+					buttonStyle['color'] = red
+					buttonStyle['border-color'] = red
+				} else {
+					statusStyle['color'] = red
+					buttonStyle['color'] = green
+					buttonStyle['border-color'] = green
+				}
 
 				if ( isRunning ) {
 					statusString = (
@@ -104,9 +111,9 @@ module.exports = function ( context ) {
 					)
 
 					if ( xdebugStatus === 'inactive' ) {
-						button = <Button text="Activate XDebug" onClick={this.activateXdebug.bind( this )}/>
+						button = <Button text="Activate XDebug" onClick={this.activateXdebug.bind( this )} style={buttonStyle}/>
 					} else if ( xdebugStatus === 'active' ) {
-						button = <Button text="Deactivate XDebug" onClick={this.deactivateXdebug.bind( this )}/>
+						button = <Button text="Deactivate XDebug" onClick={this.deactivateXdebug.bind( this )} style={buttonStyle}/>
 					}
 
 					let fieldListStyle = {
@@ -121,10 +128,12 @@ module.exports = function ( context ) {
 			}
 
 
+			const titleStyle = {margin: '.25em auto', 'font-size': '125%'}
+
 			return (
 				<div style={{display: 'flex', flexDirection: 'column', flex: 1, padding: '0 5%'}}>
 					<h3>XDebug Controls</h3>
-					<h4 className='xdebugStatus'>{statusString}</h4>
+					<span className='xdebugStatus' style={titleStyle}>{statusString}</span>
 					{button}
 					{fieldList}
 				</div>
