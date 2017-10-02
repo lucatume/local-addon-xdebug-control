@@ -97,12 +97,8 @@ module.exports = function ( context ) {
 
 				if ( xdebugStatus === 'active' ) {
 					statusStyle['color'] = green
-					buttonStyle['color'] = red
-					buttonStyle['border-color'] = red
 				} else {
 					statusStyle['color'] = red
-					buttonStyle['color'] = green
-					buttonStyle['border-color'] = green
 				}
 
 				if ( isRunning ) {
@@ -111,9 +107,9 @@ module.exports = function ( context ) {
 					)
 
 					if ( xdebugStatus === 'inactive' ) {
-						button = <Button text="Activate XDebug" onClick={this.activateXdebug.bind( this )} style={buttonStyle}/>
+						button = <Button text="Activate XDebug" onClick={this.activateXdebug.bind( this )}/>
 					} else if ( xdebugStatus === 'active' ) {
-						button = <Button text="Deactivate XDebug" onClick={this.deactivateXdebug.bind( this )} style={buttonStyle}/>
+						button = <Button text="Deactivate XDebug" onClick={this.deactivateXdebug.bind( this )}/>
 					}
 
 					let fieldListStyle = {
@@ -126,7 +122,6 @@ module.exports = function ( context ) {
 					statusString = 'Machine not running!'
 				}
 			}
-
 
 			const titleStyle = {margin: '.25em auto', 'font-size': '125%'}
 
