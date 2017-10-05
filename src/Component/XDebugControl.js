@@ -6,9 +6,8 @@ module.exports = function ( context ) {
 	const Docker = require( './../System/Docker' )()
 	const Error = require( './Error' )( context )
 	const Button = require( './Button' )( context )
-	const FieldList = require( './FieldsList' )( context )
+	const XDebugFieldList = require( './XDebugFieldsList' )( context )
 	const childProcess = require( 'child_process' )
-
 
 	return class XDebugControl extends Component {
 		constructor( props ) {
@@ -48,10 +47,14 @@ module.exports = function ( context ) {
 				}
 				catch ( e ) {
 					if ( e.name === 'DockerError' || e.name === 'ContainerError' ) {
+						const source = e.name === 'DockerError' ? 'Docker' : 'Container'
+						const cta = e.message.indexOf( 'No such container' ) !== - 1 ? 'Try to restart the local machine via the Help menu' : null
+
 						newState = {
 							error: {
-								source: e.name === 'DockerError' ? 'Docker' : 'Container',
+								'source': source,
 								message: e.message,
+								'cta': cta,
 							},
 						}
 					} else {
@@ -127,7 +130,12 @@ module.exports = function ( context ) {
 							'margin-top': '1em',
 						}
 
-						fieldList = <FieldList style={fieldListStyle} container={this.container} disabled={this.state.loading === false}/>
+						const fieldListProps = {
+							style: fieldListStyle,
+							container: this.container,
+						}
+
+						fieldList = <XDebugFieldList {...fieldListProps}/>
 
 					} else {
 						statusString = 'Machine not running!'
