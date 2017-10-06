@@ -8,7 +8,6 @@ module.exports = function ( context ) {
 	const Button = require( './Button' )( context )
 	const XDebugFieldList = require( './XDebugFieldsList' )( context )
 	const childProcess = require( 'child_process' )
-	const remote = context.electron.remote
 
 	return class XDebugControl extends Component {
 		constructor( props ) {
