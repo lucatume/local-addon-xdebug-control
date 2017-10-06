@@ -15,7 +15,7 @@ module.exports = function ( context ) {
 			<li className="TableListRow OptionField">
 				<strong><span className='OptionField__Title'>{props.title}</span></strong>
 				<div>
-					<select name={props.name} id={props.name} className='OptionField__Options' defaultValue={value}>
+					<select name={props.name} id={props.name} className='OptionField__Options' defaultValue={value} onChange={props.onChange}>
 						{options}
 					</select>
 				</div>

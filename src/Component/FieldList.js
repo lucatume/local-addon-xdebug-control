@@ -4,7 +4,6 @@ module.exports = function ( context ) {
 	const OptionField = require( './OptionField' )( context )
 	const Button = require( './Button' )( context )
 	const slugify = require( './../Utils/Strings' )().slugify
-	const $ = context.jQuery
 
 	return class FieldList extends Component {
 		constructor( props ) {
@@ -17,17 +16,7 @@ module.exports = function ( context ) {
 			// called with name and default
 			this.read = props.readWith
 			this.style = props.style
-		}
-
-		parseSettings( $fieldList ) {
-			let parsed = []
-
-			$fieldList.find( 'input,select' ).each( function () {
-				let $this = $( this )
-				parsed.push( {name: $this.attr( 'name' ), value: $this.val()} )
-			} )
-
-			return parsed
+			this.settings = []
 		}
 
 		readSettings() {
@@ -38,17 +27,22 @@ module.exports = function ( context ) {
 		}
 
 		update() {
-			const settings = this.parseSettings( $( this ).closest( '.FieldList' ) )
-
-			settings.map( function ( setting ) {
+			this.settings.map( function ( setting ) {
 				this.write( setting.name, setting.value )
 			}, this )
+
+			this.settings = []
 
 			this.setState( this.readSettings() )
 
 			if ( ! undefined === this.afterWrite ) {
 				this.afterWrite()
 			}
+		}
+
+		onSettingChange( event ) {
+			const input = event.target
+			this.settings.push( {name: input.name, value: input.value} )
 		}
 
 		render() {
@@ -59,6 +53,7 @@ module.exports = function ( context ) {
 					name: name,
 					value: this.read( name, field.default ),
 					options: field.options,
+					onChange: this.onSettingChange.bind( this ),
 				}
 
 				return (
