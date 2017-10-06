@@ -1,46 +1,35 @@
-## Quick Start
- 1. Clone this repo: `git clone git@github.com:JRGould/simple-pressmatic-addon.git my-pressmatic-addon && cd my-pressmatic-addon`
- 1. Run `npm install`
- 1. Run initial build: `npm run-script build`
- 1. Link into Local's `addon` directory: `ln -s "$(pwd)" ~/Library/Application Support/Local by Flywheel/addons`
- 1. Restart Local and activate addon from Settings > Addons
+XDebug Controls for [Local][0475-0001], because debugging happens.
 
-## Developing
+## Show off
+Here is an handy GIF to show the add-on functionalities, enjoy.
+![Version 1 demo](/doc/images/version-1-demo.gif?raw=true "Version 1 demo")
 
- - To automatically transpile your JS while developing, just start watch task: `npm run-script watch`.
- - The only thing this starter addon currently does is open dev tools in Local and add a `reload()` function to the window object, type `reload()` into the dev tools console after you've saved/transpiled to see your changes.
+## Requirements
+1. Well... [Local][0475-0001]
+2. XDebug Controls will only be available on custom sites
+3. To install the addon open Local, go to Preferences > Add-ons > Reveal add-ons folder and unzip the content of this repository in that folder. Or clone it using:
+	```bash
+ 	git clone https://github.com/lucatume/local-addon-xdebug-control.git
+	```
+4. Relevant [XDebug settings][0475-0002] are exposed by the addon as a list of select fields; I've picked some defaults for you but take your team to read what each does.
 
+## I found a bug: what should I do?
+Crap! Well: it happens.  
+There is a known issues where the data provided to the addon right after Local has started will be inconsistent; the symptom is that nothing will happen when clicking "More > XDebug Control".  
+The remedy is as old as IT: quit the app and restart it.  
+Before opening an issue be very very sure (very very sure, again) that your issue does not sound like "How do I configure XDebug to work with my IDE?"; I will try and support the addon, but Google is still your friend.
+Should this not solve the issue take the time to open an issue on this repository detailing:
 
-### Installing Dev Dependencies
-`npm install`
-
-### Folder Structure
-All files in `/src` will be transpiled to `/lib` using [Babel](https://github.com/babel/babel/). Anything in `/lib` will be overwritten.
-
-### Transpiling
-`npm run-script build` or `npm run-script watch` to transpile when source files are saved
-
-### Babel, transpiling, ES6, Node.js, what?
-Not familiar with some or any of these terms? Here are a few resources to get you up to speed.
-
-- Node.js
-  - [The Art of Node](https://github.com/maxogden/art-of-node#the-art-of-node)
-- Babel
-  - [Babel Introduction](https://github.com/thejameskyle/babel-handbook/blob/master/translations/en/user-handbook.md#toc-introduction)
-  - [Source-to-source compiler (Wikipedia)](https://en.wikipedia.org/wiki/Source-to-source_compiler)
-- ES6/ES2015
-  - [Learn ES2015](https://babeljs.io/docs/learn-es2015/)
-  - [JavaScript — Just another introduction to ES6](https://medium.com/sons-of-javascript/javascript-an-introduction-to-es6-1819d0d89a0f#.a11ayxe2p)
-
-## Dev Dependencies
-
-- [babel](https://github.com/babel/babel/tree/master/packages): Turn ES6 code into readable vanilla ES5 with source maps
-- [babel-cli](https://github.com/babel/babel/tree/master/packages): Babel command line.
-- [babel-preset-es2015](https://github.com/babel/babel/tree/master/packages): Babel preset for all es2015 plugins.
-- [babel-preset-react](https://github.com/babel/babel/tree/master/packages): Babel preset for all React plugins.
-- [babel-preset-stage-0](https://github.com/babel/babel/tree/master/packages): Babel preset for stage 0 plugins
-
+1. Mac or Windows?
+2. Your site settings (php version, web server, MySQL version and the like)
+3. XDebug Control settings (if any)
+4. Any other information you think might be useful
 
 ## License
-
 MIT
+
+## Changelog
+1.0.0 - Initial version
+
+[0475-0001]: https://local.getflywheel.com/
+[0475-0002]: https://xdebug.org/docs/all_settings
