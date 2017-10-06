@@ -8,6 +8,7 @@ module.exports = function ( context ) {
 	const Button = require( './Button' )( context )
 	const XDebugFieldList = require( './XDebugFieldsList' )( context )
 	const childProcess = require( 'child_process' )
+	const remote = context.electron.remote
 
 	return class XDebugControl extends Component {
 		constructor( props ) {
@@ -26,12 +27,6 @@ module.exports = function ( context ) {
 			this.site = props.sites[props.params.siteID]
 			this.docker = props.docker || new Docker( props.environment, childProcess )
 			this.container = props.container || new Container( this.docker, this.site )
-		}
-
-		componentWillMount() {
-		}
-
-		componentDidMount() {
 		}
 
 		componentWillReceiveProps( nextProps ) {
@@ -70,10 +65,6 @@ module.exports = function ( context ) {
 			}
 
 			this.setState( newState )
-		}
-
-		componentWillUnmount() {
-			// tear down
 		}
 
 		activateXdebug() {
@@ -144,7 +135,7 @@ module.exports = function ( context ) {
 			}
 
 			const titleStyle = {margin: '.25em auto', 'fontSize': '125%'}
-			const statusAndControlStyle = {marginBottom: '1em', display: 'flex', flexDirection: 'column' }
+			const statusAndControlStyle = {marginBottom: '1em', display: 'flex', flexDirection: 'column'}
 
 			return (
 				<div style={{display: 'flex', flexDirection: 'column', flex: 1, padding: '0 5%'}}>

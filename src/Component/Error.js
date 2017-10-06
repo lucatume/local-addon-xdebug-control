@@ -6,8 +6,14 @@ module.exports = function ( context ) {
 		const source = props.source || 'Unknown'
 		const message = props.message || 'no message provided'
 		const openIssueLink = 'https://github.com/lucatume/local-addon-xdebug-control/issues/new'
-		const cta =  props.cta
-		             || (<p>If the issue persists please open an issue <a href={openIssueLink}>on the addon repository</a> containing the message above, how you got here, what you were trying to do and your setup.</p>)
+		const cta = props.cta
+		            || (
+			            <section>
+				            <p>Try to quit and restart Local. Yes: turning it off and on again <em>might</em> help.</p>
+				            <p>If the issue persists please open an issue <a href={openIssueLink}>on the addon repository</a> containing the message
+					            above, how you got here, what you were trying to do and your setup.</p>
+			            </section>
+		            )
 		const red = '#FF0000'
 		const color = props.color || red
 		const headerStyle = {
