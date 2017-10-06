@@ -16,7 +16,7 @@ Here is an handy GIF to show the add-on functionalities, enjoy.
 ## I found a bug: what should I do?
 Crap! Well: it happens.  
 There is a known issues where the data provided to the addon right after Local has started will be inconsistent; the symptom is that nothing will happen when clicking "More > XDebug Control".  
-The remedy is as old as IT: quit the app and restart it.  
+**The remedy is as old as IT: quit the app and restart it**.  
 Before opening an issue be very very sure (very very sure, again) that your issue does not sound like "How do I configure XDebug to work with my IDE?"; I will try and support the addon, but Google is still your friend.
 Should this not solve the issue take the time to open an issue on this repository detailing:
 
