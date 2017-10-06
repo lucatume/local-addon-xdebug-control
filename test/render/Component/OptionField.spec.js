@@ -31,7 +31,7 @@ describe( '<OptionField />', function () {
 		expect( optionsProps.name ).to.be.equal( 'foo' )
 		expect( optionsProps.id ).to.be.equal( 'foo' )
 		expect( select.find( '.OptionField__Option' ) ).to.have.length( 3 )
-		expect( select.get( 0 ).props.value ).to.be.equal( 23 )
+		expect( select.get( 0 ).props.defaultValue ).to.be.equal( 23 )
 	} )
 
 	it( 'selects the first option when value is not set', function () {
@@ -50,6 +50,6 @@ describe( '<OptionField />', function () {
 		const option = wrapper.find( '.OptionField' )
 		const select = option.find( '.OptionField__Options' )
 		expect( select.find( '.OptionField__Option' ) ).to.have.length( 3 )
-		expect( select.get( 0 ).props.value ).to.be.equal( 89 )
+		expect( select.get( 0 ).props.defaultValue ).to.be.equal( 89 )
 	} )
 } )

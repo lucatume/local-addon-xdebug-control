@@ -46,7 +46,9 @@ module.exports = function ( context ) {
 
 			this.setState( this.readSettings() )
 
-			this.afterWrite()
+			if ( ! undefined === this.afterWrite ) {
+				this.afterWrite()
+			}
 		}
 
 		render() {

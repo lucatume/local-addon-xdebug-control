@@ -29,6 +29,7 @@
     "chai-enzyme": "^0.8.0",
     "enzyme": "^3.0.0",
     "enzyme-adapter-react-15": "^1.0.0",
+    "jquery": "^3.2.1",
     "jsdom": "^11.2.0",
     "jsdom-global": "^3.0.2",
     "react": "^15.6.2",
