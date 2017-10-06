@@ -54,16 +54,16 @@ module.exports = function () {
 				throw new ContainerError( 'exec method should not be invoked with empty command' )
 			}
 
-			let fullCommand = `exec -i ${this.site.container} sh -c "${command}"`
+			const fullCommand = `exec -i ${this.site.container} sh -c "${command}"`
 
 			return this.docker.runCommand( fullCommand )
 		}
 
 		getSitePhpIniFilePath() {
 			if ( this.sitePhpIniFile === undefined ) {
-				let phpBin = this.getSitePhpBin()
+				const phpBin = this.getSitePhpBin()
 
-				let iniFilePath = this.exec( `${phpBin} -r 'echo php_ini_loaded_file();'` )
+				const iniFilePath = this.exec( `${phpBin} -r 'echo php_ini_loaded_file();'` )
 
 				if ( ! iniFilePath ) {
 					throw new ContainerError( 'cannot determine the path to PHP ini file' )
@@ -76,8 +76,8 @@ module.exports = function () {
 
 		getSitePhpBin() {
 			if ( this.sitePhpBin === undefined ) {
-				let sitePhpVersion = this.getSitePhpVersion()
-				let siteEnvironment = this.site.environment
+				const sitePhpVersion = this.getSitePhpVersion()
+				const siteEnvironment = this.site.environment
 				let phpBin = null
 
 				if ( siteEnvironment === 'flywheel' ) {
@@ -104,11 +104,11 @@ module.exports = function () {
 		}
 
 		restartPhpService() {
-			let sitePhpVersion = this.getSitePhpVersion()
+			const sitePhpVersion = this.getSitePhpVersion()
 			if ( ! this.restartCommandMap[this.site.webServer][sitePhpVersion] ) {
 				throw new ContainerError( `The ${this.site.webServer} and PHP ${sitePhpVersion} configuration is not supported` )
 			}
-			let restartCommand = this.restartCommandMap[this.site.webServer][sitePhpVersion]
+			const restartCommand = this.restartCommandMap[this.site.webServer][sitePhpVersion]
 			this.exec( restartCommand )
 		}
 
@@ -120,22 +120,22 @@ module.exports = function () {
 		}
 
 		activateXdebug() {
-			let phpIniFile = this.getSitePhpIniFilePath()
+			const phpIniFile = this.getSitePhpIniFilePath()
 			this.exec( `sed -i '/^;zend_extension.*xdebug.so/ s/;zend_ex/zend_ex/' ${phpIniFile}` )
 			this.restartPhpService()
 		}
 
 		deactivateXdebug() {
-			let phpIniFile = this.getSitePhpIniFilePath()
+			const phpIniFile = this.getSitePhpIniFilePath()
 			this.exec( `sed -i '/^zend_extension.*xdebug.so/ s/zend_ex/;zend_ex/' ${phpIniFile}` )
 			this.restartPhpService()
 		}
 
 		readXdebugSetting( setting, def ) {
-			let phpIniFile = this.getSitePhpIniFilePath()
+			const phpIniFile = this.getSitePhpIniFilePath()
 			if ( this.xdebugSettingExists( setting ) ) {
-				let command = `cat ${phpIniFile} | grep ^xdebug.${setting} | cut -d '=' -f 2`
-				let value = this.exec( command ).trim()
+				const command = `cat ${phpIniFile} | grep ^xdebug.${setting} | cut -d '=' -f 2`
+				const value = this.exec( command ).trim()
 				return value !== '' ? value : def
 			}
 
@@ -143,8 +143,8 @@ module.exports = function () {
 		}
 
 		setXdebugSetting( setting, value ) {
-			let phpIniFile = this.getSitePhpIniFilePath()
-			let settingExists = this.xdebugSettingExists( setting )
+			const phpIniFile = this.getSitePhpIniFilePath()
+			const settingExists = this.xdebugSettingExists( setting )
 
 			if ( settingExists ) {
 				this.exec( `sed -i '/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/' ${phpIniFile}` )
@@ -155,7 +155,7 @@ module.exports = function () {
 		}
 
 		xdebugSettingExists( setting ) {
-			let phpIniFile = this.getSitePhpIniFilePath()
+			const phpIniFile = this.getSitePhpIniFilePath()
 			return Boolean( this.exec( `if cat ${phpIniFile} | grep -q ^xdebug.${setting}; then echo 'true'; else echo 'false'; fi` ) )
 		}
 	}

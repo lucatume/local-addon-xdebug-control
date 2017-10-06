@@ -144,13 +144,18 @@ module.exports = function ( context ) {
 			}
 
 			const titleStyle = {margin: '.25em auto', 'fontSize': '125%'}
+			const statusAndControlStyle = {marginBottom: '1em', display: 'flex', flexDirection: 'column' }
 
 			return (
 				<div style={{display: 'flex', flexDirection: 'column', flex: 1, padding: '0 5%'}}>
 					<h3>XDebug Controls</h3>
-					<span className='XdebugStatus' style={titleStyle}>{statusString}</span>
 					{error}
-					{button}
+
+					<div style={statusAndControlStyle}>
+						<div className='XdebugStatus' style={titleStyle}>{statusString}</div>
+						{button}
+					</div>
+
 					{fieldList}
 				</div>
 			)
