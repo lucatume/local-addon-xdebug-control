@@ -66,7 +66,7 @@ module.exports = function () {
 				let iniFilePath = this.exec( `${phpBin} -r 'echo php_ini_loaded_file();'` )
 
 				if ( ! iniFilePath ) {
-					throw new Error( 'cannot determine the path to PHP ini file' )
+					throw new ContainerError( 'cannot determine the path to PHP ini file' )
 				}
 				this.sitePhpIniFile = iniFilePath
 			}
@@ -86,14 +86,14 @@ module.exports = function () {
 				} else {
 					// custom installation
 					if ( ! sitePhpVersion ) {
-						throw new Error( 'could not find the site PHP version' )
+						throw new ContainerError( 'could not find the site PHP version' )
 					}
 
 					try {
 						phpBin = this.exec( `find / -name php | grep bin | grep ${sitePhpVersion}` ).trim()
 					}
 					catch ( e ) {
-						throw new Error( 'could not get the site PHP bin path' )
+						throw new ContainerError( 'could not get the site PHP bin path' )
 					}
 				}
 
@@ -106,7 +106,7 @@ module.exports = function () {
 		restartPhpService() {
 			let sitePhpVersion = this.getSitePhpVersion()
 			if ( ! this.restartCommandMap[this.site.webServer][sitePhpVersion] ) {
-				throw new Error( `The ${this.site.webServer} and PHP ${sitePhpVersion} configuration is not supported` )
+				throw new ContainerError( `The ${this.site.webServer} and PHP ${sitePhpVersion} configuration is not supported` )
 			}
 			let restartCommand = this.restartCommandMap[this.site.webServer][sitePhpVersion]
 			this.exec( restartCommand )
