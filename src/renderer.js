@@ -30,15 +30,6 @@ module.exports = function ( context ) {
 				},
 			} )
 
-		menu.push(
-			{
-				label: 'PHP Control',
-				enabled: ! this.context.router.isActive( `/site-info/${site.id}/php-control` ),
-				click: () => {
-					context.events.send( 'goToRoute', `/site-info/${site.id}/php-control` )
-				},
-			} )
-
 		return menu
 	} )
 
