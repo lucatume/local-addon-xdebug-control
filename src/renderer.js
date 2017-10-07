@@ -8,28 +8,47 @@ module.exports = function ( context ) {
 	const remote = context.electron.remote
 	const Router = context.ReactRouter
 
-	// Development Helpers
-//	remote.getCurrentWindow().openDevTools()
-//	window.reload = remote.getCurrentWebContents().reloadIgnoringCache
+	// Open the developer tools pressing `F12`
+	document.addEventListener( 'keydown', function ( e ) {
+		if ( e.which === 123 ) {
+			remote.getCurrentWindow().toggleDevTools()
+		} else if ( e.which === 116 ) {
+			location.reload()
+		}
+	} )
+
+	// register a `reload` function that can be used to reload the Electron application from the Developer Tools
+	window.reload = remote.getCurrentWebContents().reloadIgnoringCache
 
 	hooks.addFilter( 'siteInfoMoreMenu', function ( menu, site ) {
-		menu.push( {
-			label: 'XDebug Control',
-			enabled: ! this.context.router.isActive( `/site-info/${site.id}/xdebug-control` ),
-			click: () => {
-				context.events.send( 'goToRoute', `/site-info/${site.id}/xdebug-control` )
-			},
-		} )
+		menu.push(
+			{
+				label: 'XDebug Control',
+				enabled: ! this.context.router.isActive( `/site-info/${site.id}/xdebug-control` ),
+				click: () => {
+					context.events.send( 'goToRoute', `/site-info/${site.id}/xdebug-control` )
+				},
+			} )
+
+		menu.push(
+			{
+				label: 'PHP Control',
+				enabled: ! this.context.router.isActive( `/site-info/${site.id}/php-control` ),
+				click: () => {
+					context.events.send( 'goToRoute', `/site-info/${site.id}/php-control` )
+				},
+			} )
+
 		return menu
 	} )
 
 	const XDebugControl = require( './Component/XDebugControl' )( context )
 
-	// Add Route
+	// Add the XDebut Control route
 	hooks.addContent( 'routesSiteInfo', () => {
 		return <Router.Route
 			{...context}
-			key="site-info-my-component"
+			key="site-info-xdebug-control"
 			path="/site-info/:siteID/xdebug-control"
 			component={XDebugControl}
 		/>

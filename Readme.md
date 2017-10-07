@@ -25,6 +25,14 @@ Should this not solve the issue take the time to open an issue on this repositor
 3. XDebug Control settings (if any)
 4. Any other information you think might be useful
 
+## How do I debug this?
+You can access the Developer Tools for the Local application using `F12`.  
+If you want to use React specific developer tools the addon packs [the `electron-react-devtools` package](https://github.com/firejune/electron-react-devtools); you can install React tools using:
+```
+require('electron-react-devtools').install()
+```
+from the developer tools console.
+
 ## License
 MIT
 
