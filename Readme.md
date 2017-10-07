@@ -27,17 +27,24 @@ Should this not solve the issue take the time to open an issue on this repositor
 
 ## How do I debug this?
 You can access the Developer Tools for the Local application using `F12`.  
+Access the addon folder and run `npm install` to pull the developer dependencies.  
 If you want to use React specific developer tools the addon packs [the `electron-react-devtools` package](https://github.com/firejune/electron-react-devtools); you can install React tools using:
 ```
 require('electron-react-devtools').install()
 ```
-from the developer tools console.
+from the developer tools console.  
 
 ## License
 MIT
 
 ## Changelog
-1.0.0 - Initial version
+### [Unreleased][unreleased]
+* Added - use `F12` to open the Developer Tools
+* Added - the `electron-react-devtools` package to allow installing React tools in Developer Tools
+
+### 1.0.0 - Initial version
+
+[unreleased]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.0...HEAD 
 
 [0475-0001]: https://local.getflywheel.com/
 [0475-0002]: https://xdebug.org/docs/all_settings
