@@ -39,12 +39,15 @@ MIT
 
 ## Changelog
 ### [Unreleased][unreleased]
+
+### [1.0.1][1.0.1]
 * Added - use `F12` to open the Developer Tools
 * Added - the `electron-react-devtools` package to allow installing React tools in Developer Tools
 
 ### 1.0.0 - Initial version
 
 [unreleased]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.0...HEAD 
+[1.0.1]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.0...1.0.1
 
 [0475-0001]: https://local.getflywheel.com/
 [0475-0002]: https://xdebug.org/docs/all_settings
