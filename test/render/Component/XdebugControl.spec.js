@@ -10,7 +10,6 @@ const context = {
 }
 
 const XDebugControl = require( './../../../src/Component/XDebugControl' )( context )
-const Error = require( './../../../src/Component/Error' )( context )
 const Container = require( './../../../src/System/Container' )()
 const Docker = require( './../../../src/System/Docker' )()
 const DockerError = require( './../../../src/Errors/DockerError' )()
