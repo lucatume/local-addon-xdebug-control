@@ -42,6 +42,9 @@ module.exports = function ( context ) {
 
 		onSettingChange( event ) {
 			const input = event.target
+			this.settings = this.settings.filter( function ( setting ) {
+				return setting.name !== input.name
+			} )
 			this.settings.push( {name: input.name, value: input.value} )
 		}
 
