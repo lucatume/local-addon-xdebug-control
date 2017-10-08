@@ -16,7 +16,7 @@ module.exports = function ( context ) {
 			// called with name and default
 			this.read = props.readWith
 			this.style = props.style
-			this.settings = props.settings || []
+			this.settings = []
 		}
 
 		readSettings() {
@@ -55,7 +55,7 @@ module.exports = function ( context ) {
 					options: field.options,
 					onChange: this.onSettingChange.bind( this ),
 				}
-				this.settings[name] = fieldProps.value
+				this.settings.push( {name: name, value: fieldProps.value} )
 
 				return (
 					<OptionField {...fieldProps} className='FieldList__Field'/>

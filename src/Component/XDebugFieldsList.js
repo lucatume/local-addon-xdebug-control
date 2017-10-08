@@ -27,7 +27,6 @@ module.exports = function ( context ) {
 				writeWith: this.container.setXdebugSetting.bind( this.container ),
 				afterWrite: this.container.restartPhpService.bind( this.container ),
 				readWith: this.container.readXdebugSetting.bind( this.container ),
-				settings: XDebugFields.defaults(),
 			}
 
 			return (
