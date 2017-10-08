@@ -98,4 +98,15 @@ describe( '<FieldList />', function () {
 			shallow( <FieldsList {...this.fieldListProps}/> )
 		} ).to.throw()
 	} )
+
+	it( 'allows setting the initial settings', function () {
+		this.fieldListProps.settings = {
+			'foo': 'bar',
+			'bar': 2389,
+		}
+
+		const wrapper = shallow( <FieldsList {...this.fieldListProps}/> )
+
+		expect( wrapper.instance() ).to.have.property( 'settings', this.fieldListProps.settings )
+	} )
 } )

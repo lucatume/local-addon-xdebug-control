@@ -24,9 +24,10 @@ module.exports = function ( context ) {
 					{title: 'scream', name: 'scream', options: toggleOptions, default: '0'},
 					{title: 'show_local_vars', name: 'show_local_vars', options: toggleOptions, default: '0'},
 				],
-				writeWith: this.container.setXdebugSetting.bind(this.container),
-				afterWrite: this.container.restartPhpService.bind(this.container),
-				readWith: this.container.readXdebugSetting.bind(this.container),
+				writeWith: this.container.setXdebugSetting.bind( this.container ),
+				afterWrite: this.container.restartPhpService.bind( this.container ),
+				readWith: this.container.readXdebugSetting.bind( this.container ),
+				settings: XDebugFields.defaults(),
 			}
 
 			return (
