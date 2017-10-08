@@ -40,13 +40,17 @@ MIT
 ## Changelog
 ### [Unreleased][unreleased]
 
+### [1.0.2][1.0.2]
+* Fixed - the behaviour of the XDebug Control field list to apply unchanged settings too
+
 ### [1.0.1][1.0.1]
 * Added - use `F12` to open the Developer Tools
 * Added - the `electron-react-devtools` package to allow installing React tools in Developer Tools
 
 ### 1.0.0 - Initial version
 
-[unreleased]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.0...HEAD 
+[unreleased]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.2...HEAD 
+[1.0.2]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.0...1.0.1
 
 [0475-0001]: https://local.getflywheel.com/
