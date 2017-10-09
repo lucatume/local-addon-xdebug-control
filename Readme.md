@@ -40,6 +40,9 @@ MIT
 ## Changelog
 ### [Unreleased][unreleased]
 
+### [1.0.3][1.0.3]
+* Fixed - add a loading screen while fetching XDebug information from the container
+
 ### [1.0.2][1.0.2]
 * Fixed - the behaviour of the XDebug Control field list to apply unchanged settings too
 
@@ -49,7 +52,8 @@ MIT
 
 ### 1.0.0 - Initial version
 
-[unreleased]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.2...HEAD 
+[unreleased]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.3...HEAD 
+[1.0.3]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.2...1.0.3
 [1.0.2]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.0...1.0.1
 
