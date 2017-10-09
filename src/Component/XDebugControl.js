@@ -8,6 +8,7 @@ module.exports = function ( context ) {
 	const Button = require( './Button' )( context )
 	const XDebugFieldList = require( './XDebugFieldsList' )( context )
 	const childProcess = require( 'child_process' )
+	const Loading = require('./Loading')(context)
 
 	return class XDebugControl extends Component {
 		constructor( props ) {
@@ -21,6 +22,7 @@ module.exports = function ( context ) {
 				siteStatus: 'off',
 				xdebugStatus: 'n/a yet...',
 				error: null,
+				loading: true
 			}
 
 			this.site = props.sites[props.params.siteID]
@@ -63,6 +65,8 @@ module.exports = function ( context ) {
 				}
 			}
 
+			newState.loading = false
+
 			this.setState( newState )
 		}
 
@@ -77,6 +81,10 @@ module.exports = function ( context ) {
 		}
 
 		render() {
+			if(this.state.loading === true){
+				return (<Loading/>)
+			}
+
 			let statusString = null
 			let error = null
 			let button = null
