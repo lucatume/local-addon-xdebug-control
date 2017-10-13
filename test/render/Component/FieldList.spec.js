@@ -8,8 +8,6 @@ const context = {
 	'jQuery': require( 'jquery' ),
 }
 
-const OptionField = require( './../../../src/Component/OptionField' )( context )
-const Button = require( './../../../src/Component/Button' )( context )
 const FieldsList = require( './../../../src/Component/FieldList' )( context )
 const CommonFields = require( './../../../src/Data/CommonFields' )()
 
@@ -100,13 +98,12 @@ describe( '<FieldList />', function () {
 	} )
 
 	it( 'allows setting the initial settings', function () {
-		this.fieldListProps.settings = {
-			'foo': 'bar',
-			'bar': 2389,
-		}
+		this.fieldListProps.fields = [
+			{title: 'Foo', name: 'foo', options: this.options, default: '0'},
+		]
 
 		const wrapper = shallow( <FieldsList {...this.fieldListProps}/> )
 
-		expect( wrapper.instance() ).to.have.property( 'settings', this.fieldListProps.settings )
+		expect( wrapper.instance() ).to.have.property( 'fields', this.fieldListProps.fields )
 	} )
 } )
