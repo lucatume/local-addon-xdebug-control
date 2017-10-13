@@ -37,6 +37,7 @@ describe( '<XDebugControl/>', function () {
 
 	it( 'renders correctly when machine is not running', function () {
 		this.props.siteStatus = 'not running'
+		this.props.loading = false
 
 		const wrapper = mount( <XDebugControl {...this.props}/> )
 

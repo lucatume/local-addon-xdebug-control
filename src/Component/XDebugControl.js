@@ -19,10 +19,10 @@ module.exports = function ( context ) {
 			super( props )
 
 			this.state = {
-				siteStatus: 'off',
-				xdebugStatus: 'n/a yet...',
-				error: null,
-				loading: true
+				siteStatus: props.siteStatus || 'off',
+				xdebugStatus: props.xdebugStatus || 'n/a yet...',
+				error: props.error || null,
+				loading: props.loading !== undefined ? props.loading : true
 			}
 
 			this.site = props.sites[props.params.siteID]
