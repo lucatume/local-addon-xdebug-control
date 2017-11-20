@@ -7,7 +7,10 @@ module.exports = function ( context ) {
 
 		const options = props.options.map( function ( option ) {
 			return (
-				<Option className='OptionField__Option' value={option.value} key={option.value.toString()} label={option.label}/>
+				<Option className='OptionField__Option'
+				        value={option.value}
+				        key={option.value.toString()}
+				        label={option.label}/>
 			)
 		} )
 

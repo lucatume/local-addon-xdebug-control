@@ -12,11 +12,9 @@ module.exports = function ( context ) {
 
 	return class XDebugControl extends Component {
 		constructor( props ) {
-			if ( undefined === props.environment ) {
-				props.environment = context.environment
-			}
-
 			super( props )
+
+			const environment = props.environment || context.environment
 
 			this.state = {
 				siteStatus: props.siteStatus || 'off',
@@ -26,7 +24,7 @@ module.exports = function ( context ) {
 			}
 
 			this.site = props.sites[props.params.siteID]
-			this.docker = props.docker || new Docker( props.environment, childProcess )
+			this.docker = props.docker || new Docker( environment, childProcess )
 			this.container = props.container || new Container( this.docker, this.site )
 		}
 
@@ -91,7 +89,7 @@ module.exports = function ( context ) {
 			let fieldList = null
 			let isCustom = this.site.environment === 'custom'
 			let xdebugStatus = null
-			let statusStyle = {'text-transform': 'uppercase'}
+			let statusStyle = {'textTransform': 'uppercase'}
 			let isRunning = this.props.siteStatus === 'running'
 
 			if ( this.state.error !== null ) {

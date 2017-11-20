@@ -61,7 +61,7 @@ module.exports = function ( context ) {
 				this.settings.push( {name: name, value: fieldProps.value} )
 
 				return (
-					<OptionField {...fieldProps} className='FieldList__Field'/>
+					<OptionField {...fieldProps} className='FieldList__Field' key={field.title}/>
 				)
 			}, this )
 
