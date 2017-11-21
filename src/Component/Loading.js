@@ -5,7 +5,7 @@ module.exports = function ( context ) {
 
 	return function Loading( props ) {
 		return (
-			<div className="BigLoader">
+			<div className="BigLoader" style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
 				<div className="LoadingIndicator LoadingIndicator--Big">
 					<div className="LoadingIndicator_Bounce1"></div>
 					<div className="LoadingIndicator_Bounce2"></div>
