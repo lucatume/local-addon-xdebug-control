@@ -54,7 +54,7 @@ module.exports = function () {
 				throw new ContainerError( 'exec method should not be invoked with empty command' )
 			}
 
-			const fullCommand = `exec -i ${this.site.container} sh -c "${command}"`
+			const fullCommand = `exec -i ${this.site.container.substring( 0, 12 )} sh -c "${command}"`
 
 			return this.docker.runCommand( fullCommand )
 		}
