@@ -1,35 +1,24 @@
 module.exports = function () {
 	const DockerError = require( './../Errors/DockerError' )()
+	const containerExec = require( 'dockerode-utils' ).containerExec
 
 	return class Docker {
-		constructor( environment, childProcess ) {
-			if ( undefined === environment.dockerPath || undefined === environment.dockerEnv ) {
-				throw new DockerError( 'Docker path and/or env are not set!' )
-			}
-
-			this.dockerPath = environment.dockerPath
-			this.dockerEnv = environment.dockerEnv
-			this.childProcess = childProcess
+		constructor( dockerode ) {
+			this.dockerode = dockerode
 		}
 
-		getDockerPath() {
-			return this.dockerPath.replace( / /g, '\\ ' )
-		}
-
-		runCommand( command ) {
+		runCommand( command, containerUuid ) {
 			if ( command.length === 0 ) {
 				throw new DockerError( 'runCommand method should not be invoked with empty command' )
 			}
 
-			let dockerPath = this.getDockerPath()
-			let fullCommand = `${dockerPath} ${command}`
+			const container = this.dockerode.getContainer( containerUuid )
 
-			try {
-				return this.childProcess.execSync( fullCommand, {env: this.dockerEnv} ).toString().trim()
-			}
-			catch ( e ) {
-				throw new DockerError( e.message )
-			}
+			// @todo store this Redux state
+			const fullCommand = ['sh', '-c', command]
+			return containerExec( container, fullCommand ).then( function ( message ) {
+				console.log( message )
+			} )
 		}
 	}
 }

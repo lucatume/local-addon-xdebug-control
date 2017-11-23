@@ -15,6 +15,7 @@ module.exports = function ( context ) {
 			super( props )
 
 			const environment = props.environment || context.environment
+			const docker = props.docker || context.docker
 
 			this.state = {
 				siteStatus: props.siteStatus || 'off',
@@ -24,7 +25,7 @@ module.exports = function ( context ) {
 			}
 
 			this.site = props.sites[props.params.siteID]
-			this.docker = props.docker || new Docker( environment, childProcess )
+			this.docker = props.docker || new Docker( docker.docker() )
 			this.container = props.container || new Container( this.docker, this.site )
 		}
 

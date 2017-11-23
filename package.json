@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "chai": "^4.1.2",
+    "dockerode-utils": "0.0.7",
     "mocha": "^3.5.3",
     "sinon": "^3.3.0"
   }

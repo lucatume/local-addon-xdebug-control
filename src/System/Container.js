@@ -53,10 +53,7 @@ module.exports = function () {
 			if ( command.length === 0 ) {
 				throw new ContainerError( 'exec method should not be invoked with empty command' )
 			}
-
-			const fullCommand = `exec -i ${this.site.container.substring( 0, 12 )} sh -c "${command}"`
-
-			return this.docker.runCommand( fullCommand )
+			return this.docker.runCommand( command, this.site.container )
 		}
 
 		getSitePhpIniFilePath() {
