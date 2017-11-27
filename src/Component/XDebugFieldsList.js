@@ -8,7 +8,7 @@ module.exports = function ( context ) {
 	return class XDebugFieldsList extends Component {
 		constructor( props ) {
 			super( props )
-			this.container = props.container
+			this.container = props.docker
 			this.style = props.style
 		}
 

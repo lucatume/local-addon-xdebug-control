@@ -7,7 +7,7 @@ const ContainerError = require( './../../../src/Errors/ContainerError' )()
 const sinon = require( './../../../node_modules/sinon' )
 
 describe( 'Container::constructor', function () {
-	it( 'should throw if site.container information is missing', function () {
+	it( 'should throw if site.docker information is missing', function () {
 		const docker = sinon.createStubInstance( Docker )
 
 		expect( function () {
@@ -21,7 +21,7 @@ describe( 'Container::constructor', function () {
 describe( 'Container::exec', function () {
 	before( function () {
 		this.site = {
-			container: 'foo-container',
+			docker: 'foo-docker',
 		}
 	} )
 
@@ -72,7 +72,7 @@ describe( 'Container::exec', function () {
 describe( 'Container::getXdebugStatus', function () {
 	before( function () {
 		this.site = {
-			container: 'foo-container',
+			docker: 'foo-docker',
 		}
 	} )
 

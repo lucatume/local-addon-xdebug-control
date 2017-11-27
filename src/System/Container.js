@@ -2,14 +2,14 @@ module.exports = function () {
 	const ContainerError = require( './../Errors/ContainerError' )()
 
 	return class Container {
-		constructor( docker, site ) {
-			this.docker = docker
-
-			if ( site.container === undefined ) {
-				throw new ContainerError( 'site.container information must be defined' )
+		constructor( docker, containerUUId ) {
+			if ( ! containerUUId ) {
+				throw new ContainerError( 'The site docker UUID is missing' )
 			}
 
-			this.site = site
+			this.containerUUId = containerUUId
+			this.docker = docker
+
 			this.sitePhpBin = undefined
 			this.sitePhpIniFile = undefined
 			this.sitePhpVersion = undefined
@@ -49,11 +49,12 @@ module.exports = function () {
 			return this.sitePhpVersion
 		}
 
-		exec( command ) {
+		exec( command, updatingProp ) {
 			if ( command.length === 0 ) {
 				throw new ContainerError( 'exec method should not be invoked with empty command' )
 			}
-			return this.docker.runCommand( command, this.site.container )
+
+			return this.docker.runCommand( command, this.containerUUId, updatingProp )
 		}
 
 		getSitePhpIniFilePath() {
@@ -106,14 +107,14 @@ module.exports = function () {
 				throw new ContainerError( `The ${this.site.webServer} and PHP ${sitePhpVersion} configuration is not supported` )
 			}
 			const restartCommand = this.restartCommandMap[this.site.webServer][sitePhpVersion]
-			this.exec( restartCommand )
+			this.exec( restartCommand, 'xdebugStatus' )
 		}
 
 		getXdebugStatus() {
 			// create the local-phpinfo.php file if it doesn't exist
 			this.exec( `if [ ! -f /app/public/local-phpinfo.php ]; then echo '<?php phpinfo();' > /app/public/local-phpinfo.php; fi` )
 
-			return this.exec( `if wget -qO- localhost/local-phpinfo.php | grep -q Xdebug; then echo 'active'; else echo 'inactive'; fi` )
+			this.exec( `if wget -qO- localhost/local-phpinfo.php | grep -q Xdebug; then echo 'active'; else echo 'inactive'; fi`, 'xdebugStatus' )
 		}
 
 		activateXdebug() {

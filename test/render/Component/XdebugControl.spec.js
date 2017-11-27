@@ -24,7 +24,7 @@ describe( '<XDebugControl/>', function () {
 			sites: {
 				foo: {
 					environment: 'custom',
-					container: '123344',
+					docker: '123344',
 				},
 			},
 			environment: {
@@ -68,7 +68,7 @@ describe( '<XDebugControl/>', function () {
 			return new DockerError( 'something happened!' )
 		} )
 		this.props.docker = docker
-		this.props.container = container
+		this.props.docker = container
 
 		const wrapper = shallow( <XDebugControl {...this.props}/> )
 		wrapper.instance().componentWillReceiveProps( this.props )
@@ -84,7 +84,7 @@ describe( '<XDebugControl/>', function () {
 			return new ContainerError( 'something happened!' )
 		} )
 		this.props.docker = docker
-		this.props.container = container
+		this.props.docker = container
 
 		const wrapper = shallow( <XDebugControl {...this.props}/> )
 		wrapper.instance().componentWillReceiveProps( this.props )
