@@ -7,13 +7,14 @@ module.exports = function ( context, store ) {
 	const XDebugControlContainer = require( './XDebugControlContainer' )( context )
 	const dockerode = context.docker.docker()
 	const docker = new Docker( dockerode, store )
+	const maps = require( './../System/maps' )
 
 	return function XDebugControlProvider( props ) {
-		const container = new Container( docker, props.site.container )
+		const container = new Container( docker, Object.assign( {status: props.siteStatus}, props.site ), maps )
 
 		return (
 			<Provider store={store}>
-				<XDebugControlContainer machine={container}/>
+				<XDebugControlContainer container={container}/>
 			</Provider>
 		)
 	}

@@ -9,8 +9,6 @@ module.exports = function ( context ) {
 
 	require( './utils' )( context )
 
-	// @todo: get a good grasp on initial state here!
-
 	const store = createStore( reducers )
 
 	const XDebugControlProvider = require( './Component/XDebugControlProvider' )( context, store)

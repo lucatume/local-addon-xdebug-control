@@ -2,159 +2,121 @@ module.exports = function () {
 	const ContainerError = require( './../Errors/ContainerError' )()
 
 	return class Container {
-		constructor( docker, containerUUId ) {
-			if ( ! containerUUId ) {
+		constructor( docker, site, maps ) {
+			if ( ! site.container ) {
 				throw new ContainerError( 'The site docker UUID is missing' )
 			}
 
-			this.containerUUId = containerUUId
 			this.docker = docker
-
-			this.sitePhpBin = undefined
-			this.sitePhpIniFile = undefined
-			this.sitePhpVersion = undefined
-			this.restartCommandMap = {
-				'apache': {
-					'5.2.4': `service apache2 restart`,
-					'5.2.17': `service apache2 restart`,
-					'5.3.29': `service php-5.3.29-fpm restart`,
-					'5.4.45': `service php-5.4.45-fpm restart`,
-					'5.5.38': `service php-5.5.38-fpm restart`,
-					'5.6.20': `service php-5.6.20-fpm restart`,
-					'7.0.3': `service php-7.0.3-fpm restart`,
-					'7.1.4': `service php-7.1.4-fpm restart`,
-				},
-				'nginx': {
-					'5.2.4': `service php-5.2.4-fpm restart`,
-					'5.2.17': `service php-5.2.17-fpm restart`,
-					'5.3.29': `service php-5.3.29-fpm restart`,
-					'5.4.45': `service php-5.4.45-fpm restart`,
-					'5.5.38': `service php-5.5.38-fpm restart`,
-					'5.6.20': `service php-5.6.20-fpm restart`,
-					'7.0.3': `service php-7.0.3-fpm restart`,
-					'7.1.4': `service php-7.1.4-fpm restart`,
-				},
-			}
+			this.containerUUId = site.container
+			this.phpVersion = site.phpVersion
+			this.webServer = site.webServer
+			this.environment = site.environment
+			this.maps = maps
 		}
 
 		getSitePhpVersion() {
-			if ( this.sitePhpVersion === undefined ) {
-				if ( this.site.environment === 'flywheel' ) {
-					this.sitePhpVersion = this.exec( `find / -name php | grep bin | grep /opt/php | cut -d '/' -f 4` ).trim()
-				} else {
-					this.sitePhpVersion = this.site.phpVersion
-				}
-			}
-
-			return this.sitePhpVersion
-		}
-
-		exec( command, updatingProp ) {
-			if ( command.length === 0 ) {
-				throw new ContainerError( 'exec method should not be invoked with empty command' )
-			}
-
-			return this.docker.runCommand( command, this.containerUUId, updatingProp )
+			return this.phpVersion
 		}
 
 		getSitePhpIniFilePath() {
-			if ( this.sitePhpIniFile === undefined ) {
-				const phpBin = this.getSitePhpBin()
-
-				const iniFilePath = this.exec( `${phpBin} -r 'echo php_ini_loaded_file();'` )
-
-				if ( ! iniFilePath ) {
-					throw new ContainerError( 'cannot determine the path to PHP ini file' )
-				}
-				this.sitePhpIniFile = iniFilePath
-			}
-
-			return this.sitePhpIniFile
+			return this.maps.phpIniFile( this.phpVersion )
 		}
 
 		getSitePhpBin() {
-			if ( this.sitePhpBin === undefined ) {
-				const sitePhpVersion = this.getSitePhpVersion()
-				const siteEnvironment = this.site.environment
-				let phpBin = null
-
-				if ( siteEnvironment === 'flywheel' ) {
-					// default Flywheel installation, the site.phpVersion variable is not accurate
-					phpBin = this.exec( `find / -name php | grep bin | grep /opt/php` ).trim()
-				} else {
-					// custom installation
-					if ( ! sitePhpVersion ) {
-						throw new ContainerError( 'could not find the site PHP version' )
-					}
-
-					try {
-						phpBin = this.exec( `find / -name php | grep bin | grep ${sitePhpVersion}` ).trim()
-					}
-					catch ( e ) {
-						throw new ContainerError( 'could not get the site PHP bin path' )
-					}
-				}
-
-				this.sitePhpBin = phpBin
-			}
-
-			return this.sitePhpBin
+			return this.maps.phpBin( this.phpVersion )
 		}
 
-		restartPhpService() {
-			const sitePhpVersion = this.getSitePhpVersion()
-			if ( ! this.restartCommandMap[this.site.webServer][sitePhpVersion] ) {
-				throw new ContainerError( `The ${this.site.webServer} and PHP ${sitePhpVersion} configuration is not supported` )
+		exec( commands, updatingObject = null, updatingKey = null ) {
+			if ( commands.length === 0 ) {
+				throw new ContainerError( 'exec method should not be invoked with empty command(s)' )
 			}
-			const restartCommand = this.restartCommandMap[this.site.webServer][sitePhpVersion]
-			this.exec( restartCommand, 'xdebugStatus' )
+
+			if ( ! Array.isArray( commands ) ) {
+				commands = [commands]
+			}
+
+			commands = commands.filter( function ( command ) {
+				return command.trim().length > 0
+			} )
+
+			const fullCommand = commands.join( ' && ' )
+
+			return this.docker.runCommand( fullCommand, this.containerUUId, updatingObject, updatingKey )
 		}
 
-		getXdebugStatus() {
+		updateXdebugStatus() {
 			// create the local-phpinfo.php file if it doesn't exist
-			this.exec( `if [ ! -f /app/public/local-phpinfo.php ]; then echo '<?php phpinfo();' > /app/public/local-phpinfo.php; fi` )
+			this.exec( this.getXdebugStatusCommands(), 'xdebug', 'status' )
+		}
 
-			this.exec( `if wget -qO- localhost/local-phpinfo.php | grep -q Xdebug; then echo 'active'; else echo 'inactive'; fi`, 'xdebugStatus' )
+		getXdebugStatusCommands() {
+			return [
+				`if [ ! -f /app/public/local-phpinfo.php ]; then echo '<?php phpinfo();' > /app/public/local-phpinfo.php; fi`,
+				`if wget -qO- localhost/local-phpinfo.php | grep -q Xdebug; then echo 'active'; else echo 'inactive'; fi`,
+			]
 		}
 
 		activateXdebug() {
 			const phpIniFile = this.getSitePhpIniFilePath()
-			this.exec( `sed -i '/^;zend_extension.*xdebug.so/ s/;zend_ex/zend_ex/' ${phpIniFile}` )
-			this.restartPhpService()
+			const commands = [
+				`sed -i '/^;zend_extension.*xdebug.so/ s/;zend_ex/zend_ex/' ${phpIniFile}`,
+				this.getPhpRestartCommand(),
+			].concat( this.getXdebugStatusCommands() )
+
+			this.exec( commands, 'xdebug', 'status' )
 		}
 
 		deactivateXdebug() {
 			const phpIniFile = this.getSitePhpIniFilePath()
-			this.exec( `sed -i '/^zend_extension.*xdebug.so/ s/zend_ex/;zend_ex/' ${phpIniFile}` )
-			this.restartPhpService()
+			const commands = [
+				`sed -i '/^zend_extension.*xdebug.so/ s/zend_ex/;zend_ex/' ${phpIniFile}`,
+				this.getPhpRestartCommand(),
+			].concat( this.getXdebugStatusCommands() )
+
+			this.exec( commands, 'xdebug', 'status' )
 		}
 
-		readXdebugSetting( setting, def ) {
-			const phpIniFile = this.getSitePhpIniFilePath()
-			if ( this.xdebugSettingExists( setting ) ) {
-				const command = `cat ${phpIniFile} | grep ^xdebug.${setting} | cut -d '=' -f 2`
-				const value = this.exec( command ).trim()
-				return value !== '' ? value : def
+		restartPhpService() {
+			this.exec( this.getPhpRestartCommand(), 'xdebug', 'status' )
+		}
+
+		getPhpRestartCommand() {
+			const restartCommand = this.maps.phpRestartCommand( this.phpVersion, this.webServer )
+
+			if ( ! restartCommand ) {
+				throw new ContainerError( `The ${this.webServer} and PHP ${this.sitePhpVersion} configuration is not supported` )
 			}
 
-			return def
+			return restartCommand
 		}
 
-		setXdebugSetting( setting, value ) {
-			const phpIniFile = this.getSitePhpIniFilePath()
-			const settingExists = this.xdebugSettingExists( setting )
-
-			if ( settingExists ) {
-				this.exec( `sed -i '/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/' ${phpIniFile}` )
-			}
-			else {
-				this.exec( `sed -i '/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/' ${phpIniFile}` )
-			}
-		}
-
-		xdebugSettingExists( setting ) {
-			const phpIniFile = this.getSitePhpIniFilePath()
-			return Boolean( this.exec( `if cat ${phpIniFile} | grep -q ^xdebug.${setting}; then echo 'true'; else echo 'false'; fi` ) )
-		}
+		//		readXdebugSetting( setting, def ) {
+		//			const phpIniFile = this.getSitePhpIniFilePath()
+		//			if ( this.xdebugSettingExists( setting ) ) {
+		//				const command = `cat ${phpIniFile} | grep ^xdebug.${setting} | cut -d '=' -f 2`
+		//				const value = this.exec( command ).trim()
+		//				return value !== '' ? value : def
+		//			}
+		//
+		//			return def
+		//		}
+		//
+		//		setXdebugSetting( setting, value ) {
+		//			const phpIniFile = this.getSitePhpIniFilePath()
+		//			const settingExists = this.xdebugSettingExists( setting )
+		//
+		//			if ( settingExists ) {
+		//				this.exec( `sed -i '/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/' ${phpIniFile}` )
+		//			}
+		//			else {
+		//				this.exec( `sed -i '/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/' ${phpIniFile}` )
+		//			}
+		//		}
+		//
+		//		xdebugSettingExists( setting ) {
+		//			const phpIniFile = this.getSitePhpIniFilePath()
+		//			return Boolean( this.exec( `if cat ${phpIniFile} | grep -q ^xdebug.${setting}; then echo 'true'; else echo 'false'; fi` ) )
+		//		}
 	}
 }
