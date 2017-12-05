@@ -1,4 +1,5 @@
 const Actions = require( './../reducers/actions' )
+const outputToArray = require( './../Utils/Output' ).toArray
 
 module.exports = function () {
 	const DockerError = require( './../Errors/DockerError' )()
@@ -10,7 +11,7 @@ module.exports = function () {
 			this.store = store
 		}
 
-		runCommand( command, containerUuid, updatingObject = undefined, updatingKey = undefined ) {
+		runCommand( command, containerUuid, callback ) {
 			if ( command.length === 0 ) {
 				throw new DockerError( 'runCommand method should not be invoked with empty command' )
 			}
@@ -23,13 +24,11 @@ module.exports = function () {
 			this.store.dispatch( {type: Actions.docker.IS_LOADING} )
 
 			containerExec( container, fullCommand ).then( function ( message ) {
-				// return just the last output line
-				const output = message.length > 0 ? message.pop().replace( /[\x00-\x1F\x7F-\x9F]/g, '' ).trim() : ''
-				const action = {type: Actions.docker.GOT_OUTPUT, output: output}
+				const output = message.length > 0 ? outputToArray( message ) : []
+				let action = {type: Actions.docker.GOT_OUTPUT, output: output}
 
-				if ( updatingObject && updatingKey ) {
-					action[updatingObject] = {}
-					action[updatingObject][updatingKey] = output
+				if(callback){
+					action = callback(action,output)
 				}
 
 				that.store.dispatch( action )

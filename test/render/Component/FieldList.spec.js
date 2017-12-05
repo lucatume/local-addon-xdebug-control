@@ -31,7 +31,7 @@ describe( '<FieldList />', function () {
 				{title: 'Three', name: 'three', options: this.options, default: '0'},
 			],
 			readWith: this.backend.read,
-			writeWith: this.backend.write,
+			writeWith: this.backend.applyWith,
 			afterWrite: this.backend.afterWrite,
 
 		}
@@ -53,7 +53,7 @@ describe( '<FieldList />', function () {
 		expect( read.withArgs( 'three', '0' ).calledOnce )
 	} )
 
-	it( 'calls the write callback to update the fields', function () {
+	it( 'calls the applyWith callback to update the fields', function () {
 		const write = sinon.spy( this.backend, 'write' )
 
 		const wrapper = shallow( <FieldsList {...this.fieldListProps}/> )
@@ -65,7 +65,7 @@ describe( '<FieldList />', function () {
 		expect( write.withArgs( 'three', '0' ).calledOnce )
 	} )
 
-	it( 'calls the afterWrite function once after all write operations', function () {
+	it( 'calls the afterWrite function once after all applyWith operations', function () {
 		const afterWrite = sinon.spy( this.backend, 'afterWrite' )
 
 		const wrapper = shallow( <FieldsList {...this.fieldListProps}/> )

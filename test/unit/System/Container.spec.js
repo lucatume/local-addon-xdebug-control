@@ -18,7 +18,7 @@ describe( 'Container::constructor', function () {
 	} )
 } )
 
-describe( 'Container::exec', function () {
+describe( 'Container::execAndSet', function () {
 	before( function () {
 		this.site = {
 			docker: 'foo-docker',
@@ -31,7 +31,7 @@ describe( 'Container::exec', function () {
 
 		const container = new Container( docker, this.site )
 
-		expect( container.exec( 'some-command' ) ).to.be.equal( 'bar' )
+		expect( container.execAndSet( 'some-command' ) ).to.be.equal( 'bar' )
 	} )
 
 	it( 'should throw the error Docker::runCommand throws', function () {
@@ -41,7 +41,7 @@ describe( 'Container::exec', function () {
 		const container = new Container( docker, this.site )
 
 		expect( function () {
-			container.exec( 'foo' )
+			container.execAndSet( 'foo' )
 		} ).to.throw().satisfies( function ( e ) {
 			return e.name === 'DockerError'
 		} )
@@ -53,7 +53,7 @@ describe( 'Container::exec', function () {
 
 		const container = new Container( docker, this.site )
 
-		expect( container.exec( 'foo' ) ).to.be.equal( '' )
+		expect( container.execAndSet( 'foo' ) ).to.be.equal( '' )
 	} )
 
 	it( 'should throw if called with empty command', function () {
@@ -62,7 +62,7 @@ describe( 'Container::exec', function () {
 		const container = new Container( docker, this.site )
 
 		expect( function () {
-			container.exec( '' )
+			container.execAndSet( '' )
 		} ).to.throw().satisfies( function ( e ) {
 			return e.name === 'ContainerError'
 		} )

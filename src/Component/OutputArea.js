@@ -13,9 +13,19 @@ module.exports = function ( context ) {
 			style.alignItems = 'center'
 		}
 
+		let i = 0
+
+		if ( ! Array.isArray( children ) ) {
+			children = [children]
+		}
+
 		return (
 			<div style={style}>
-				{children}
+				{children.map( function ( child ) {
+					return (
+						<div style={{marginTop: '1em', marginBottom: '1em'}} key={`${child.type.name}-${i ++}`}>{child}</div>
+					)
+				} )}
 			</div>
 		)
 	}

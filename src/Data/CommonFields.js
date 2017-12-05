@@ -1,10 +1,8 @@
-module.exports = function () {
-	return class CommonFields {
-		static toggleOptions() {
-			return [
-				{value: '0', label: 'no'},
-				{value: '1', label: 'yes'},
-			]
-		}
-	}
+module.exports = {
+	toggleOptions: function () {
+		return [
+			{value: '0', label: 'no'},
+			{value: '1', label: 'yes'},
+		]
+	},
 }

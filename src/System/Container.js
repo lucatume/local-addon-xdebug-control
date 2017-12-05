@@ -1,5 +1,9 @@
+const silenceCommand = require( './../Utils/Output' ).silence
+const arrayCombine = require( './../Utils/Array' ).arrayCombine
+const ContainerError = require( './../Errors/ContainerError' )()
+const xdebug = require( './../Data/XDebug' )
+
 module.exports = function () {
-	const ContainerError = require( './../Errors/ContainerError' )()
 
 	return class Container {
 		constructor( docker, site, maps ) {
@@ -27,9 +31,26 @@ module.exports = function () {
 			return this.maps.phpBin( this.phpVersion )
 		}
 
-		exec( commands, updatingObject = null, updatingKey = null ) {
+		execAndSet( commands, updatingObject, updatingKeys ) {
+			const callback = function ( action, output ) {
+				if ( updatingObject && updatingKeys ) {
+					if ( output.length === 0 ) {
+						throw new ContainerError(
+							`Trying to update "${updatingObject}" with keys ${JSON.stringify( updatingKeys )} but got empty output.` )
+					}
+
+					updatingKeys = Array.isArray( updatingKeys ) ? updatingKeys : [updatingKeys]
+					action[updatingObject] = arrayCombine( updatingKeys, output )
+				}
+
+				return action
+			}
+			return this.docker.runCommand( this.concatCommands( commands ), this.containerUUId, callback )
+		}
+
+		concatCommands( commands ) {
 			if ( commands.length === 0 ) {
-				throw new ContainerError( 'exec method should not be invoked with empty command(s)' )
+				throw new ContainerError( 'execAndSet method should not be invoked with empty command(s)' )
 			}
 
 			if ( ! Array.isArray( commands ) ) {
@@ -41,14 +62,25 @@ module.exports = function () {
 			} )
 
 			const fullCommand = commands.join( ' && ' )
+			return fullCommand
+		}
 
-			return this.docker.runCommand( fullCommand, this.containerUUId, updatingObject, updatingKey )
+		exec( commands ) {
+			return this.docker.runCommand( this.concatCommands( commands ), this.containerUUId )
+		}
+
+		readXDebugSettingCommand( setting ) {
+			const iniFile = this.maps.phpIniFile( this.phpVersion )
+			return `if cat ${iniFile} | grep -q ^xdebug.${setting}; then cat ${iniFile} | grep ^xdebug.${setting} | cut -d '=' -f 2; else echo 'false'; fi`
 		}
 
 		updateXdebugStatus() {
-			// create the local-phpinfo.php file if it doesn't exist
-			this.exec( this.getXdebugStatusCommands(), 'xdebug', 'status' )
+			const settings = Object.keys( xdebug.settings() )
+			const settingsReadCommands = settings.map( this.readXDebugSettingCommand.bind( this ) )
+			const commands = settingsReadCommands.concat( this.getXdebugStatusCommands() )
+			this.execAndSet( commands, 'xdebug', settings.concat( ['status'] ) )
 		}
+
 
 		getXdebugStatusCommands() {
 			return [
@@ -61,41 +93,45 @@ module.exports = function () {
 			const phpIniFile = this.getSitePhpIniFilePath()
 			const commands = [
 				`sed -i '/^;zend_extension.*xdebug.so/ s/;zend_ex/zend_ex/' ${phpIniFile}`,
-				this.getPhpRestartCommand(),
+				silenceCommand( this.getPhpRestartCommand() ),
 			].concat( this.getXdebugStatusCommands() )
 
-			this.exec( commands, 'xdebug', 'status' )
+			this.execAndSet( commands, 'xdebug', 'status' )
 		}
 
 		deactivateXdebug() {
 			const phpIniFile = this.getSitePhpIniFilePath()
 			const commands = [
 				`sed -i '/^zend_extension.*xdebug.so/ s/zend_ex/;zend_ex/' ${phpIniFile}`,
-				this.getPhpRestartCommand(),
+				silenceCommand( this.getPhpRestartCommand() ),
 			].concat( this.getXdebugStatusCommands() )
 
-			this.exec( commands, 'xdebug', 'status' )
+			this.execAndSet( commands, 'xdebug', 'status' )
 		}
 
 		restartPhpService() {
-			this.exec( this.getPhpRestartCommand(), 'xdebug', 'status' )
+			this.exec( silenceCommand( this.getPhpRestartCommand() ) )
 		}
 
 		getPhpRestartCommand() {
 			const restartCommand = this.maps.phpRestartCommand( this.phpVersion, this.webServer )
 
 			if ( ! restartCommand ) {
-				throw new ContainerError( `The ${this.webServer} and PHP ${this.sitePhpVersion} configuration is not supported` )
+				throw new ContainerError( `The ${this.webServer} and PHP ${this.phpVersion} configuration is not supported` )
 			}
 
 			return restartCommand
+		}
+
+		applyXdebugSettings(settings){
+
 		}
 
 		//		readXdebugSetting( setting, def ) {
 		//			const phpIniFile = this.getSitePhpIniFilePath()
 		//			if ( this.xdebugSettingExists( setting ) ) {
 		//				const command = `cat ${phpIniFile} | grep ^xdebug.${setting} | cut -d '=' -f 2`
-		//				const value = this.exec( command ).trim()
+		//				const value = this.execAndSet( command ).trim()
 		//				return value !== '' ? value : def
 		//			}
 		//
@@ -107,16 +143,16 @@ module.exports = function () {
 		//			const settingExists = this.xdebugSettingExists( setting )
 		//
 		//			if ( settingExists ) {
-		//				this.exec( `sed -i '/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/' ${phpIniFile}` )
+		//				this.execAndSet( `sed -i '/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/' ${phpIniFile}` )
 		//			}
 		//			else {
-		//				this.exec( `sed -i '/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/' ${phpIniFile}` )
+		//				this.execAndSet( `sed -i '/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/' ${phpIniFile}` )
 		//			}
 		//		}
 		//
 		//		xdebugSettingExists( setting ) {
 		//			const phpIniFile = this.getSitePhpIniFilePath()
-		//			return Boolean( this.exec( `if cat ${phpIniFile} | grep -q ^xdebug.${setting}; then echo 'true'; else echo 'false'; fi` ) )
+		//			return Boolean( this.execAndSet( `if cat ${phpIniFile} | grep -q ^xdebug.${setting}; then echo 'true'; else echo 'false'; fi` ) )
 		//		}
 	}
 }
