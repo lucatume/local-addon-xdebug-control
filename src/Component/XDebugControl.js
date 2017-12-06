@@ -6,6 +6,7 @@ module.exports = function ( context ) {
 	const XDebugFieldList = require( './XDebugFieldsList' )( context )
 	const Loading = require( './Loading' )( context )
 	const Title = require( './Title' )( context )
+	const SectionTitle = require( './SectionTitle' )( context )
 	const OutputArea = require( './OutputArea' )( context )
 	const OutputSection = require( './OutputSection' )( context )
 	const StatusString = require( './StatusString' )( context )
@@ -62,6 +63,7 @@ module.exports = function ( context ) {
 							{button}
 						</OutputSection>
 						<OutputSection>
+							<SectionTitle text='XDebug Settings'/>
 							<XDebugFieldList applyWith={container.applyXdebugSettings.bind( container )} status={this.props.xdebug}/>
 						</OutputSection>
 					</OutputArea>
