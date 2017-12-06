@@ -12,6 +12,7 @@ module.exports = function ( context ) {
 				name: field.name || slugify( field.title ),
 				value: field.value,
 				options: field.options,
+				default: field.default,
 			}
 
 			return (
@@ -19,10 +20,27 @@ module.exports = function ( context ) {
 			)
 		} )
 
+		const applyWith = function ( e ) {
+			const target = e.target
+			const selects = [...target.closest( '.FieldList' ).getElementsByTagName( 'select' )]
+
+			if ( ! selects.length ) {
+				return
+			}
+
+			let settings = {}
+
+			selects.forEach( function ( select ) {
+				settings[select.name] = select.value
+			} )
+
+			props.applyWith( settings )
+		}
+
 		return (
 			<ul className='TableList Form FieldList' style={props.style}>
 				{options}
-				<Button text='Apply Settings' className='FieldList__Apply' onClick={props.applyWith} centered/>
+				<Button text='Apply Settings' className='FieldList__Apply' onClick={applyWith} centered/>
 			</ul>
 		)
 	}

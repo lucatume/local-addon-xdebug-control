@@ -3,8 +3,7 @@ module.exports = function ( context ) {
 	const Option = require( './Option' )( context )
 
 	return function OptionField( props ) {
-		// default to the first value if not set
-		const value = props.value || props.options[0].value
+		const value = props.value || props.default || props.options[0].value
 
 		const options = props.options.map( function ( option ) {
 			return (

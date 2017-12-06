@@ -62,7 +62,7 @@ module.exports = function ( context ) {
 							{button}
 						</OutputSection>
 						<OutputSection>
-							<XDebugFieldList applyWith={container.applyXdebugSettings.bind( container )}/>
+							<XDebugFieldList applyWith={container.applyXdebugSettings.bind( container )} status={this.props.xdebug}/>
 						</OutputSection>
 					</OutputArea>
 				)
@@ -71,7 +71,7 @@ module.exports = function ( context ) {
 
 		componentDidMount() {
 			if ( ! this.props.xdebug || ! this.props.xdebug.status ) {
-				this.props.container.updateXdebugStatus()
+				this.props.container.readXdebugStatus()
 			}
 		}
 	}

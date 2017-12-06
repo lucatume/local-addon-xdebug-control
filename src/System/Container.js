@@ -69,20 +69,28 @@ module.exports = function () {
 			return this.docker.runCommand( this.concatCommands( commands ), this.containerUUId )
 		}
 
-		readXDebugSettingCommand( setting ) {
+		xdebugSettingReadCommand( setting ) {
 			const iniFile = this.maps.phpIniFile( this.phpVersion )
 			return `if cat ${iniFile} | grep -q ^xdebug.${setting}; then cat ${iniFile} | grep ^xdebug.${setting} | cut -d '=' -f 2; else echo 'false'; fi`
 		}
 
-		updateXdebugStatus() {
+		xdebugSettingUpdateCommand( setting, value ) {
+			const iniFile = this.maps.phpIniFile( this.phpVersion )
+			const updateIt = `sed -i '/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/' ${iniFile}`
+			const createIt = `sed -i '/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/' ${iniFile}`
+
+			return silenceCommand( `if cat ${iniFile} | grep -q ^xdebug.${setting}; then ${updateIt}; else ${createIt}; fi` )
+		}
+
+		readXdebugStatus() {
 			const settings = Object.keys( xdebug.settings() )
-			const settingsReadCommands = settings.map( this.readXDebugSettingCommand.bind( this ) )
-			const commands = settingsReadCommands.concat( this.getXdebugStatusCommands() )
+			const settingsReadCommands = settings.map( this.xdebugSettingReadCommand.bind( this ) )
+			const commands = settingsReadCommands.concat( this.xdebugStatusReadCommand() )
 			this.execAndSet( commands, 'xdebug', settings.concat( ['status'] ) )
 		}
 
 
-		getXdebugStatusCommands() {
+		xdebugStatusReadCommand() {
 			return [
 				`if [ ! -f /app/public/local-phpinfo.php ]; then echo '<?php phpinfo();' > /app/public/local-phpinfo.php; fi`,
 				`if wget -qO- localhost/local-phpinfo.php | grep -q Xdebug; then echo 'active'; else echo 'inactive'; fi`,
@@ -93,8 +101,8 @@ module.exports = function () {
 			const phpIniFile = this.getSitePhpIniFilePath()
 			const commands = [
 				`sed -i '/^;zend_extension.*xdebug.so/ s/;zend_ex/zend_ex/' ${phpIniFile}`,
-				silenceCommand( this.getPhpRestartCommand() ),
-			].concat( this.getXdebugStatusCommands() )
+				silenceCommand( this.phpRestartCommand() ),
+			].concat( this.xdebugStatusReadCommand() )
 
 			this.execAndSet( commands, 'xdebug', 'status' )
 		}
@@ -103,17 +111,17 @@ module.exports = function () {
 			const phpIniFile = this.getSitePhpIniFilePath()
 			const commands = [
 				`sed -i '/^zend_extension.*xdebug.so/ s/zend_ex/;zend_ex/' ${phpIniFile}`,
-				silenceCommand( this.getPhpRestartCommand() ),
-			].concat( this.getXdebugStatusCommands() )
+				silenceCommand( this.phpRestartCommand() ),
+			].concat( this.xdebugStatusReadCommand() )
 
 			this.execAndSet( commands, 'xdebug', 'status' )
 		}
 
 		restartPhpService() {
-			this.exec( silenceCommand( this.getPhpRestartCommand() ) )
+			this.exec( silenceCommand( this.phpRestartCommand() ) )
 		}
 
-		getPhpRestartCommand() {
+		phpRestartCommand() {
 			const restartCommand = this.maps.phpRestartCommand( this.phpVersion, this.webServer )
 
 			if ( ! restartCommand ) {
@@ -123,36 +131,18 @@ module.exports = function () {
 			return restartCommand
 		}
 
-		applyXdebugSettings(settings){
+		applyXdebugSettings( settings ) {
+			let settingsUpdateCommands = []
 
+			for ( let key in settings ) {
+				settingsUpdateCommands.push( this.xdebugSettingUpdateCommand( key, settings[key] ) )
+			}
+
+			const settingsKeys = Object.keys( settings )
+			const settingsReadCommands = settingsKeys.map( this.xdebugSettingReadCommand.bind( this ) )
+
+			const commands = settingsUpdateCommands.concat( settingsReadCommands ).concat( this.xdebugStatusReadCommand() )
+			this.execAndSet( commands, 'xdebug', settingsKeys.concat( ['status'] ) )
 		}
-
-		//		readXdebugSetting( setting, def ) {
-		//			const phpIniFile = this.getSitePhpIniFilePath()
-		//			if ( this.xdebugSettingExists( setting ) ) {
-		//				const command = `cat ${phpIniFile} | grep ^xdebug.${setting} | cut -d '=' -f 2`
-		//				const value = this.execAndSet( command ).trim()
-		//				return value !== '' ? value : def
-		//			}
-		//
-		//			return def
-		//		}
-		//
-		//		setXdebugSetting( setting, value ) {
-		//			const phpIniFile = this.getSitePhpIniFilePath()
-		//			const settingExists = this.xdebugSettingExists( setting )
-		//
-		//			if ( settingExists ) {
-		//				this.execAndSet( `sed -i '/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/' ${phpIniFile}` )
-		//			}
-		//			else {
-		//				this.execAndSet( `sed -i '/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/' ${phpIniFile}` )
-		//			}
-		//		}
-		//
-		//		xdebugSettingExists( setting ) {
-		//			const phpIniFile = this.getSitePhpIniFilePath()
-		//			return Boolean( this.execAndSet( `if cat ${phpIniFile} | grep -q ^xdebug.${setting}; then echo 'true'; else echo 'false'; fi` ) )
-		//		}
 	}
 }
