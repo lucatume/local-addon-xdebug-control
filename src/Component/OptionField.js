@@ -17,7 +17,7 @@ module.exports = function ( context ) {
 		return (
 			<li className="TableListRow OptionField">
 				<strong><span className='OptionField__Title'>{props.title}</span></strong>
-				<div style={{float: 'left'}}>
+				<div style={{display: 'flex'}}>
 					<select name={props.name} id={props.name} className='OptionField__Options' defaultValue={value}>
 						{options}
 					</select>

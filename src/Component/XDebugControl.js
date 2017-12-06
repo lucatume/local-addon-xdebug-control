@@ -63,7 +63,6 @@ module.exports = function ( context ) {
 							{button}
 						</OutputSection>
 						<OutputSection>
-							<SectionTitle text='XDebug Settings'/>
 							<XDebugFieldList applyWith={container.applyXdebugSettings.bind( container )} status={this.props.xdebug}/>
 						</OutputSection>
 					</OutputArea>
