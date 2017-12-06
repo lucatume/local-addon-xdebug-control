@@ -38,11 +38,11 @@ module.exports = function ( context ) {
 		}
 
 		return (
-			<div>
-				<ul className='TableList Form FieldList' style={Object.assign( {maxWidth: '600px', marginBottom: '.5em'}, props.style )}>
+			<div className='FieldListWrapper'>
+				<ul className='TableList Form FieldList' style={Object.assign( {maxWidth: '600px'}, props.style )}>
 					{options}
+					<Button text='Apply Settings' className='FieldList__Apply' onClick={applyWith} centered style={{marginTop: '.5em'}}/>
 				</ul>
-				<Button text='Apply Settings' className='FieldList__Apply' onClick={applyWith} centered/>
 			</div>
 		)
 	}
