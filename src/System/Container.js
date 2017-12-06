@@ -76,8 +76,8 @@ module.exports = function () {
 
 		xdebugSettingUpdateCommand( setting, value ) {
 			const iniFile = this.maps.phpIniFile( this.phpVersion )
-			const updateIt = `sed -i '/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/' ${iniFile}`
-			const createIt = `sed -i '/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/' ${iniFile}`
+			const updateIt = `sed -i "/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/" ${iniFile}`
+			const createIt = `sed -i "/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/" ${iniFile}`
 
 			return silenceCommand( `if cat ${iniFile} | grep -q ^xdebug.${setting}; then ${updateIt}; else ${createIt}; fi` )
 		}
@@ -85,7 +85,10 @@ module.exports = function () {
 		readXdebugStatus() {
 			const settings = Object.keys( xdebug.settings() )
 			const settingsReadCommands = settings.map( this.xdebugSettingReadCommand.bind( this ) )
-			const commands = settingsReadCommands.concat( this.xdebugStatusReadCommand() )
+			// when reading the XDebug status also set the remote_host setting from environment
+			const commands = settingsReadCommands.concat( this.xdebugStatusReadCommand() ).concat( silenceCommand( this.remoteHostSetCommand() ) )
+
+
 			this.execAndSet( commands, 'xdebug', settings.concat( ['status'] ) )
 		}
 
@@ -141,8 +144,18 @@ module.exports = function () {
 			const settingsKeys = Object.keys( settings )
 			const settingsReadCommands = settingsKeys.map( this.xdebugSettingReadCommand.bind( this ) )
 
-			const commands = settingsUpdateCommands.concat( settingsReadCommands ).concat( this.xdebugStatusReadCommand() )
+			const commands = settingsUpdateCommands.concat( settingsReadCommands ).
+			                                        concat( this.xdebugStatusReadCommand() )
+			commands.push( silenceCommand( this.phpRestartCommand() ) )
+
 			this.execAndSet( commands, 'xdebug', settingsKeys.concat( ['status'] ) )
+		}
+
+		remoteHostSetCommand() {
+			const remoteHostVarCommand = `export REMOTE_HOST=$(ifconfig eth1 | grep 'inet addr:' | cut -d: -f2 | awk '{print $1}')`
+			const updateCommand = this.xdebugSettingUpdateCommand( 'remote_host', '$REMOTE_HOST' )
+
+			return `${remoteHostVarCommand} && ${updateCommand}`
 		}
 	}
 }
