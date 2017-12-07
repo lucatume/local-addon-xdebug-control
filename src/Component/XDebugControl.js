@@ -71,12 +71,10 @@ module.exports = function ( context ) {
 		}
 
 		componentDidMount() {
-			const container = this.props.container
-
-			if ( container !== undefined && (
+			if ( this.props.container !== undefined && (
 					! this.props.xdebug || ! this.props.xdebug.status
 				) ) {
-				container.readXdebugStatus()
+				this.props.container.readXdebugStatus()
 			}
 		}
 	}
