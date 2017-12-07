@@ -13,13 +13,13 @@ module.exports = function ( context ) {
 
 	return class XDebugControl extends Component {
 		render() {
-			const container = this.props.container
-
-			if ( this.props.site.loading === true ) {
+			if ( ! this.props.site || this.props.site.loading === undefined | this.props.site.loading === true ) {
 				return (
 					<Loading/>
 				)
 			}
+
+			const container = this.props.container
 
 			if ( this.props.site.hasError ) {
 				return (
@@ -71,8 +71,12 @@ module.exports = function ( context ) {
 		}
 
 		componentDidMount() {
-			if ( ! this.props.xdebug || ! this.props.xdebug.status ) {
-				this.props.container.readXdebugStatus()
+			const container = this.props.container
+
+			if ( container !== undefined && (
+					! this.props.xdebug || ! this.props.xdebug.status
+				) ) {
+				container.readXdebugStatus()
 			}
 		}
 	}
