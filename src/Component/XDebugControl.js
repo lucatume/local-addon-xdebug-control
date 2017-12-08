@@ -1,9 +1,8 @@
 module.exports = function ( context ) {
 	const React = context.React
 	const Component = context.React.Component
-	const PT = require( 'prop-types' )
-	const assertPropTypes = require( 'check-prop-types' ).assertPropTypes
-
+	const PropTypes = require( 'prop-types' )
+	const checkProps = require( './../functions/proptypes' ).checkProps
 	const Error = require( './Error' )( context )
 	const Button = require( './Button' )( context )
 	const XDebugFieldList = require( './XDebugFieldsList' )( context )
@@ -16,7 +15,23 @@ module.exports = function ( context ) {
 
 	return class XDebugControl extends Component {
 		render() {
-			if ( ! this.checkProps( this.props ) || this.props.site.loading === true ) {
+			const propTypes = {
+				site: PropTypes.shape( {
+					loading: PropTypes.bool.isRequired,
+					prevOutput: PropTypes.array,
+					prevError: PropTypes.string,
+					hasOutput: PropTypes.bool,
+					output: PropTypes.array,
+					hasError: PropTypes.bool.isRequired,
+					error: PropTypes.string,
+				} ),
+				xdebug: PropTypes.shape( {
+					status: PropTypes.string,
+				} ),
+				container: PropTypes.func.isRequired,
+			}
+
+			if ( ! checkProps( this.props, propTypes ) || this.props.site.loading === true ) {
 				return (
 					<Loading/>
 				)
@@ -73,39 +88,8 @@ module.exports = function ( context ) {
 			}
 		}
 
-		maybeUpdateStatus() {
-			if ( ! this.props.xdebug || ! this.props.xdebug.status ) {
-				this.props.container().readXdebugStatus()
-			}
-		}
-
 		componentDidMount() {
-			this.maybeUpdateStatus()
-		}
-
-
-		checkProps( props ) {
-			const propTypes = {
-				site: PT.shape( {
-					prevOutput: PT.array,
-					prevError: PT.string,
-					hasOutput: PT.bool,
-					output: PT.array,
-					hasError: PT.bool.isRequired,
-					error: PT.string,
-					loading: PT.bool.isRequired,
-				} ),
-				container: PT.func.isRequired,
-			}
-
-			try {
-				assertPropTypes( propTypes, props )
-			}
-			catch ( e ) {
-				return false
-			}
-
-			return true
+			this.props.container().readXdebugStatus()
 		}
 	}
 }
