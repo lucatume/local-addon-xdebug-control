@@ -82,16 +82,18 @@ module.exports = function () {
 			return silenceCommand( `if cat ${iniFile} | grep -q ^xdebug.${setting}; then ${updateIt}; else ${createIt}; fi` )
 		}
 
-		readXdebugStatus() {
+		readXdebugStatusAndSettings() {
+			const commands = this.xdebugReadStatusAndSettingsCommands()
 			const settings = Object.keys( xdebug.settings() )
-			const settingsReadCommands = settings.map( this.xdebugSettingReadCommand.bind( this ) )
-			// when reading the XDebug status also set the remote_host setting from environment
-			const commands = settingsReadCommands.concat( this.xdebugStatusReadCommand() ).concat( silenceCommand( this.remoteHostSetCommand() ) )
-
-
 			this.execAndSet( commands, 'xdebug', settings.concat( ['status'] ) )
 		}
 
+		xdebugReadStatusAndSettingsCommands() {
+			const settings = Object.keys( xdebug.settings() )
+			const settingsReadCommands = settings.map( this.xdebugSettingReadCommand.bind( this ) )
+			// when reading the XDebug status also set the remote_host setting from environment
+			return settingsReadCommands.concat( this.xdebugStatusReadCommand() ).concat( silenceCommand( this.remoteHostSetCommand() ) )
+		}
 
 		xdebugStatusReadCommand() {
 			return [
@@ -105,9 +107,10 @@ module.exports = function () {
 			const commands = [
 				`sed -i '/^;zend_extension.*xdebug.so/ s/;zend_ex/zend_ex/' ${phpIniFile}`,
 				silenceCommand( this.phpRestartCommand() ),
-			].concat( this.xdebugStatusReadCommand() )
+			].concat( this.xdebugReadStatusAndSettingsCommands() )
 
-			this.execAndSet( commands, 'xdebug', 'status' )
+			const settings = Object.keys( xdebug.settings() )
+			this.execAndSet( commands, 'xdebug', settings.concat( ['status'] ) )
 		}
 
 		deactivateXdebug() {
@@ -115,9 +118,10 @@ module.exports = function () {
 			const commands = [
 				`sed -i '/^zend_extension.*xdebug.so/ s/zend_ex/;zend_ex/' ${phpIniFile}`,
 				silenceCommand( this.phpRestartCommand() ),
-			].concat( this.xdebugStatusReadCommand() )
+			].concat( this.xdebugReadStatusAndSettingsCommands() )
 
-			this.execAndSet( commands, 'xdebug', 'status' )
+			const settings = Object.keys( xdebug.settings() )
+			this.execAndSet( commands, 'xdebug', settings.concat( ['status'] ) )
 		}
 
 		restartPhpService() {

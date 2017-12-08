@@ -89,7 +89,9 @@ module.exports = function ( context ) {
 		}
 
 		componentDidMount() {
-			this.props.container().readXdebugStatus()
+			if ( this.props.container ) {
+				this.props.container().readXdebugStatusAndSettings()
+			}
 		}
 	}
 }

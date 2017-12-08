@@ -11,6 +11,10 @@ const XDebugControl = require( './../../../src/Component/XDebugControl' )( conte
 describe( '<XDebugControl/>', function () {
 	const defaultProps = {
 		container: function () {
+			return {
+				readXdebugStatus: function () {
+				},
+			}
 		},
 	}
 
@@ -58,6 +62,7 @@ describe( '<XDebugControl/>', function () {
 
 		expect( tree ).toMatchSnapshot()
 	} )
+
 	it( 'renders correctly when the container prop is undefined', function () {
 		const props = {site: {loading: false}}
 
