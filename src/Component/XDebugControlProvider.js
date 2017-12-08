@@ -10,7 +10,9 @@ module.exports = function ( context, store ) {
 	const maps = require( './../System/maps' )
 
 	return function XDebugControlProvider( props ) {
-		const container = new Container( docker, Object.assign( {status: props.siteStatus}, props.site ), maps )
+		const container = function () {
+			return new Container( docker, Object.assign( {status: props.siteStatus}, props.site ), maps )
+		}
 
 		return (
 			<Provider store={store}>

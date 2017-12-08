@@ -1,6 +1,9 @@
 module.exports = function ( context ) {
 	const React = context.React
 	const Component = context.React.Component
+	const PT = require( 'prop-types' )
+	const assertPropTypes = require( 'check-prop-types' ).assertPropTypes
+
 	const Error = require( './Error' )( context )
 	const Button = require( './Button' )( context )
 	const XDebugFieldList = require( './XDebugFieldsList' )( context )
@@ -13,19 +16,19 @@ module.exports = function ( context ) {
 
 	return class XDebugControl extends Component {
 		render() {
-			if ( ! this.props.site || this.props.site.loading === undefined | this.props.site.loading === true ) {
+			if ( ! this.checkProps( this.props ) || this.props.site.loading === true ) {
 				return (
 					<Loading/>
 				)
 			}
 
-			const container = this.props.container
-
 			if ( this.props.site.hasError ) {
 				return (
-					<Error source='Site Container' message={site.error}/>
+					<Error source='Site Container' message={this.props.site.error}/>
 				)
 			}
+
+			const container = this.props.container()
 
 			if ( container.environment !== 'custom' ) {
 				return (
@@ -70,12 +73,39 @@ module.exports = function ( context ) {
 			}
 		}
 
-		componentDidMount() {
-			if ( this.props.container !== undefined && (
-					! this.props.xdebug || ! this.props.xdebug.status
-				) ) {
-				this.props.container.readXdebugStatus()
+		maybeUpdateStatus() {
+			if ( ! this.props.xdebug || ! this.props.xdebug.status ) {
+				this.props.container().readXdebugStatus()
 			}
+		}
+
+		componentDidMount() {
+			this.maybeUpdateStatus()
+		}
+
+
+		checkProps( props ) {
+			const propTypes = {
+				site: PT.shape( {
+					prevOutput: PT.array,
+					prevError: PT.string,
+					hasOutput: PT.bool,
+					output: PT.array,
+					hasError: PT.bool.isRequired,
+					error: PT.string,
+					loading: PT.bool.isRequired,
+				} ),
+				container: PT.func.isRequired,
+			}
+
+			try {
+				assertPropTypes( propTypes, props )
+			}
+			catch ( e ) {
+				return false
+			}
+
+			return true
 		}
 	}
 }
