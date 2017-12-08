@@ -22,7 +22,7 @@ module.exports = function ( context ) {
 					prevError: PropTypes.string,
 					hasOutput: PropTypes.bool,
 					output: PropTypes.array,
-					hasError: PropTypes.bool.isRequired,
+					hasError: PropTypes.bool,
 					error: PropTypes.string,
 				} ),
 				xdebug: PropTypes.shape( {
@@ -60,7 +60,7 @@ module.exports = function ( context ) {
 					return (
 						<OutputArea>
 							<Title text='XDebug Controls'/>
-							<StatusString text='XDeubug status is undefined'/>
+							<StatusString text='XDebug status is undefined'/>
 						</OutputArea>
 					)
 				}

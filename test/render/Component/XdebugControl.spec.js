@@ -12,7 +12,7 @@ describe( '<XDebugControl/>', function () {
 	const defaultProps = {
 		container: function () {
 			return {
-				readXdebugStatus: function () {
+				readXdebugStatusAndSettings: function () {
 				},
 			}
 		},
@@ -65,6 +65,132 @@ describe( '<XDebugControl/>', function () {
 
 	it( 'renders correctly when the container prop is undefined', function () {
 		const props = {site: {loading: false}}
+
+		const component = renderer.create( <XDebugControl {...props}/> )
+		let tree = component.toJSON()
+
+		expect( tree ).toMatchSnapshot()
+	} )
+
+	it( 'renders correctly when environment is not custom', function () {
+		const props = {
+			site: {
+				loading: false,
+			},
+			container: function () {
+				return {
+					readXdebugStatusAndSettings: function () {
+					},
+					environment: 'not-custom',
+				}
+			},
+		}
+
+
+		const component = renderer.create( <XDebugControl {...props}/> )
+		let tree = component.toJSON()
+
+		expect( tree ).toMatchSnapshot()
+	} )
+
+	it( 'renders correctly when environment is custom but XDebug status is undefined', function () {
+		const props = {
+			site: {
+				loading: false,
+			},
+			container: function () {
+				return {
+					readXdebugStatusAndSettings: function () {
+					},
+					environment: 'custom',
+				}
+			},
+		}
+
+
+		const component = renderer.create( <XDebugControl {...props}/> )
+		let tree = component.toJSON()
+
+		expect( tree ).toMatchSnapshot()
+	} )
+
+	it( 'renders correctly when environment is custom and XDebug is active', function () {
+		const props = {
+			site: {
+				loading: false,
+			},
+			container: function () {
+				return {
+					deactivateXdebug: function () {
+					},
+					activateXdebug: function () {
+					},
+					applyXdebugSettings: function () {
+					},
+					readXdebugStatusAndSettings: function () {
+					},
+					environment: 'custom',
+				}
+			},
+			xdebug: {
+				status: 'active',
+			},
+		}
+
+
+		const component = renderer.create( <XDebugControl {...props}/> )
+		let tree = component.toJSON()
+
+		expect( tree ).toMatchSnapshot()
+	} )
+
+	it( 'renders correctly when environment is custom and XDebug is inactive', function () {
+		const props = {
+			site: {
+				loading: false,
+			},
+			container: function () {
+				return {
+					deactivateXdebug: function () {
+					},
+					activateXdebug: function () {
+					},
+					applyXdebugSettings: function () {
+					},
+					readXdebugStatusAndSettings: function () {
+					},
+					environment: 'custom',
+				}
+			},
+			xdebug: {
+				status: 'inactive',
+			},
+		}
+
+
+		const component = renderer.create( <XDebugControl {...props}/> )
+		let tree = component.toJSON()
+
+		expect( tree ).toMatchSnapshot()
+	} )
+
+	it( 'renders correctly when environment is custom and XDebug status is weird', function () {
+		const props = {
+			site: {
+				loading: false,
+			},
+			container: function () {
+				return {
+					readXdebugStatusAndSettings: function () {
+					},
+					environment: 'custom',
+				}
+			},
+			xdebug: {
+				status: 'foo',
+			},
+		}
+
 
 		const component = renderer.create( <XDebugControl {...props}/> )
 		let tree = component.toJSON()

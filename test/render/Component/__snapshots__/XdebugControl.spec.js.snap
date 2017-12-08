@@ -27,6 +27,915 @@ exports[`<XDebugControl/> renders correctly provided no props 1`] = `
 </div>
 `;
 
+exports[`<XDebugControl/> renders correctly when environment is custom and XDebug is active 1`] = `
+<div
+  style={
+    Object {
+      "alignContent": "center",
+      "alignItems": "center",
+      "display": "flex",
+      "flex": 1,
+      "flexDirection": "column",
+      "height": "100%",
+      "padding": "0 5%",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "marginBottom": "1em",
+        "marginTop": "1em",
+      }
+    }
+  >
+    <h3
+      style={
+        Object {
+          "textAlign": "center",
+        }
+      }
+    >
+      XDebug Controls
+    </h3>
+  </div>
+  <div
+    style={
+      Object {
+        "marginBottom": "1em",
+        "marginTop": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flex": 1,
+          "flexDirection": "column",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "marginBottom": ".5em",
+            "textAlign": "center",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "color": "#1FC37D",
+              "fontSize": "125%",
+              "textTransform": "uppercase",
+            }
+          }
+        >
+          XDeubug is active
+        </span>
+      </div>
+      <div
+        style={
+          Object {
+            "marginBottom": ".5em",
+            "textAlign": "center",
+          }
+        }
+      >
+        <button
+          className="--GrayOutline --Small Button"
+          onClick={[Function]}
+          style={Object {}}
+        >
+          Deactivate XDebug
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "marginBottom": "1em",
+        "marginTop": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flex": 1,
+          "flexDirection": "column",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "marginBottom": ".5em",
+            "textAlign": "center",
+          }
+        }
+      >
+        <div
+          className="FieldListWrapper"
+        >
+          <ul
+            className="TableList Form FieldList"
+            style={
+              Object {
+                "maxWidth": "600px",
+              }
+            }
+          >
+            <li
+              className="TableListRow OptionField"
+            >
+              <strong>
+                <span
+                  className="OptionField__Title"
+                >
+                  remote_enable
+                </span>
+              </strong>
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                  }
+                }
+              >
+                <select
+                  className="OptionField__Options"
+                  defaultValue="0"
+                  id="remote_enable"
+                  name="remote_enable"
+                >
+                  <option
+                    value="0"
+                  >
+                    no
+                  </option>
+                  <option
+                    value="1"
+                  >
+                    yes
+                  </option>
+                </select>
+              </div>
+            </li>
+            <li
+              className="TableListRow OptionField"
+            >
+              <strong>
+                <span
+                  className="OptionField__Title"
+                >
+                  remote_port
+                </span>
+              </strong>
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                  }
+                }
+              >
+                <select
+                  className="OptionField__Options"
+                  defaultValue="9000"
+                  id="remote_port"
+                  name="remote_port"
+                >
+                  <option
+                    value="9000"
+                  >
+                    9000
+                  </option>
+                  <option
+                    value="9001"
+                  >
+                    9001
+                  </option>
+                  <option
+                    value="9002"
+                  >
+                    9002
+                  </option>
+                  <option
+                    value="9003"
+                  >
+                    9003
+                  </option>
+                  <option
+                    value="9004"
+                  >
+                    9004
+                  </option>
+                  <option
+                    value="9005"
+                  >
+                    9005
+                  </option>
+                </select>
+              </div>
+            </li>
+            <li
+              className="TableListRow OptionField"
+            >
+              <strong>
+                <span
+                  className="OptionField__Title"
+                >
+                  remote_autostart
+                </span>
+              </strong>
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                  }
+                }
+              >
+                <select
+                  className="OptionField__Options"
+                  defaultValue="0"
+                  id="remote_autostart"
+                  name="remote_autostart"
+                >
+                  <option
+                    value="0"
+                  >
+                    no
+                  </option>
+                  <option
+                    value="1"
+                  >
+                    yes
+                  </option>
+                </select>
+              </div>
+            </li>
+            <li
+              className="TableListRow OptionField"
+            >
+              <strong>
+                <span
+                  className="OptionField__Title"
+                >
+                  remote_connect_back
+                </span>
+              </strong>
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                  }
+                }
+              >
+                <select
+                  className="OptionField__Options"
+                  defaultValue="0"
+                  id="remote_connect_back"
+                  name="remote_connect_back"
+                >
+                  <option
+                    value="0"
+                  >
+                    no
+                  </option>
+                  <option
+                    value="1"
+                  >
+                    yes
+                  </option>
+                </select>
+              </div>
+            </li>
+            <li
+              className="TableListRow OptionField"
+            >
+              <strong>
+                <span
+                  className="OptionField__Title"
+                >
+                  scream
+                </span>
+              </strong>
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                  }
+                }
+              >
+                <select
+                  className="OptionField__Options"
+                  defaultValue="0"
+                  id="scream"
+                  name="scream"
+                >
+                  <option
+                    value="0"
+                  >
+                    no
+                  </option>
+                  <option
+                    value="1"
+                  >
+                    yes
+                  </option>
+                </select>
+              </div>
+            </li>
+            <li
+              className="TableListRow OptionField"
+            >
+              <strong>
+                <span
+                  className="OptionField__Title"
+                >
+                  show_local_vars
+                </span>
+              </strong>
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                  }
+                }
+              >
+                <select
+                  className="OptionField__Options"
+                  defaultValue="0"
+                  id="show_local_vars"
+                  name="show_local_vars"
+                >
+                  <option
+                    value="0"
+                  >
+                    no
+                  </option>
+                  <option
+                    value="1"
+                  >
+                    yes
+                  </option>
+                </select>
+              </div>
+            </li>
+            <button
+              className="--GrayOutline --Small Button"
+              onClick={[Function]}
+              style={
+                Object {
+                  "display": "block",
+                  "marginBottom": "0",
+                  "marginLeft": "auto",
+                  "marginRight": "auto",
+                  "marginTop": ".5em",
+                }
+              }
+            >
+              Apply Settings
+            </button>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<XDebugControl/> renders correctly when environment is custom and XDebug is inactive 1`] = `
+<div
+  style={
+    Object {
+      "alignContent": "center",
+      "alignItems": "center",
+      "display": "flex",
+      "flex": 1,
+      "flexDirection": "column",
+      "height": "100%",
+      "padding": "0 5%",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "marginBottom": "1em",
+        "marginTop": "1em",
+      }
+    }
+  >
+    <h3
+      style={
+        Object {
+          "textAlign": "center",
+        }
+      }
+    >
+      XDebug Controls
+    </h3>
+  </div>
+  <div
+    style={
+      Object {
+        "marginBottom": "1em",
+        "marginTop": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flex": 1,
+          "flexDirection": "column",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "marginBottom": ".5em",
+            "textAlign": "center",
+          }
+        }
+      >
+        <span
+          style={
+            Object {
+              "color": "#FF0000",
+              "fontSize": "125%",
+              "textTransform": "uppercase",
+            }
+          }
+        >
+          XDeubug is inactive
+        </span>
+      </div>
+      <div
+        style={
+          Object {
+            "marginBottom": ".5em",
+            "textAlign": "center",
+          }
+        }
+      >
+        <button
+          className="--GrayOutline --Small Button"
+          onClick={[Function]}
+          style={Object {}}
+        >
+          Activate XDebug
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "marginBottom": "1em",
+        "marginTop": "1em",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "flex": 1,
+          "flexDirection": "column",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "marginBottom": ".5em",
+            "textAlign": "center",
+          }
+        }
+      >
+        <div
+          className="FieldListWrapper"
+        >
+          <ul
+            className="TableList Form FieldList"
+            style={
+              Object {
+                "maxWidth": "600px",
+              }
+            }
+          >
+            <li
+              className="TableListRow OptionField"
+            >
+              <strong>
+                <span
+                  className="OptionField__Title"
+                >
+                  remote_enable
+                </span>
+              </strong>
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                  }
+                }
+              >
+                <select
+                  className="OptionField__Options"
+                  defaultValue="0"
+                  id="remote_enable"
+                  name="remote_enable"
+                >
+                  <option
+                    value="0"
+                  >
+                    no
+                  </option>
+                  <option
+                    value="1"
+                  >
+                    yes
+                  </option>
+                </select>
+              </div>
+            </li>
+            <li
+              className="TableListRow OptionField"
+            >
+              <strong>
+                <span
+                  className="OptionField__Title"
+                >
+                  remote_port
+                </span>
+              </strong>
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                  }
+                }
+              >
+                <select
+                  className="OptionField__Options"
+                  defaultValue="9000"
+                  id="remote_port"
+                  name="remote_port"
+                >
+                  <option
+                    value="9000"
+                  >
+                    9000
+                  </option>
+                  <option
+                    value="9001"
+                  >
+                    9001
+                  </option>
+                  <option
+                    value="9002"
+                  >
+                    9002
+                  </option>
+                  <option
+                    value="9003"
+                  >
+                    9003
+                  </option>
+                  <option
+                    value="9004"
+                  >
+                    9004
+                  </option>
+                  <option
+                    value="9005"
+                  >
+                    9005
+                  </option>
+                </select>
+              </div>
+            </li>
+            <li
+              className="TableListRow OptionField"
+            >
+              <strong>
+                <span
+                  className="OptionField__Title"
+                >
+                  remote_autostart
+                </span>
+              </strong>
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                  }
+                }
+              >
+                <select
+                  className="OptionField__Options"
+                  defaultValue="0"
+                  id="remote_autostart"
+                  name="remote_autostart"
+                >
+                  <option
+                    value="0"
+                  >
+                    no
+                  </option>
+                  <option
+                    value="1"
+                  >
+                    yes
+                  </option>
+                </select>
+              </div>
+            </li>
+            <li
+              className="TableListRow OptionField"
+            >
+              <strong>
+                <span
+                  className="OptionField__Title"
+                >
+                  remote_connect_back
+                </span>
+              </strong>
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                  }
+                }
+              >
+                <select
+                  className="OptionField__Options"
+                  defaultValue="0"
+                  id="remote_connect_back"
+                  name="remote_connect_back"
+                >
+                  <option
+                    value="0"
+                  >
+                    no
+                  </option>
+                  <option
+                    value="1"
+                  >
+                    yes
+                  </option>
+                </select>
+              </div>
+            </li>
+            <li
+              className="TableListRow OptionField"
+            >
+              <strong>
+                <span
+                  className="OptionField__Title"
+                >
+                  scream
+                </span>
+              </strong>
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                  }
+                }
+              >
+                <select
+                  className="OptionField__Options"
+                  defaultValue="0"
+                  id="scream"
+                  name="scream"
+                >
+                  <option
+                    value="0"
+                  >
+                    no
+                  </option>
+                  <option
+                    value="1"
+                  >
+                    yes
+                  </option>
+                </select>
+              </div>
+            </li>
+            <li
+              className="TableListRow OptionField"
+            >
+              <strong>
+                <span
+                  className="OptionField__Title"
+                >
+                  show_local_vars
+                </span>
+              </strong>
+              <div
+                style={
+                  Object {
+                    "display": "flex",
+                  }
+                }
+              >
+                <select
+                  className="OptionField__Options"
+                  defaultValue="0"
+                  id="show_local_vars"
+                  name="show_local_vars"
+                >
+                  <option
+                    value="0"
+                  >
+                    no
+                  </option>
+                  <option
+                    value="1"
+                  >
+                    yes
+                  </option>
+                </select>
+              </div>
+            </li>
+            <button
+              className="--GrayOutline --Small Button"
+              onClick={[Function]}
+              style={
+                Object {
+                  "display": "block",
+                  "marginBottom": "0",
+                  "marginLeft": "auto",
+                  "marginRight": "auto",
+                  "marginTop": ".5em",
+                }
+              }
+            >
+              Apply Settings
+            </button>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<XDebugControl/> renders correctly when environment is custom and XDebug status is weird 1`] = `
+<div
+  style={
+    Object {
+      "alignContent": "center",
+      "alignItems": "center",
+      "display": "flex",
+      "flex": 1,
+      "flexDirection": "column",
+      "height": "100%",
+      "padding": "0 5%",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "marginBottom": "1em",
+        "marginTop": "1em",
+      }
+    }
+  >
+    <h3
+      style={
+        Object {
+          "textAlign": "center",
+        }
+      }
+    >
+      XDebug Controls
+    </h3>
+  </div>
+  <div
+    style={
+      Object {
+        "marginBottom": "1em",
+        "marginTop": "1em",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "color": "#FF0000",
+          "fontSize": "125%",
+          "textTransform": "uppercase",
+        }
+      }
+    >
+      XDebug status is undefined
+    </span>
+  </div>
+</div>
+`;
+
+exports[`<XDebugControl/> renders correctly when environment is custom but XDebug status is undefined 1`] = `
+<div
+  style={
+    Object {
+      "alignContent": "center",
+      "alignItems": "center",
+      "display": "flex",
+      "flex": 1,
+      "flexDirection": "column",
+      "height": "100%",
+      "padding": "0 5%",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "marginBottom": "1em",
+        "marginTop": "1em",
+      }
+    }
+  >
+    <h3
+      style={
+        Object {
+          "textAlign": "center",
+        }
+      }
+    >
+      XDebug Controls
+    </h3>
+  </div>
+  <div
+    style={
+      Object {
+        "marginBottom": "1em",
+        "marginTop": "1em",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "color": "#FF0000",
+          "fontSize": "125%",
+          "textTransform": "uppercase",
+        }
+      }
+    >
+      XDebug status is undefined
+    </span>
+  </div>
+</div>
+`;
+
+exports[`<XDebugControl/> renders correctly when environment is not custom 1`] = `
+<div
+  style={
+    Object {
+      "alignContent": "center",
+      "alignItems": "center",
+      "display": "flex",
+      "flex": 1,
+      "flexDirection": "column",
+      "height": "100%",
+      "padding": "0 5%",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "marginBottom": "1em",
+        "marginTop": "1em",
+      }
+    }
+  >
+    <h3
+      style={
+        Object {
+          "textAlign": "center",
+        }
+      }
+    >
+      Only available in custom installations!
+    </h3>
+  </div>
+</div>
+`;
+
 exports[`<XDebugControl/> renders correctly when the container prop is undefined 1`] = `
 <div
   className="BigLoader"
