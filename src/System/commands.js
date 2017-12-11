@@ -6,17 +6,17 @@ module.exports = {
 		return `${command} >/dev/null 2>&1`
 	},
 	phpErrorLogPath: ( phpVersion ) => {
-		return `/opt/php/${phpVersion}/bin/php -i | grep ^error_log | sed 's/^.*\\s//g'`
+		return [`/opt/php/${phpVersion}/bin/php -i | grep ^error_log | sed 's/^.*\\s//g'`]
 	},
 	phpErrorLogTail: ( phpVersion, lines = 30 ) => {
-		return tail( `$(/opt/php/${phpVersion}/bin/php -i | grep ^error_log | sed 's/^.*\\s//g')`, lines )
+		return [tail( `$(/opt/php/${phpVersion}/bin/php -i | grep ^error_log | sed 's/^.*\\s//g')`, lines )]
 	},
-	remoteHostSetCommand: ( iniFile ) => {
+	xdebugRemoteHostSet: ( iniFile ) => {
 		// the host machine IP address, in respect to the container, is the one assigned to the `eth0` interface
 		const remoteHostVarCommand = `export REMOTE_HOST=$(ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{print $1}')`
 		const updateCommand = xdebugSettingUpdate( iniFile, 'remote_host', '$REMOTE_HOST' )
 
-		return `${remoteHostVarCommand} && ${updateCommand}`
+		return [`${remoteHostVarCommand} && ${updateCommand}`]
 	},
 	xdebugStatusRead: () => {
 		return [
@@ -25,13 +25,13 @@ module.exports = {
 		]
 	},
 	xdebugSettingRead: ( iniFile, setting ) => {
-		return `if cat ${iniFile} | grep -q ^xdebug.${setting}; then cat ${iniFile} | grep ^xdebug.${setting} | cut -d '=' -f 2; else echo 'false'; fi`
+		return [`if cat ${iniFile} | grep -q ^xdebug.${setting}; then cat ${iniFile} | grep ^xdebug.${setting} | cut -d '=' -f 2; else echo 'false'; fi`]
 	},
 	xdebugSettingUpdate: ( iniFile, setting, value ) => {
 		const updateIt = `sed -i "/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/" ${iniFile}`
 		const createIt = `sed -i "/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/" ${iniFile}`
 
-		return silence( `if cat ${iniFile} | grep -q ^xdebug.${setting}; then ${updateIt}; else ${createIt}; fi` )
+		return [silence( `if cat ${iniFile} | grep -q ^xdebug.${setting}; then ${updateIt}; else ${createIt}; fi` )]
 	},
 	xdebugReadStatusAndSettings: ( iniFile, settings ) => {
 		const settingsReadCommands = settings.map( ( setting ) => {
