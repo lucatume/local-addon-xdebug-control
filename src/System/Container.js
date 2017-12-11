@@ -156,7 +156,8 @@ module.exports = function () {
 		}
 
 		remoteHostSetCommand() {
-			const remoteHostVarCommand = `export REMOTE_HOST=$(ifconfig eth1 | grep 'inet addr:' | cut -d: -f2 | awk '{print $1}')`
+			// the host machine IP address, in respect to the container, is the one assigned to the `eth0` interface
+			const remoteHostVarCommand = `export REMOTE_HOST=$(ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{print $1}')`
 			const updateCommand = this.xdebugSettingUpdateCommand( 'remote_host', '$REMOTE_HOST' )
 
 			return `${remoteHostVarCommand} && ${updateCommand}`
