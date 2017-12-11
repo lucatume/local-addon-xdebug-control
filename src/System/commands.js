@@ -9,7 +9,7 @@ module.exports = {
 		return [`/opt/php/${phpVersion}/bin/php -i | grep ^error_log | sed 's/^.*\\s//g'`]
 	},
 	phpErrorLogTail: ( phpVersion, lines = 30 ) => {
-		return [tail( `$(/opt/php/${phpVersion}/bin/php -i | grep ^error_log | sed 's/^.*\\s//g')`, lines )]
+		return [module.exports.tail( `$(/opt/php/${phpVersion}/bin/php -i | grep ^error_log | sed 's/^.*\\s//g')`, lines )]
 	},
 	xdebugRemoteHostSet: ( iniFile ) => {
 		// the host machine IP address, in respect to the container, is the one assigned to the `eth0` interface
@@ -31,13 +31,13 @@ module.exports = {
 		const updateIt = `sed -i "/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/" ${iniFile}`
 		const createIt = `sed -i "/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/" ${iniFile}`
 
-		return [silence( `if cat ${iniFile} | grep -q ^xdebug.${setting}; then ${updateIt}; else ${createIt}; fi` )]
+		return [module.exports.silence( `if cat ${iniFile} | grep -q ^xdebug.${setting}; then ${updateIt}; else ${createIt}; fi` )]
 	},
 	xdebugReadStatusAndSettings: ( iniFile, settings ) => {
 		const settingsReadCommands = settings.map( ( setting ) => {
 			return xdebugSettingRead( iniFile, setting )
 		} )
 		// when reading the XDebug status also set the remote_host setting from environment
-		return settingsReadCommands.concat( xdebugStatusRead ).concat( silence( remoteHostSetCommand( iniFile ) ) )
+		return settingsReadCommands.concat( xdebugStatusRead ).concat( module.exports.silence( remoteHostSetCommand( iniFile ) ) )
 	},
 }
