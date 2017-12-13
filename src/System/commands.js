@@ -13,7 +13,7 @@ module.exports = {
 	},
 	xdebugRemoteHostSet: ( iniFile ) => {
 		// the host machine IP address, in respect to the container, is the one assigned to the `eth0` interface
-		const remoteHostVarCommand = `export REMOTE_HOST=$(ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{print $1}')`
+		const remoteHostVarCommand = `export REMOTE_HOST=$(ip -4 a | grep eth0 | grep inet | sed 's/.*inet\\s//g; s#\\/.*##g')`
 		const updateCommand = xdebugSettingUpdate( iniFile, 'remote_host', '$REMOTE_HOST' )
 
 		return [`${remoteHostVarCommand} && ${updateCommand}`]
