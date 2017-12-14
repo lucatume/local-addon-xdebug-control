@@ -17,6 +17,7 @@ module.exports = function ( context ) {
 		render() {
 			const propTypes = {
 				site: PropTypes.shape( {
+					running: PropTypes.bool.isRequired,
 					loading: PropTypes.bool.isRequired,
 					disconnected: PropTypes.bool,
 					prevOutput: PropTypes.array,
@@ -35,6 +36,14 @@ module.exports = function ( context ) {
 			if ( ! checkProps( this.props, propTypes ) || this.props.site.loading === true ) {
 				return (
 					<Loading/>
+				)
+			}
+
+			if ( ! this.props.running ) {
+				return (
+					<OutputArea>
+						<Title text='Machine is not running'/>
+					</OutputArea>
 				)
 			}
 
@@ -90,7 +99,7 @@ module.exports = function ( context ) {
 		}
 
 		componentDidMount() {
-			if ( this.props.container ) {
+			if ( this.props.running && this.props.container ) {
 				this.props.container().readXdebugStatusAndSettings()
 			}
 		}

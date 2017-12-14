@@ -10,6 +10,7 @@ module.exports = function ( state, action ) {
 		error: '',
 		disconnected: false,
 		loading: true,
+		running: true,
 	}
 
 	if ( ! action ) {
@@ -19,6 +20,8 @@ module.exports = function ( state, action ) {
 	switch ( action.type ) {
 		case actions.docker.NOT_CONNECTED:
 			return Object.assign( {}, defaultState, {disconnected: true} )
+		case actions.docker.HALTED:
+			return Object.assign( {}, defaultState, {disconnected: true, running: false, loading: false} )
 		case actions.docker.IS_LOADING:
 			return {
 				prevOutput: state.output || [],
