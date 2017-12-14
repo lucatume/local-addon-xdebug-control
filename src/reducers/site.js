@@ -1,4 +1,4 @@
-const Actions = require( './../reducers/actions' )
+const actions = require( './../reducers/actions' )
 
 module.exports = function ( state, action ) {
 	const defaultState = {
@@ -8,6 +8,7 @@ module.exports = function ( state, action ) {
 		output: [],
 		hasError: false,
 		error: '',
+		disconnected: false,
 		loading: true,
 	}
 
@@ -16,7 +17,9 @@ module.exports = function ( state, action ) {
 	}
 
 	switch ( action.type ) {
-		case Actions.docker.IS_LOADING:
+		case actions.docker.NOT_CONNECTED:
+			return Object.assign( {}, defaultState, {disconnected: true} )
+		case actions.docker.IS_LOADING:
 			return {
 				prevOutput: state.output || [],
 				prevError: state.error || '',
@@ -26,7 +29,7 @@ module.exports = function ( state, action ) {
 				error: state.error || '',
 				loading: true,
 			}
-		case Actions.docker.GOT_OUTPUT:
+		case actions.docker.GOT_OUTPUT:
 			return {
 				prevOutput: state.output || [],
 				prevError: state.error || '',
@@ -36,7 +39,7 @@ module.exports = function ( state, action ) {
 				error: '',
 				loading: false,
 			}
-		case Actions.docker.GOT_ERROR:
+		case actions.docker.GOT_ERROR:
 			return {
 				prevOutput: state.output || [],
 				prevError: state.error || '',

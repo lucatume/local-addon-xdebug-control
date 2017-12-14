@@ -18,6 +18,7 @@ module.exports = function ( context ) {
 			const propTypes = {
 				site: PropTypes.shape( {
 					loading: PropTypes.bool.isRequired,
+					disconnected: PropTypes.bool,
 					prevOutput: PropTypes.array,
 					prevError: PropTypes.string,
 					hasOutput: PropTypes.bool,

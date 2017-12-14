@@ -4,5 +4,6 @@ module.exports = {
 		IS_LOADING: 'IS_LOADING',
 		GOT_OUTPUT: 'GOT_OUTPUT',
 		GOT_ERROR: 'GOT_ERROR',
+		NOT_CONNECTED: 'NOT_CONNECTED',
 	},
 }
