@@ -31,6 +31,7 @@ module.exports = function ( state, action ) {
 				hasError: false,
 				error: state.error || '',
 				loading: true,
+				running: true,
 			}
 		case actions.docker.GOT_OUTPUT:
 			return {
@@ -41,6 +42,7 @@ module.exports = function ( state, action ) {
 				hasError: false,
 				error: '',
 				loading: false,
+				running: true,
 			}
 		case actions.docker.GOT_ERROR:
 			return {
@@ -51,6 +53,7 @@ module.exports = function ( state, action ) {
 				hasError: true,
 				error: action.error,
 				loading: false,
+				running: true,
 			}
 		default:
 			return defaultState

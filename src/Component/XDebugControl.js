@@ -33,23 +33,17 @@ module.exports = function ( context ) {
 				container: PropTypes.func.isRequired,
 			}
 
-			if ( ! checkProps( this.props, propTypes ) || this.props.site.loading === true ) {
+			if ( ! checkProps( this.props, propTypes ) ) {
 				return (
 					<Loading/>
 				)
 			}
 
-			if ( ! this.props.running ) {
+			if ( ! this.props.site.running ) {
 				return (
 					<OutputArea>
 						<Title text='Machine is not running'/>
 					</OutputArea>
-				)
-			}
-
-			if ( this.props.site.hasError ) {
-				return (
-					<Error source='Site Container' message={this.props.site.error}/>
 				)
 			}
 
@@ -61,47 +55,67 @@ module.exports = function ( context ) {
 						<Title text='Only available in custom installations!'/>
 					</OutputArea>
 				)
-			} else {
-				const xdebugStatus = this.props.xdebug && this.props.xdebug.status
-					? this.props.xdebug.status
-					: undefined
+			}
 
-				if ( ['active', 'inactive'].indexOf( xdebugStatus ) === - 1 ) {
-					return (
-						<OutputArea>
-							<Title text='XDebug Controls'/>
-							<StatusString text='XDebug status is undefined'/>
-						</OutputArea>
-					)
-				}
+			if ( this.props.site.loading === true ) {
+				return (
+					<Loading/>
+				)
+			}
 
-				let button = null
+			if ( this.props.site.hasError ) {
+				return (
+					<Error source='Site Container' message={this.props.site.error}/>
+				)
+			}
 
-				if ( xdebugStatus === 'inactive' ) {
-					button = <Button text="Activate XDebug" onClick={container.activateXdebug.bind( container )}/>
-				} else if ( xdebugStatus === 'active' ) {
-					button = <Button text="Deactivate XDebug" onClick={container.deactivateXdebug.bind( container )}/>
-				}
+			const xdebugStatus = this.props.xdebug && this.props.xdebug.status
+				? this.props.xdebug.status
+				: undefined
 
+			if ( ['active', 'inactive'].indexOf( xdebugStatus ) === - 1 ) {
 				return (
 					<OutputArea>
 						<Title text='XDebug Controls'/>
-						<OutputSection>
-							<StatusString status={xdebugStatus} text={`XDeubug is ${xdebugStatus}`}/>
-							{button}
-						</OutputSection>
-						<OutputSection>
-							<XDebugFieldList applyWith={container.applyXdebugSettings.bind( container )} status={this.props.xdebug}/>
-						</OutputSection>
+						<StatusString text='XDebug status is undefined'/>
 					</OutputArea>
 				)
 			}
+
+			let button = null
+
+			if ( xdebugStatus === 'inactive' ) {
+				button = <Button text="Activate XDebug" onClick={container.activateXdebug.bind( container )}/>
+			} else if ( xdebugStatus === 'active' ) {
+				button = <Button text="Deactivate XDebug" onClick={container.deactivateXdebug.bind( container )}/>
+			}
+
+			return (
+				<OutputArea>
+					<Title text='XDebug Controls'/>
+					<OutputSection>
+						<StatusString status={xdebugStatus} text={`XDeubug is ${xdebugStatus}`}/>
+						{button}
+					</OutputSection>
+					<OutputSection>
+						<XDebugFieldList applyWith={container.applyXdebugSettings.bind( container )} status={this.props.xdebug}/>
+					</OutputSection>
+				</OutputArea>
+			)
 		}
 
 		componentDidMount() {
-			if ( this.props.running && this.props.container ) {
-				this.props.container().readXdebugStatusAndSettings()
+			if ( ! (
+					this.props.site.running && this.props.container
+				) ) {
+				return
 			}
+
+			const container = this.props.container()
+			if ( container.environment !== 'custom' ) {
+				return
+			}
+			container.readXdebugStatusAndSettings()
 		}
 	}
 }
