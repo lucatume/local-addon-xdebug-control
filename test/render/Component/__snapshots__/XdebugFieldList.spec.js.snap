@@ -1,0 +1,268 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<XDebugFieldsList/> renders correctly with props 1`] = `
+<div
+  className="FieldListWrapper"
+>
+  <ul
+    className="TableList Form FieldList"
+    style={
+      Object {
+        "maxWidth": "600px",
+      }
+    }
+  >
+    <li
+      className="TableListRow OptionField"
+    >
+      <strong>
+        <span
+          className="OptionField__Title"
+        >
+          remote_enable
+        </span>
+      </strong>
+      <div
+        style={
+          Object {
+            "display": "flex",
+          }
+        }
+      >
+        <select
+          className="OptionField__Options"
+          defaultValue="foo"
+          id="remote_enable"
+          name="remote_enable"
+        >
+          <option
+            value="0"
+          >
+            no
+          </option>
+          <option
+            value="1"
+          >
+            yes
+          </option>
+        </select>
+      </div>
+    </li>
+    <li
+      className="TableListRow OptionField"
+    >
+      <strong>
+        <span
+          className="OptionField__Title"
+        >
+          remote_port
+        </span>
+      </strong>
+      <div
+        style={
+          Object {
+            "display": "flex",
+          }
+        }
+      >
+        <select
+          className="OptionField__Options"
+          defaultValue="foo"
+          id="remote_port"
+          name="remote_port"
+        >
+          <option
+            value="9000"
+          >
+            9000
+          </option>
+          <option
+            value="9001"
+          >
+            9001
+          </option>
+          <option
+            value="9002"
+          >
+            9002
+          </option>
+          <option
+            value="9003"
+          >
+            9003
+          </option>
+          <option
+            value="9004"
+          >
+            9004
+          </option>
+          <option
+            value="9005"
+          >
+            9005
+          </option>
+        </select>
+      </div>
+    </li>
+    <li
+      className="TableListRow OptionField"
+    >
+      <strong>
+        <span
+          className="OptionField__Title"
+        >
+          remote_autostart
+        </span>
+      </strong>
+      <div
+        style={
+          Object {
+            "display": "flex",
+          }
+        }
+      >
+        <select
+          className="OptionField__Options"
+          defaultValue="foo"
+          id="remote_autostart"
+          name="remote_autostart"
+        >
+          <option
+            value="0"
+          >
+            no
+          </option>
+          <option
+            value="1"
+          >
+            yes
+          </option>
+        </select>
+      </div>
+    </li>
+    <li
+      className="TableListRow OptionField"
+    >
+      <strong>
+        <span
+          className="OptionField__Title"
+        >
+          remote_connect_back
+        </span>
+      </strong>
+      <div
+        style={
+          Object {
+            "display": "flex",
+          }
+        }
+      >
+        <select
+          className="OptionField__Options"
+          defaultValue="foo"
+          id="remote_connect_back"
+          name="remote_connect_back"
+        >
+          <option
+            value="0"
+          >
+            no
+          </option>
+          <option
+            value="1"
+          >
+            yes
+          </option>
+        </select>
+      </div>
+    </li>
+    <li
+      className="TableListRow OptionField"
+    >
+      <strong>
+        <span
+          className="OptionField__Title"
+        >
+          scream
+        </span>
+      </strong>
+      <div
+        style={
+          Object {
+            "display": "flex",
+          }
+        }
+      >
+        <select
+          className="OptionField__Options"
+          defaultValue="foo"
+          id="scream"
+          name="scream"
+        >
+          <option
+            value="0"
+          >
+            no
+          </option>
+          <option
+            value="1"
+          >
+            yes
+          </option>
+        </select>
+      </div>
+    </li>
+    <li
+      className="TableListRow OptionField"
+    >
+      <strong>
+        <span
+          className="OptionField__Title"
+        >
+          show_local_vars
+        </span>
+      </strong>
+      <div
+        style={
+          Object {
+            "display": "flex",
+          }
+        }
+      >
+        <select
+          className="OptionField__Options"
+          defaultValue="foo"
+          id="show_local_vars"
+          name="show_local_vars"
+        >
+          <option
+            value="0"
+          >
+            no
+          </option>
+          <option
+            value="1"
+          >
+            yes
+          </option>
+        </select>
+      </div>
+    </li>
+    <button
+      className="--GrayOutline --Small Button"
+      onClick={[Function]}
+      style={
+        Object {
+          "display": "block",
+          "marginBottom": "0",
+          "marginLeft": "auto",
+          "marginRight": "auto",
+          "marginTop": ".5em",
+        }
+      }
+    >
+      Apply Settings
+    </button>
+  </ul>
+</div>
+`;

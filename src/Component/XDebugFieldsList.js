@@ -1,3 +1,6 @@
+const PropTypes = require( 'prop-types' )
+const assertPropTypes = require( 'check-prop-types' ).assertPropTypes
+
 module.exports = function ( context ) {
 	const React = context.React
 	const Component = context.React.Component
@@ -6,6 +9,20 @@ module.exports = function ( context ) {
 	const CommonFields = require( './../Data/CommonFields' )
 
 	return function XDebugFieldsList( props ) {
+		const propTypes = {
+			status: PropTypes.shape( {
+				remote_enable: PropTypes.string.isRequired,
+				remote_port: PropTypes.string.isRequired,
+				remote_autostart: PropTypes.string.isRequired,
+				remote_connect_back: PropTypes.string.isRequired,
+				scream: PropTypes.string.isRequired,
+				show_local_vars: PropTypes.string.isRequired,
+			} ),
+			applyWith: PropTypes.func.isRequired,
+		}
+
+		assertPropTypes( propTypes, props )
+
 		const toggleOptions = CommonFields.toggleOptions()
 		const status = props.status
 		const fieldListProps = {

@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<StatusString/> renders correctly with inactive status 1`] = `
+<span
+  style={
+    Object {
+      "color": "#FF0000",
+      "fontSize": "125%",
+      "textTransform": "uppercase",
+    }
+  }
+>
+  foo
+</span>
+`;
+
+exports[`<StatusString/> renders correctly with props 1`] = `
+<span
+  style={
+    Object {
+      "color": "#1FC37D",
+      "fontSize": "125%",
+      "textTransform": "uppercase",
+    }
+  }
+>
+  foo
+</span>
+`;
+
+exports[`<StatusString/> renders correctly with random status 1`] = `
+<span
+  style={
+    Object {
+      "color": "#FF0000",
+      "fontSize": "125%",
+      "textTransform": "uppercase",
+    }
+  }
+>
+  foo
+</span>
+`;

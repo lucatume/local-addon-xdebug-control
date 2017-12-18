@@ -1,8 +1,17 @@
+const PropTypes = require( 'prop-types' )
+const assertPropTypes = require( 'check-prop-types' ).assertPropTypes
+
 module.exports = function ( context ) {
 	const React = context.React
 	const Component = context.React.Component
 
 	return function ( {children} ) {
+		const propTypes = {
+			children: PropTypes.arrayOf( PropTypes.element ),
+		}
+
+		assertPropTypes( propTypes, {children} )
+
 		let style = {display: 'flex', flexDirection: 'column', flex: 1}
 		let i = 0
 

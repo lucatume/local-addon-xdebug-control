@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<OutputSection/> renders correctly with props 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+      "flex": 1,
+      "flexDirection": "column",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "marginBottom": ".5em",
+        "textAlign": "center",
+      }
+    }
+  >
+    <p>
+      foo
+    </p>
+  </div>
+  <div
+    style={
+      Object {
+        "marginBottom": ".5em",
+        "textAlign": "center",
+      }
+    }
+  >
+    <p>
+      bar
+    </p>
+  </div>
+  <div
+    style={
+      Object {
+        "marginBottom": ".5em",
+        "textAlign": "center",
+      }
+    }
+  >
+    <p>
+      baz
+    </p>
+  </div>
+</div>
+`;
+
+exports[`<OutputSection/> renders correctly without children 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+      "flex": 1,
+      "flexDirection": "column",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "marginBottom": ".5em",
+        "textAlign": "center",
+      }
+    }
+  >
+    <p>
+      foo
+    </p>
+  </div>
+  <div
+    style={
+      Object {
+        "marginBottom": ".5em",
+        "textAlign": "center",
+      }
+    }
+  >
+    <p>
+      bar
+    </p>
+  </div>
+  <div
+    style={
+      Object {
+        "marginBottom": ".5em",
+        "textAlign": "center",
+      }
+    }
+  >
+    <p>
+      baz
+    </p>
+  </div>
+</div>
+`;

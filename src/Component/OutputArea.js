@@ -1,8 +1,19 @@
+const PropTypes = require( 'prop-types' )
+const assertPropTypes = require( 'check-prop-types' ).assertPropTypes
+
 module.exports = function ( context ) {
 	const React = context.React
 	const Component = context.React.Component
 
 	return function ( {children, centerX, centerY} ) {
+		const propTypes = {
+			children: PropTypes.arrayOf( PropTypes.element ),
+			centerX: PropTypes.bool,
+			centerY: PropTypes.bool,
+		}
+
+		assertPropTypes( propTypes, {children, centerX, centerY} )
+
 		let style = {height: '100%', display: 'flex', flexDirection: 'column', flex: 1, padding: '0 5%'}
 
 		if ( centerX !== false ) {

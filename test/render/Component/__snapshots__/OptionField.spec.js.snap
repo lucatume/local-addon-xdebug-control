@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<OptionField/> renders correctly with props 1`] = `
+<li
+  className="TableListRow OptionField"
+>
+  <strong>
+    <span
+      className="OptionField__Title"
+    >
+      Foo
+    </span>
+  </strong>
+  <div
+    style={
+      Object {
+        "display": "flex",
+      }
+    }
+  >
+    <select
+      className="OptionField__Options"
+      defaultValue="foo"
+      id={undefined}
+      name={undefined}
+    >
+      <option
+        value="foo"
+      >
+        foo
+      </option>
+      <option
+        value="bar"
+      >
+        bar
+      </option>
+    </select>
+  </div>
+</li>
+`;

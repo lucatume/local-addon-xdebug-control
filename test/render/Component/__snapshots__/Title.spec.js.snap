@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Title/> renders correctly with props 1`] = `
+<h3
+  style={
+    Object {
+      "textAlign": "center",
+    }
+  }
+>
+  foo
+</h3>
+`;

@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Loading/> renders correctly with props 1`] = `
+<div
+  className="BigLoader"
+  style={
+    Object {
+      "display": "flex",
+      "flexDirection": "column",
+      "height": "100%",
+    }
+  }
+>
+  <div
+    className="LoadingIndicator LoadingIndicator--Big"
+  >
+    <div
+      className="LoadingIndicator_Bounce1"
+    />
+    <div
+      className="LoadingIndicator_Bounce2"
+    />
+    <div
+      className="LoadingIndicator_Bounce3"
+    />
+  </div>
+</div>
+`;

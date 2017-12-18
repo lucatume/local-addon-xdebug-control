@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<OutputArea/> renders correctly with props 1`] = `
+<div
+  style={
+    Object {
+      "alignContent": "center",
+      "alignItems": "center",
+      "display": "flex",
+      "flex": 1,
+      "flexDirection": "column",
+      "height": "100%",
+      "padding": "0 5%",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "marginBottom": "1em",
+        "marginTop": "1em",
+      }
+    }
+  >
+    <p>
+      foo
+    </p>
+  </div>
+  <div
+    style={
+      Object {
+        "marginBottom": "1em",
+        "marginTop": "1em",
+      }
+    }
+  >
+    <p>
+      bar
+    </p>
+  </div>
+  <div
+    style={
+      Object {
+        "marginBottom": "1em",
+        "marginTop": "1em",
+      }
+    }
+  >
+    <p>
+      baz
+    </p>
+  </div>
+</div>
+`;
+
+exports[`<OutputArea/> renders correctly without children 1`] = `
+<div
+  style={
+    Object {
+      "alignContent": "center",
+      "alignItems": "center",
+      "display": "flex",
+      "flex": 1,
+      "flexDirection": "column",
+      "height": "100%",
+      "padding": "0 5%",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "marginBottom": "1em",
+        "marginTop": "1em",
+      }
+    }
+  >
+    <p>
+      foo
+    </p>
+  </div>
+  <div
+    style={
+      Object {
+        "marginBottom": "1em",
+        "marginTop": "1em",
+      }
+    }
+  >
+    <p>
+      bar
+    </p>
+  </div>
+  <div
+    style={
+      Object {
+        "marginBottom": "1em",
+        "marginTop": "1em",
+      }
+    }
+  >
+    <p>
+      baz
+    </p>
+  </div>
+</div>
+`;
