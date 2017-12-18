@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Button/> renders correctly with margin style props 1`] = `
+<button
+  className="--GrayOutline --Small Button"
+  onClick={[Function]}
+  style={Object {}}
+>
+  foo
+</button>
+`;
+
+exports[`<Button/> renders correctly with props 1`] = `
+<button
+  className="--GrayOutline --Small Button"
+  onClick={[Function]}
+  style={Object {}}
+>
+  foo
+</button>
+`;
+
+exports[`<Button/> renders correctly with style props 1`] = `
+<button
+  className="--GrayOutline --Small Button"
+  onClick={[Function]}
+  style={Object {}}
+>
+  foo
+</button>
+`;

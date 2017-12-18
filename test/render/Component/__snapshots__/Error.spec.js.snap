@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Error/> renders correctly with props 1`] = `
+<section
+  className="Error"
+  style={
+    Object {
+      "border": "2px solid #1FC37D",
+      "color": "#1FC37D",
+      "padding": ".25em",
+    }
+  }
+>
+  <div
+    className="Error__Message"
+  >
+    <div
+      style={
+        Object {
+          "fontSize": "120%",
+          "marginBottom": "1em",
+          "textAlign": "center",
+        }
+      }
+    >
+      Error generated in 
+      <span
+        className="Error__Message__Source"
+      >
+        Unknown
+      </span>
+    </div>
+    <div
+      className="Error__Message__Text"
+    >
+      Woops
+    </div>
+    <div
+      className="Error__Message__CTA"
+      style={
+        Object {
+          "fontSize": "120%",
+          "marginTop": "1em",
+          "textAlign": "center",
+        }
+      }
+    >
+      Click here
+    </div>
+  </div>
+</section>
+`;

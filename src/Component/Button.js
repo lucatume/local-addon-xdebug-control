@@ -1,7 +1,19 @@
+const PropTypes = require( 'prop-types' )
+const assertPropTypes = require( 'check-prop-types' ).assertPropTypes
+
 module.exports = function ( context ) {
 	const React = context.React
 
 	return function Button( props ) {
+		const propTypes = {
+			centered: PropTypes.bool,
+			style: PropTypes.object,
+			onClick: PropTypes.func.isRequired,
+			text: PropTypes.string.isRequired,
+		}
+
+		assertPropTypes( propTypes, props )
+
 		let buttonStyle = props.style || {}
 
 		if ( props.centered ) {

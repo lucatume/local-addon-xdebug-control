@@ -1,8 +1,21 @@
-module.exports = function ( context ) {
+const PropTypes = require( 'prop-types' )
+const assertPropTypes = require( 'check-prop-types' ).assertPropTypes
+const colors = require( './../UI/colors' )
 
+module.exports = function ( context ) {
 	const React = context.React
 
 	return function Error( props ) {
+		const propTypes = {
+			source: PropTypes.string,
+			message: PropTypes.string.isRequired,
+			openIssueLink: PropTypes.string,
+			cta: PropTypes.string,
+			color: PropTypes.string,
+		}
+
+		assertPropTypes( propTypes, props )
+
 		const source = props.source || 'Unknown'
 		const message = props.message || 'no message provided'
 		const openIssueLink = 'https://github.com/lucatume/local-addon-xdebug-control/issues/new'
@@ -14,8 +27,7 @@ module.exports = function ( context ) {
 					            above, how you got here, what you were trying to do and your setup.</p>
 			            </section>
 		            )
-		const red = '#FF0000'
-		const color = props.color || red
+		const color = props.color || colors.red()
 		const headerStyle = {
 			'textAlign': 'center',
 			'marginBottom': '1em',

@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<FieldList/> renders correctly with props 1`] = `
+<div
+  className="FieldListWrapper"
+>
+  <ul
+    className="TableList Form FieldList"
+    style={
+      Object {
+        "maxWidth": "600px",
+      }
+    }
+  >
+    <li
+      className="TableListRow OptionField"
+    >
+      <strong>
+        <span
+          className="OptionField__Title"
+        >
+          Foo
+        </span>
+      </strong>
+      <div
+        style={
+          Object {
+            "display": "flex",
+          }
+        }
+      >
+        <select
+          className="OptionField__Options"
+          defaultValue="foo"
+          id="foo"
+          name="foo"
+        >
+          <option
+            value="foo"
+          >
+            foo
+          </option>
+          <option
+            value="bar"
+          >
+            bar
+          </option>
+        </select>
+      </div>
+    </li>
+    <li
+      className="TableListRow OptionField"
+    >
+      <strong>
+        <span
+          className="OptionField__Title"
+        >
+          Foo 1
+        </span>
+      </strong>
+      <div
+        style={
+          Object {
+            "display": "flex",
+          }
+        }
+      >
+        <select
+          className="OptionField__Options"
+          defaultValue="foo-2"
+          id="foo-1"
+          name="foo-1"
+        >
+          <option
+            value="foo"
+          >
+            foo
+          </option>
+          <option
+            value="bar"
+          >
+            bar
+          </option>
+        </select>
+      </div>
+    </li>
+    <button
+      className="--GrayOutline --Small Button"
+      onClick={[Function]}
+      style={
+        Object {
+          "display": "block",
+          "marginBottom": "0",
+          "marginLeft": "auto",
+          "marginRight": "auto",
+          "marginTop": ".5em",
+        }
+      }
+    >
+      Apply Settings
+    </button>
+  </ul>
+</div>
+`;

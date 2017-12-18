@@ -4,8 +4,24 @@ module.exports = function ( context ) {
 	const OptionField = require( './OptionField' )( context )
 	const Button = require( './Button' )( context )
 	const slugify = require( './../Utils/Strings' ).slugify
+	const PropTypes = require( 'prop-types' )
+	const assertPropTypes = require( 'check-prop-types' ).assertPropTypes
 
 	return function FieldList( props ) {
+		const propTypes = {
+			fields: PropTypes.arrayOf( PropTypes.shape( {
+				title: PropTypes.string.isRequired,
+				name: PropTypes.string,
+				value: PropTypes.any.isRequired,
+				options: PropTypes.array.isRequired,
+				default: PropTypes.any.isRequired,
+			} ) ),
+			applyWith: PropTypes.func.isRequired,
+			style: PropTypes.object,
+		}
+
+		assertPropTypes( propTypes, props )
+
 		const options = props.fields.map( function ( field ) {
 			const fieldProps = {
 				title: field.title,
