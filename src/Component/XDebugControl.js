@@ -39,7 +39,7 @@ module.exports = function ( context ) {
 				)
 			}
 
-			if ( ! this.props.site.running ) {
+			if ( ! this.props.site.running || this.props.site.disconnected ) {
 				return (
 					<OutputArea>
 						<Title text='Machine is not running'/>
@@ -106,7 +106,7 @@ module.exports = function ( context ) {
 
 		componentDidMount() {
 			if ( ! (
-					this.props.site.running && this.props.container
+					this.props.site && this.props.site.running && this.props.container
 				) ) {
 				return
 			}
