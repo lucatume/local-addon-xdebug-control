@@ -7,7 +7,7 @@ module.exports = function ( context ) {
 
 	return function ( {children, centerX, centerY} ) {
 		const propTypes = {
-			children: PropTypes.arrayOf( PropTypes.element ),
+			children: PropTypes.oneOfType( [PropTypes.arrayOf( PropTypes.element ), PropTypes.element] ),
 			centerX: PropTypes.bool,
 			centerY: PropTypes.bool,
 		}

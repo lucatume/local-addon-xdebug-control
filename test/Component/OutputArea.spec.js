@@ -6,19 +6,21 @@ const context = {
 	'React': React,
 }
 
-const OutputSection = require( './../../../src/Component/OutputSection' )( context )
+const OutputArea = require( './../../src/Component/OutputArea' )( context )
 
-describe( '<OutputSection/>', function () {
+describe( '<OutputArea/>', function () {
 	const defaultProps = {
 		children: ['foo', 'bar', 'baz'].map( ( e ) => {
 			return (
 				<p>{e}</p>
 			)
 		} ),
+		centerX: true,
+		centerY: true,
 	}
 
 	it( 'renders correctly with props', function () {
-		const component = renderer.create( <OutputSection {...defaultProps}/> )
+		const component = renderer.create( <OutputArea {...defaultProps}/> )
 		let tree = component.toJSON()
 
 		expect( tree ).toMatchSnapshot()
@@ -26,7 +28,7 @@ describe( '<OutputSection/>', function () {
 
 	it( 'renders correctly without children', function () {
 		const props = Object.assign( {}, defaultProps, {children: []} )
-		const component = renderer.create( <OutputSection {...defaultProps}/> )
+		const component = renderer.create( <OutputArea {...defaultProps}/> )
 		let tree = component.toJSON()
 
 		expect( tree ).toMatchSnapshot()

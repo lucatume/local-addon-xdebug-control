@@ -6,17 +6,18 @@ const context = {
 	'React': React,
 }
 
-const SectionTitle = require( './../../../src/Component/SectionTitle' )( context )
+const Title = require( './../../src/Component/Title' )( context )
 
-describe( '<SectionTitle/>', function () {
+describe( '<Title/>', function () {
 	const defaultProps = {
 		text: 'foo',
 	}
 
 	it( 'renders correctly with props', function () {
-		const component = renderer.create( <SectionTitle {...defaultProps}/> )
+		const component = renderer.create( <Title {...defaultProps}/> )
 		let tree = component.toJSON()
 
 		expect( tree ).toMatchSnapshot()
 	} )
+
 } )

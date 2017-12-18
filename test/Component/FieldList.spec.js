@@ -1,13 +1,12 @@
 const React = require( 'react' )
 const Component = require( 'react' ).Component
 const renderer = require( 'react-test-renderer' )
-const colors = require( './../../../src/UI/colors' )
 
 const context = {
 	'React': React,
 }
 
-const FieldList = require( './../../../src/Component/FieldList' )( context )
+const FieldList = require( './../../src/Component/FieldList' )( context )
 
 describe( '<FieldList/>', function () {
 	const defaultProps = {

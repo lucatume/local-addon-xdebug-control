@@ -6,18 +6,13 @@ const context = {
 	'React': React,
 }
 
-const Title = require( './../../../src/Component/Title' )( context )
+const Loading = require( './../../src/Component/Loading' )( context )
 
-describe( '<Title/>', function () {
-	const defaultProps = {
-		text: 'foo',
-	}
-
+describe( '<Loading/>', function () {
 	it( 'renders correctly with props', function () {
-		const component = renderer.create( <Title {...defaultProps}/> )
+		const component = renderer.create( <Loading/> )
 		let tree = component.toJSON()
 
 		expect( tree ).toMatchSnapshot()
 	} )
-
 } )

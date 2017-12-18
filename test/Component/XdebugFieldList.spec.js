@@ -1,13 +1,13 @@
 const React = require( 'react' )
 const Component = require( 'react' ).Component
 const renderer = require( 'react-test-renderer' )
-const colors = require( './../../../src/UI/colors' )
+const colors = require( './../../src/UI/colors' )
 
 const context = {
 	'React': React,
 }
 
-const XDebugFieldsList = require( './../../../src/Component/XDebugFieldsList' )( context )
+const XDebugFieldsList = require( './../../src/Component/XDebugFieldsList' )( context )
 
 describe( '<XDebugFieldsList/>', function () {
 	const defaultProps = {

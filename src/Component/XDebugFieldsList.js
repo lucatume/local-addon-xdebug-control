@@ -11,12 +11,12 @@ module.exports = function ( context ) {
 	return function XDebugFieldsList( props ) {
 		const propTypes = {
 			status: PropTypes.shape( {
-				remote_enable: PropTypes.string.isRequired,
-				remote_port: PropTypes.string.isRequired,
-				remote_autostart: PropTypes.string.isRequired,
-				remote_connect_back: PropTypes.string.isRequired,
-				scream: PropTypes.string.isRequired,
-				show_local_vars: PropTypes.string.isRequired,
+				remote_enable: PropTypes.string,
+				remote_port: PropTypes.string,
+				remote_autostart: PropTypes.string,
+				remote_connect_back: PropTypes.string,
+				scream: PropTypes.string,
+				show_local_vars: PropTypes.string,
 			} ),
 			applyWith: PropTypes.func.isRequired,
 		}

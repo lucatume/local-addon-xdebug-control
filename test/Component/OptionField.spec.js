@@ -6,7 +6,7 @@ const context = {
 	'React': React,
 }
 
-const OptionField = require( './../../../src/Component/OptionField' )( context )
+const OptionField = require( './../../src/Component/OptionField' )( context )
 
 describe( '<OptionField/>', function () {
 	const defaultProps = {

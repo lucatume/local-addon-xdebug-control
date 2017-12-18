@@ -6,7 +6,7 @@ const context = {
 	'React': React,
 }
 
-const StatusString = require( './../../../src/Component/StatusString' )( context )
+const StatusString = require( './../../src/Component/StatusString' )( context )
 
 describe( '<StatusString/>', function () {
 	const defaultProps = {

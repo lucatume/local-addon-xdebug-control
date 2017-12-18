@@ -9,7 +9,7 @@ module.exports = function ( context ) {
 	return function ( {text, status} ) {
 		const propTypes = {
 			text: PropTypes.string.isRequired,
-			status: PropTypes.string.isRequired,
+			status: PropTypes.string,
 		}
 
 		assertPropTypes( propTypes, {text, status} )

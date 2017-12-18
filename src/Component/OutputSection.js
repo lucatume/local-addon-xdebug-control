@@ -7,7 +7,7 @@ module.exports = function ( context ) {
 
 	return function ( {children} ) {
 		const propTypes = {
-			children: PropTypes.arrayOf( PropTypes.element ),
+			children: PropTypes.oneOfType( [PropTypes.arrayOf( PropTypes.element ), PropTypes.element] ),
 		}
 
 		assertPropTypes( propTypes, {children} )

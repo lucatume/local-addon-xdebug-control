@@ -6,7 +6,7 @@ const context = {
 	'React': React,
 }
 
-const Button = require( './../../../src/Component/Button' )( context )
+const Button = require( './../../src/Component/Button' )( context )
 
 describe( '<Button/>', function () {
 	const defaultProps = {

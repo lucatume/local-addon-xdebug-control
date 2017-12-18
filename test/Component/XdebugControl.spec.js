@@ -6,7 +6,7 @@ const context = {
 	'React': React,
 }
 
-const XDebugControl = require( './../../../src/Component/XDebugControl' )( context )
+const XDebugControl = require( './../../src/Component/XDebugControl' )( context )
 
 describe( '<XDebugControl/>', function () {
 	const defaultProps = {
