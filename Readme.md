@@ -4,7 +4,7 @@ XDebug Controls for [Local][0475-0001], because debugging happens.
 Here is an handy GIF to show the add-on functionalities, enjoy.
 ![Version 1 demo](/doc/images/version-1-demo.gif?raw=true "Version 1 demo")
 
-## Requirements
+## Requirements and installation
 1. Well... [Local][0475-0001]
 2. XDebug Controls will only be available on custom sites
 3. To install the addon open Local, go to Preferences > Add-ons > Reveal add-ons folder and unzip the content of this repository in that folder. Or clone it using:
@@ -12,6 +12,10 @@ Here is an handy GIF to show the add-on functionalities, enjoy.
  	git clone https://github.com/lucatume/local-addon-xdebug-control.git
 	```
 4. Relevant [XDebug settings][0475-0002] are exposed by the addon as a list of select fields; I've picked some defaults for you but take your team to read what each does.
+
+## Usage
+The add-on consists of a single page UI found under the More > XDebug Control menu.  
+Some sensible and relevant XDbebug settings are exposed; the `remote_host` one is missing as the add-on is setting it for you.
 
 ## I found a bug: what should I do?
 Crap! Well: it happens.  
@@ -28,17 +32,17 @@ Should this not solve the issue take the time to open an issue on this repositor
 ## How do I debug this?
 You can access the Developer Tools for the Local application using `F12`.  
 Access the addon folder and run `npm install` to pull the developer dependencies.  
-If you want to use React specific developer tools the addon packs [the `electron-react-devtools` package](https://github.com/firejune/electron-react-devtools); you can install React tools using:
-```
-require('electron-react-devtools').install()
-```
-from the developer tools console.  
 
 ## License
 MIT
 
 ## Changelog
 ### [Unreleased][unreleased]
+
+### [1.1.0][1.1.0]
+* Changed - Pretty much rewritten the code from scratch
+* Changed - The XDebugt `remote_host` value is now set automatically from the add-on
+* Fixed - loading functionalities and inconsistent behaviours 
 
 ### [1.0.3][1.0.3]
 * Fixed - add a loading screen while fetching XDebug information from the container
@@ -52,7 +56,8 @@ MIT
 
 ### 1.0.0 - Initial version
 
-[unreleased]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.3...HEAD 
+[unreleased]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.1.0...HEAD 
+[1.1.0]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.3...1.1.0
 [1.0.3]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.2...1.0.3
 [1.0.2]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.0...1.0.1
