@@ -39,6 +39,9 @@ MIT
 ## Changelog
 ### [Unreleased][unreleased]
 
+### [1.1.2][1.1.2]
+* Fixed - a dependency issue that would prevent the Windows version from working correctly
+
 ### [1.1.1][1.1.1]
 * Fixed - some npm dependencies with known vulnerabilities
 
@@ -59,7 +62,8 @@ MIT
 
 ### 1.0.0 - Initial version
 
-[unreleased]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.1.1...HEAD 
+[unreleased]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.1.2...HEAD 
+[1.1.2]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.3...1.1.0
 [1.0.3]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.2...1.0.3
