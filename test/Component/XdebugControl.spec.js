@@ -8,8 +8,8 @@ const context = {
 
 const XDebugControl = require( './../../src/Component/XDebugControl' )( context )
 
-describe( '<XDebugControl/>', function () {
-	const defaultProps = {
+const defaultProps = () => {
+	return {
 		site: {
 			running: true,
 			loading: false,
@@ -38,7 +38,9 @@ describe( '<XDebugControl/>', function () {
 			}
 		},
 	}
+}
 
+describe( '<XDebugControl/>', function () {
 	it( 'renders correctly provided no props', function () {
 		const props = {}
 
@@ -49,7 +51,8 @@ describe( '<XDebugControl/>', function () {
 	} )
 
 	it( 'renders correctly when the site loading status is undefined', function () {
-		const props = Object.assign( {}, defaultProps, {site: {loading: undefined}} )
+		let props = Object.assign( {}, defaultProps() )
+		props.site.loading = undefined
 
 		const component = renderer.create( <XDebugControl {...props}/> )
 		let tree = component.toJSON()
@@ -58,7 +61,8 @@ describe( '<XDebugControl/>', function () {
 	} )
 
 	it( 'renders correctly when the site is loading', function () {
-		const props = Object.assign( {}, defaultProps, {site: {loading: true}} )
+		let props = Object.assign( {}, defaultProps() )
+		props.site.loading = true
 
 		const component = renderer.create( <XDebugControl {...props}/> )
 		let tree = component.toJSON()
@@ -67,7 +71,9 @@ describe( '<XDebugControl/>', function () {
 	} )
 
 	it( 'renders correctly when the site produces an error with no message', function () {
-		const props = Object.assign( {}, defaultProps, {site: {hasError: true}} )
+		let props = Object.assign( {}, defaultProps() )
+		props.site.hasError = true
+		props.site.error = undefined
 
 		const component = renderer.create( <XDebugControl {...props}/> )
 		let tree = component.toJSON()
@@ -76,7 +82,9 @@ describe( '<XDebugControl/>', function () {
 	} )
 
 	it( 'renders correctly when the site produces an error with a message', function () {
-		const props = Object.assign( {}, defaultProps, {site: {hasError: true, error: 'An error happened'}} )
+		let props = Object.assign( {}, defaultProps() )
+		props.site.hasError = true
+		props.site.error = 'An error happened'
 
 		const component = renderer.create( <XDebugControl {...props}/> )
 		let tree = component.toJSON()
@@ -85,7 +93,8 @@ describe( '<XDebugControl/>', function () {
 	} )
 
 	it( 'renders correctly when the container prop is undefined', function () {
-		const props = Object.assign( {}, defaultProps, {container: undefined} )
+		let props = Object.assign( {}, defaultProps() )
+		props.container = undefined
 
 		const component = renderer.create( <XDebugControl {...props}/> )
 		let tree = component.toJSON()
@@ -94,15 +103,14 @@ describe( '<XDebugControl/>', function () {
 	} )
 
 	it( 'renders correctly when environment is not custom', function () {
-		const props = Object.assign( {}, defaultProps, {
-			container: function () {
-				return {
-					readXdebugStatusAndSettings: function () {
-					},
-					environment: 'not-custom',
-				}
-			},
-		} )
+		let props = Object.assign( {}, defaultProps() )
+		props.container = function () {
+			return {
+				readXdebugStatusAndSettings: function () {
+				},
+				environment: 'not-custom',
+			}
+		}
 
 
 		const component = renderer.create( <XDebugControl {...props}/> )
@@ -112,7 +120,8 @@ describe( '<XDebugControl/>', function () {
 	} )
 
 	it( 'renders correctly when environment is custom but XDebug status is undefined', function () {
-		const props = Object.assign( {}, defaultProps, {xdebug: {}} )
+		let props = Object.assign( {}, defaultProps() )
+		props.xdebug = {}
 
 		const component = renderer.create( <XDebugControl {...props}/> )
 		let tree = component.toJSON()
@@ -121,7 +130,7 @@ describe( '<XDebugControl/>', function () {
 	} )
 
 	it( 'renders correctly when environment is custom and XDebug is active', function () {
-		const props = Object.assign( {}, defaultProps )
+		let props = Object.assign( {}, defaultProps() )
 
 		const component = renderer.create( <XDebugControl {...props}/> )
 		let tree = component.toJSON()
@@ -130,11 +139,10 @@ describe( '<XDebugControl/>', function () {
 	} )
 
 	it( 'renders correctly when environment is custom and XDebug is inactive', function () {
-		const props = Object.assign( {}, defaultProps, {
-			xdebug: {
-				status: 'inactive',
-			},
-		} )
+		let props = Object.assign( {}, defaultProps() )
+		props.xdebug = {
+			status: 'inactive',
+		}
 
 		const component = renderer.create( <XDebugControl {...props}/> )
 		let tree = component.toJSON()
@@ -143,11 +151,10 @@ describe( '<XDebugControl/>', function () {
 	} )
 
 	it( 'renders correctly when environment is custom and XDebug status is weird', function () {
-		const props = Object.assign( {}, defaultProps, {
-			xdebug: {
-				status: 'foo',
-			},
-		} )
+		let props = Object.assign( {}, defaultProps() )
+		props.xdebug = {
+			status: 'foo',
+		}
 
 		const component = renderer.create( <XDebugControl {...props}/> )
 		let tree = component.toJSON()
@@ -156,11 +163,8 @@ describe( '<XDebugControl/>', function () {
 	} )
 
 	it( 'renders correctly when machine is not running', function () {
-		const props = Object.assign( {}, defaultProps, {
-			site: {
-				running: false,
-			},
-		} )
+		let props = Object.assign( {}, defaultProps() )
+		props.site = Object.assign( {}, props.site, {running: false} )
 
 		const component = renderer.create( <XDebugControl {...props}/> )
 		let tree = component.toJSON()
@@ -169,11 +173,8 @@ describe( '<XDebugControl/>', function () {
 	} )
 
 	it( 'renders correctly when machine is disconnected', function () {
-		const props = Object.assign( {}, defaultProps, {
-			site: {
-				disconnected: true,
-			},
-		} )
+		let props = Object.assign( {}, defaultProps() )
+		props.site = Object.assign( {}, props.site, {disconnected: true} )
 
 		const component = renderer.create( <XDebugControl {...props}/> )
 		let tree = component.toJSON()

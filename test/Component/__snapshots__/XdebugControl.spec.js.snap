@@ -938,54 +938,70 @@ exports[`<XDebugControl/> renders correctly when environment is not custom 1`] =
 
 exports[`<XDebugControl/> renders correctly when machine is disconnected 1`] = `
 <div
-  className="BigLoader"
   style={
     Object {
+      "alignContent": "center",
+      "alignItems": "center",
       "display": "flex",
+      "flex": 1,
       "flexDirection": "column",
       "height": "100%",
+      "padding": "0 5%",
     }
   }
 >
   <div
-    className="LoadingIndicator LoadingIndicator--Big"
+    style={
+      Object {
+        "marginBottom": "1em",
+        "marginTop": "1em",
+      }
+    }
   >
-    <div
-      className="LoadingIndicator_Bounce1"
-    />
-    <div
-      className="LoadingIndicator_Bounce2"
-    />
-    <div
-      className="LoadingIndicator_Bounce3"
-    />
+    <h3
+      style={
+        Object {
+          "textAlign": "center",
+        }
+      }
+    >
+      Machine is not running
+    </h3>
   </div>
 </div>
 `;
 
 exports[`<XDebugControl/> renders correctly when machine is not running 1`] = `
 <div
-  className="BigLoader"
   style={
     Object {
+      "alignContent": "center",
+      "alignItems": "center",
       "display": "flex",
+      "flex": 1,
       "flexDirection": "column",
       "height": "100%",
+      "padding": "0 5%",
     }
   }
 >
   <div
-    className="LoadingIndicator LoadingIndicator--Big"
+    style={
+      Object {
+        "marginBottom": "1em",
+        "marginTop": "1em",
+      }
+    }
   >
-    <div
-      className="LoadingIndicator_Bounce1"
-    />
-    <div
-      className="LoadingIndicator_Bounce2"
-    />
-    <div
-      className="LoadingIndicator_Bounce3"
-    />
+    <h3
+      style={
+        Object {
+          "textAlign": "center",
+        }
+      }
+    >
+      Machine is not running
+    </h3>
   </div>
 </div>
 `;
@@ -1072,55 +1088,137 @@ exports[`<XDebugControl/> renders correctly when the site loading status is unde
 `;
 
 exports[`<XDebugControl/> renders correctly when the site produces an error with a message 1`] = `
-<div
-  className="BigLoader"
+<section
+  className="Error"
   style={
     Object {
-      "display": "flex",
-      "flexDirection": "column",
-      "height": "100%",
+      "border": "2px solid #FF0000",
+      "color": "#FF0000",
+      "padding": ".25em",
     }
   }
 >
   <div
-    className="LoadingIndicator LoadingIndicator--Big"
+    className="Error__Message"
   >
     <div
-      className="LoadingIndicator_Bounce1"
-    />
+      style={
+        Object {
+          "fontSize": "120%",
+          "marginBottom": "1em",
+          "textAlign": "center",
+        }
+      }
+    >
+      Error generated in 
+      <span
+        className="Error__Message__Source"
+      >
+        Site Container
+      </span>
+    </div>
     <div
-      className="LoadingIndicator_Bounce2"
-    />
+      className="Error__Message__Text"
+    >
+      An error happened
+    </div>
     <div
-      className="LoadingIndicator_Bounce3"
-    />
+      className="Error__Message__CTA"
+      style={
+        Object {
+          "fontSize": "120%",
+          "marginTop": "1em",
+          "textAlign": "center",
+        }
+      }
+    >
+      <section>
+        <p>
+          Try to quit and restart Local. Yes: turning it off and on again 
+          <em>
+            might
+          </em>
+           help.
+        </p>
+        <p>
+          If the issue persists please open an issue 
+          <a
+            href="https://github.com/lucatume/local-addon-xdebug-control/issues/new"
+          >
+            on the addon repository
+          </a>
+           containing the message above, how you got here, what you were trying to do and your setup.
+        </p>
+      </section>
+    </div>
   </div>
-</div>
+</section>
 `;
 
 exports[`<XDebugControl/> renders correctly when the site produces an error with no message 1`] = `
-<div
-  className="BigLoader"
+<section
+  className="Error"
   style={
     Object {
-      "display": "flex",
-      "flexDirection": "column",
-      "height": "100%",
+      "border": "2px solid #FF0000",
+      "color": "#FF0000",
+      "padding": ".25em",
     }
   }
 >
   <div
-    className="LoadingIndicator LoadingIndicator--Big"
+    className="Error__Message"
   >
     <div
-      className="LoadingIndicator_Bounce1"
-    />
+      style={
+        Object {
+          "fontSize": "120%",
+          "marginBottom": "1em",
+          "textAlign": "center",
+        }
+      }
+    >
+      Error generated in 
+      <span
+        className="Error__Message__Source"
+      >
+        Site Container
+      </span>
+    </div>
     <div
-      className="LoadingIndicator_Bounce2"
-    />
+      className="Error__Message__Text"
+    >
+      n/a
+    </div>
     <div
-      className="LoadingIndicator_Bounce3"
-    />
+      className="Error__Message__CTA"
+      style={
+        Object {
+          "fontSize": "120%",
+          "marginTop": "1em",
+          "textAlign": "center",
+        }
+      }
+    >
+      <section>
+        <p>
+          Try to quit and restart Local. Yes: turning it off and on again 
+          <em>
+            might
+          </em>
+           help.
+        </p>
+        <p>
+          If the issue persists please open an issue 
+          <a
+            href="https://github.com/lucatume/local-addon-xdebug-control/issues/new"
+          >
+            on the addon repository
+          </a>
+           containing the message above, how you got here, what you were trying to do and your setup.
+        </p>
+      </section>
+    </div>
   </div>
-</div>
+</section>
 `;

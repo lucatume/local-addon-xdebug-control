@@ -65,7 +65,7 @@ module.exports = function ( context ) {
 
 			if ( this.props.site.hasError ) {
 				return (
-					<Error source='Site Container' message={this.props.site.error}/>
+					<Error source='Site Container' message={this.props.site.error || 'n/a'}/>
 				)
 			}
 
