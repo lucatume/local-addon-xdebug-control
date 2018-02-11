@@ -38,6 +38,8 @@ MIT
 
 ## Changelog
 ### [Unreleased][unreleased]
+### [1.1.3][1.1.3]
+* Fixed - yet another Windows dependency issue
 
 ### [1.1.2][1.1.2]
 * Fixed - a dependency issue that would prevent the Windows version from working correctly
@@ -62,7 +64,8 @@ MIT
 
 ### 1.0.0 - Initial version
 
-[unreleased]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.1.2...HEAD 
+[unreleased]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.1.3...HEAD
+[1.1.3]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.1.2...1.1.3
 [1.1.2]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.0.3...1.1.0
