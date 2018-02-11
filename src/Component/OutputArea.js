@@ -14,7 +14,7 @@ module.exports = function ( context ) {
 
 		assertPropTypes( propTypes, {children, centerX, centerY} )
 
-		let style = {height: '100%', display: 'flex', flexDirection: 'column', flex: 1, padding: '0 5%'}
+		let style = {height: '100%', display: 'flex', flexDirection: 'column', flex: 1, padding: '0 5%', overflowY: 'scroll'}
 
 		if ( centerX !== false ) {
 			style.alignContent = 'center'
