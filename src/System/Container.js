@@ -75,8 +75,8 @@ module.exports = function () {
 
 		xdebugSettingUpdateCommand( setting, value ) {
 			const iniFile = this.maps.phpIniFile( this.phpVersion )
-			const updateIt = `sed -i "/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/" ${iniFile}`
-			const createIt = `sed -i "/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/" ${iniFile}`
+			const updateIt = `sed "/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/" ${iniFile} >ini.tmp && mv ini.tmp ${iniFile}`
+			const createIt = `sed "/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/" ${iniFile} >ini.tmp  && mv ini.tmp ${iniFile}`
 
 			return silenceCommand( `if cat ${iniFile} | grep -q ^xdebug.${setting}; then ${updateIt}; else ${createIt}; fi` )
 		}
@@ -102,9 +102,9 @@ module.exports = function () {
 		}
 
 		activateXdebug() {
-			const phpIniFile = this.getSitePhpIniFilePath()
+			const iniFile = this.getSitePhpIniFilePath()
 			const commands = [
-				`sed -i '/^;zend_extension.*xdebug.so/ s/;zend_ex/zend_ex/' ${phpIniFile}`,
+				`sed '/^;zend_extension.*xdebug.so/ s/;zend_ex/zend_ex/' ${iniFile} >ini.tmp && mv ini.tmp ${iniFile}`,
 				silenceCommand( this.phpRestartCommand() ),
 			].concat( this.xdebugReadStatusAndSettingsCommands() )
 
@@ -113,9 +113,9 @@ module.exports = function () {
 		}
 
 		deactivateXdebug() {
-			const phpIniFile = this.getSitePhpIniFilePath()
+			const iniFile = this.getSitePhpIniFilePath()
 			const commands = [
-				`sed -i '/^zend_extension.*xdebug.so/ s/zend_ex/;zend_ex/' ${phpIniFile}`,
+				`sed '/^zend_extension.*xdebug.so/ s/zend_ex/;zend_ex/' ${iniFile} >ini.tmp && mv ini.tmp ${iniFile}`,
 				silenceCommand( this.phpRestartCommand() ),
 			].concat( this.xdebugReadStatusAndSettingsCommands() )
 

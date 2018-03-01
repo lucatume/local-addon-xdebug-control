@@ -28,8 +28,8 @@ module.exports = {
 		return [`if cat ${iniFile} | grep -q ^xdebug.${setting}; then cat ${iniFile} | grep ^xdebug.${setting} | cut -d '=' -f 2; else echo 'false'; fi`]
 	},
 	xdebugSettingUpdate: ( iniFile, setting, value ) => {
-		const updateIt = `sed -i "/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/" ${iniFile}`
-		const createIt = `sed -i "/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/" ${iniFile}`
+		const updateIt = `sed "/^xdebug.${setting}/ s/xdebug.${setting}.*/xdebug.${setting}=${value}/" ${iniFile} >ini.tmp && mv ini.tmp ${iniFile}`
+		const createIt = `sed "/^zend_extension.*xdebug.so/ s/xdebug.so/xdebug.so\\nxdebug.${setting}=${value}/" ${iniFile} >ini.tmp && mv ini.tmp ${iniFile}`
 
 		return [module.exports.silence( `if cat ${iniFile} | grep -q ^xdebug.${setting}; then ${updateIt}; else ${createIt}; fi` )]
 	},
