@@ -38,6 +38,12 @@ MIT
 
 ## Changelog
 ### [Unreleased][unreleased]
+### Added
+- PHP `7.2.0` support
+### Fixed
+- an issue with XDebug deactivation
+- updated code to be compatible with Local `2.2.3`
+
 ### [1.1.3][1.1.3]
 * Fixed - yet another Windows dependency issue
 
