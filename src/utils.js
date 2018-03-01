@@ -1,5 +1,6 @@
 module.exports = function ( context ) {
 	const remote = context.electron.remote
+	const fs = require('fs')
 
 	// Open the developer tools pressing `F12`
 	document.addEventListener( 'keydown', function ( e ) {

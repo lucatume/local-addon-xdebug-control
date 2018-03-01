@@ -11,7 +11,6 @@ import isFunction from './isFunction.js';
 import isObject from './isObject.js';
 import isPlainObject from './isPlainObject.js';
 import isTypedArray from './isTypedArray.js';
-import safeGet from './_safeGet.js';
 import toPlainObject from './toPlainObject.js';
 
 /**
@@ -30,8 +29,8 @@ import toPlainObject from './toPlainObject.js';
  *  counterparts.
  */
 function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, stack) {
-  var objValue = safeGet(object, key),
-      srcValue = safeGet(source, key),
+  var objValue = object[key],
+      srcValue = source[key],
       stacked = stack.get(srcValue);
 
   if (stacked) {

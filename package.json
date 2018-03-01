@@ -43,8 +43,9 @@
   "dependencies": {
     "check-prop-types": "^1.1.2",
     "dockerode-utils": "0.0.7",
-    "react": "^15.6.2",
+    "electron-devtools-installer": "^2.2.3",
     "prop-types": "^15.6.0",
+    "react": "^15.6.2",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2"
   }

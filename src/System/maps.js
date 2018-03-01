@@ -10,6 +10,7 @@ module.exports = {
 				'5.6.20': `service php-5.6.20-fpm restart`,
 				'7.0.3': `service php-7.0.3-fpm restart`,
 				'7.1.4': `service php-7.1.4-fpm restart`,
+				'7.2.0': `service php-7.2.0-fpm restart`,
 			},
 			'nginx': {
 				'5.2.4': `service php-5.2.4-fpm restart`,
@@ -20,6 +21,7 @@ module.exports = {
 				'5.6.20': `service php-5.6.20-fpm restart`,
 				'7.0.3': `service php-7.0.3-fpm restart`,
 				'7.1.4': `service php-7.1.4-fpm restart`,
+				'7.2.0': `service php-7.2.0-fpm restart`,
 			},
 		}
 
@@ -37,6 +39,7 @@ module.exports = {
 			'5.6.20': '/conf/php/5.6.20/php.ini',
 			'7.0.3': '/conf/php/7.0.3/php.ini',
 			'7.1.4': '/conf/php/7.1.4/php.ini',
+			'7.2.0': '/conf/php/7.2.0/php.ini'
 		}
 
 		return map.hasOwnProperty( phpVersion ) ? map[phpVersion] : false
@@ -51,6 +54,7 @@ module.exports = {
 			'5.6.20': '/opt/php/5.6.20/bin/php',
 			'7.0.3': '/opt/php/7.0.3/bin/php',
 			'7.1.4': '/opt/php/7.1.4/bin/php',
+			'7.2.0': '/opt/php/7.2.0/bin/php',
 		}
 
 		return map.hasOwnProperty( phpVersion ) ? map.phpVersion : false
