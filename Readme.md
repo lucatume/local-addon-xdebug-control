@@ -38,6 +38,8 @@ MIT
 
 ## Changelog
 ### [Unreleased][unreleased]
+
+### [1.1.4][1.1.4]
 ### Added
 - PHP `7.2.0` support
 ### Fixed
@@ -70,7 +72,8 @@ MIT
 
 ### 1.0.0 - Initial version
 
-[unreleased]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.1.3...HEAD
+[unreleased]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.1.4...HEAD
+[1.1.4]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.1.3...1.1.4
 [1.1.3]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.1.2...1.1.3
 [1.1.2]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/lucatume/local-addon-xdebug-control/compare/1.1.0...1.1.1
