@@ -10,6 +10,7 @@ exports[`<OutputArea/> renders correctly with props 1`] = `
       "flex": 1,
       "flexDirection": "column",
       "height": "100%",
+      "overflowY": "scroll",
       "padding": "0 5%",
     }
   }
@@ -63,6 +64,7 @@ exports[`<OutputArea/> renders correctly without children 1`] = `
       "flex": 1,
       "flexDirection": "column",
       "height": "100%",
+      "overflowY": "scroll",
       "padding": "0 5%",
     }
   }

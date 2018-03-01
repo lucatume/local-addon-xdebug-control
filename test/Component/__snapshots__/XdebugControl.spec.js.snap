@@ -37,6 +37,7 @@ exports[`<XDebugControl/> renders correctly when environment is custom and XDebu
       "flex": 1,
       "flexDirection": "column",
       "height": "100%",
+      "overflowY": "scroll",
       "padding": "0 5%",
     }
   }
@@ -419,6 +420,7 @@ exports[`<XDebugControl/> renders correctly when environment is custom and XDebu
       "flex": 1,
       "flexDirection": "column",
       "height": "100%",
+      "overflowY": "scroll",
       "padding": "0 5%",
     }
   }
@@ -801,6 +803,7 @@ exports[`<XDebugControl/> renders correctly when environment is custom and XDebu
       "flex": 1,
       "flexDirection": "column",
       "height": "100%",
+      "overflowY": "scroll",
       "padding": "0 5%",
     }
   }
@@ -856,6 +859,7 @@ exports[`<XDebugControl/> renders correctly when environment is custom but XDebu
       "flex": 1,
       "flexDirection": "column",
       "height": "100%",
+      "overflowY": "scroll",
       "padding": "0 5%",
     }
   }
@@ -911,6 +915,7 @@ exports[`<XDebugControl/> renders correctly when environment is not custom 1`] =
       "flex": 1,
       "flexDirection": "column",
       "height": "100%",
+      "overflowY": "scroll",
       "padding": "0 5%",
     }
   }
@@ -946,6 +951,7 @@ exports[`<XDebugControl/> renders correctly when machine is disconnected 1`] = `
       "flex": 1,
       "flexDirection": "column",
       "height": "100%",
+      "overflowY": "scroll",
       "padding": "0 5%",
     }
   }
@@ -981,6 +987,7 @@ exports[`<XDebugControl/> renders correctly when machine is not running 1`] = `
       "flex": 1,
       "flexDirection": "column",
       "height": "100%",
+      "overflowY": "scroll",
       "padding": "0 5%",
     }
   }
