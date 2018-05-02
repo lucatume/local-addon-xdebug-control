@@ -94,7 +94,7 @@ exports[`<XDebugControl/> renders correctly when environment is custom and XDebu
             }
           }
         >
-          XDeubug is active
+          XDebug is active
         </span>
       </div>
       <div
@@ -477,7 +477,7 @@ exports[`<XDebugControl/> renders correctly when environment is custom and XDebu
             }
           }
         >
-          XDeubug is inactive
+          XDebug is inactive
         </span>
       </div>
       <div

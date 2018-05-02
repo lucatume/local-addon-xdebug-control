@@ -94,7 +94,7 @@ module.exports = function ( context ) {
 				<OutputArea>
 					<Title text='XDebug Controls'/>
 					<OutputSection>
-						<StatusString status={xdebugStatus} text={`XDeubug is ${xdebugStatus}`}/>
+						<StatusString status={xdebugStatus} text={`XDebug is ${xdebugStatus}`}/>
 						{button}
 					</OutputSection>
 					<OutputSection>
