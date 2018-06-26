@@ -11,7 +11,7 @@ Here is an handy GIF to show the add-on functionalities, enjoy.
 	```bash
  	git clone https://github.com/lucatume/local-addon-xdebug-control.git
 	```
-4. Relevant [XDebug settings][0475-0002] are exposed by the addon as a list of select fields; I've picked some defaults for you but take your team to read what each does.
+4. Relevant [XDebug settings][0475-0002] are exposed by the addon as a list of select fields; I've picked some defaults for you but take your time to read what each does.
 
 ## Usage
 The add-on consists of a single page UI found under the More > XDebug Control menu.  
